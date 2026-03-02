@@ -1,0 +1,55 @@
+{
+  "currency": "THB",
+  "generatedAt": "2026-03-02",
+  "filtersSupported": ["dateRange", "month", "quarter", "locationId", "region", "category", "status"],
+  "locations": [
+    { "id": "BKK", "name": "Bangkok", "region": "Central", "category": "Metro", "status": "Active", "openDate": "2018-04-15", "lat": 13.7563, "lng": 100.5018 },
+    { "id": "CNX", "name": "Chiang Mai", "region": "North", "category": "Tourism", "status": "Active", "openDate": "2019-10-03", "lat": 18.7883, "lng": 98.9853 },
+    { "id": "HKT", "name": "Phuket", "region": "South", "category": "Tourism", "status": "Active", "openDate": "2020-01-20", "lat": 7.8804, "lng": 98.3923 },
+    { "id": "PTY", "name": "Pattaya", "region": "East", "category": "Tourism", "status": "Active", "openDate": "2019-06-11", "lat": 12.9236, "lng": 100.8825 },
+    { "id": "KBI", "name": "Krabi", "region": "South", "category": "Tourism", "status": "Active", "openDate": "2021-02-08", "lat": 8.0863, "lng": 98.9063 },
+    { "id": "KOR", "name": "Nakhon Ratchasima", "region": "Northeast", "category": "Regional", "status": "Active", "openDate": "2018-11-30", "lat": 14.9799, "lng": 102.0977 },
+    { "id": "KKC", "name": "Khon Kaen", "region": "Northeast", "category": "Regional", "status": "Active", "openDate": "2020-07-14", "lat": 16.4419, "lng": 102.835 },
+    { "id": "HDY", "name": "Hat Yai", "region": "South", "category": "Regional", "status": "Active", "openDate": "2021-09-05", "lat": 7.0084, "lng": 100.4747 },
+    { "id": "UTH", "name": "Udon Thani", "region": "Northeast", "category": "Regional", "status": "Active", "openDate": "2019-03-22", "lat": 17.4138, "lng": 102.787 },
+    { "id": "AYA", "name": "Ayutthaya", "region": "Central", "category": "Heritage", "status": "Active", "openDate": "2022-05-17", "lat": 14.3532, "lng": 100.5689 }
+  ],
+  "timeSeries": {
+    "granularity": "day",
+    "startDate": "2025-10-01",
+    "endDate": "2026-02-28",
+    "records": [
+      { "date": "2025-10-01", "locationId": "BKK", "stores": 28, "orders": 1220, "salesTHB": 1854000, "footfall": 18200, "conversionRate": 0.067, "avgBasketTHB": 1520, "returns": 22 },
+      { "date": "2025-10-01", "locationId": "CNX", "stores": 9, "orders": 410, "salesTHB": 498000, "footfall": 6200, "conversionRate": 0.066, "avgBasketTHB": 1215, "returns": 8 },
+      { "date": "2025-10-01", "locationId": "HKT", "stores": 7, "orders": 520, "salesTHB": 744000, "footfall": 7100, "conversionRate": 0.073, "avgBasketTHB": 1430, "returns": 10 },
+      { "date": "2025-10-01", "locationId": "PTY", "stores": 6, "orders": 360, "salesTHB": 432000, "footfall": 5400, "conversionRate": 0.067, "avgBasketTHB": 1200, "returns": 7 },
+      { "date": "2025-10-01", "locationId": "KBI", "stores": 4, "orders": 210, "salesTHB": 273000, "footfall": 3400, "conversionRate": 0.062, "avgBasketTHB": 1300, "returns": 4 },
+      { "date": "2025-10-01", "locationId": "KOR", "stores": 8, "orders": 290, "salesTHB": 319000, "footfall": 5100, "conversionRate": 0.057, "avgBasketTHB": 1100, "returns": 6 },
+      { "date": "2025-10-01", "locationId": "KKC", "stores": 7, "orders": 260, "salesTHB": 286000, "footfall": 4700, "conversionRate": 0.055, "avgBasketTHB": 1100, "returns": 5 },
+      { "date": "2025-10-01", "locationId": "HDY", "stores": 6, "orders": 240, "salesTHB": 264000, "footfall": 4300, "conversionRate": 0.056, "avgBasketTHB": 1100, "returns": 5 },
+      { "date": "2025-10-01", "locationId": "UTH", "stores": 6, "orders": 250, "salesTHB": 275000, "footfall": 4400, "conversionRate": 0.057, "avgBasketTHB": 1100, "returns": 5 },
+      { "date": "2025-10-01", "locationId": "AYA", "stores": 5, "orders": 180, "salesTHB": 207000, "footfall": 3200, "conversionRate": 0.056, "avgBasketTHB": 1150, "returns": 3 },
+
+      { "date": "2025-11-15", "locationId": "BKK", "stores": 29, "orders": 1480, "salesTHB": 2280000, "footfall": 20500, "conversionRate": 0.072, "avgBasketTHB": 1540, "returns": 28 },
+      { "date": "2025-11-15", "locationId": "CNX", "stores": 9, "orders": 520, "salesTHB": 686000, "footfall": 7200, "conversionRate": 0.072, "avgBasketTHB": 1320, "returns": 11 },
+      { "date": "2025-11-15", "locationId": "HKT", "stores": 7, "orders": 720, "salesTHB": 1100000, "footfall": 9000, "conversionRate": 0.08, "avgBasketTHB": 1530, "returns": 14 },
+      { "date": "2025-11-15", "locationId": "PTY", "stores": 6, "orders": 460, "salesTHB": 612000, "footfall": 6400, "conversionRate": 0.072, "avgBasketTHB": 1330, "returns": 9 },
+      { "date": "2025-11-15", "locationId": "KBI", "stores": 4, "orders": 290, "salesTHB": 400000, "footfall": 4200, "conversionRate": 0.069, "avgBasketTHB": 1380, "returns": 6 },
+
+      { "date": "2025-12-24", "locationId": "BKK", "stores": 30, "orders": 2100, "salesTHB": 3650000, "footfall": 26500, "conversionRate": 0.079, "avgBasketTHB": 1740, "returns": 44 },
+      { "date": "2025-12-24", "locationId": "CNX", "stores": 10, "orders": 780, "salesTHB": 1120000, "footfall": 9800, "conversionRate": 0.08, "avgBasketTHB": 1435, "returns": 16 },
+      { "date": "2025-12-24", "locationId": "HKT", "stores": 8, "orders": 980, "salesTHB": 1650000, "footfall": 11800, "conversionRate": 0.083, "avgBasketTHB": 1685, "returns": 21 },
+      { "date": "2025-12-24", "locationId": "AYA", "stores": 5, "orders": 320, "salesTHB": 455000, "footfall": 4800, "conversionRate": 0.067, "avgBasketTHB": 1420, "returns": 7 },
+
+      { "date": "2026-01-10", "locationId": "BKK", "stores": 30, "orders": 1650, "salesTHB": 2550000, "footfall": 22400, "conversionRate": 0.074, "avgBasketTHB": 1545, "returns": 31 },
+      { "date": "2026-01-10", "locationId": "HKT", "stores": 8, "orders": 860, "salesTHB": 1420000, "footfall": 10800, "conversionRate": 0.08, "avgBasketTHB": 1650, "returns": 18 },
+      { "date": "2026-01-10", "locationId": "CNX", "stores": 10, "orders": 640, "salesTHB": 910000, "footfall": 8600, "conversionRate": 0.074, "avgBasketTHB": 1420, "returns": 13 },
+
+      { "date": "2026-02-14", "locationId": "BKK", "stores": 30, "orders": 1900, "salesTHB": 3120000, "footfall": 24200, "conversionRate": 0.079, "avgBasketTHB": 1640, "returns": 37 },
+      { "date": "2026-02-14", "locationId": "CNX", "stores": 10, "orders": 690, "salesTHB": 1040000, "footfall": 9100, "conversionRate": 0.076, "avgBasketTHB": 1505, "returns": 15 },
+      { "date": "2026-02-14", "locationId": "HKT", "stores": 8, "orders": 920, "salesTHB": 1600000, "footfall": 11200, "conversionRate": 0.082, "avgBasketTHB": 1735, "returns": 20 },
+      { "date": "2026-02-14", "locationId": "PTY", "stores": 6, "orders": 520, "salesTHB": 748000, "footfall": 6900, "conversionRate": 0.075, "avgBasketTHB": 1440, "returns": 11 },
+      { "date": "2026-02-14", "locationId": "KOR", "stores": 8, "orders": 360, "salesTHB": 430000, "footfall": 5600, "conversionRate": 0.064, "avgBasketTHB": 1195, "returns": 8 }
+    ]
+  }
+}
