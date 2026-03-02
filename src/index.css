@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -7,4 +9,30 @@
 .hide-scrollbar {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;     /* Firefox */
+}
+
+.nav-link {
+  @apply relative font-semibold text-lg mx-5 pb-1 text-slate-700 dark:text-slate-200 transition-colors duration-200;
+}
+
+/* Base underline (hidden) */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: rgb(37 99 235); /* blue-600 */
+  transition: width 200ms ease;
+}
+
+/* Hover: grow underline */
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Active route: full underline */
+.nav-link-active::after {
+  width: 100%;
 }

@@ -1,14 +1,95 @@
+import { NavLink, useLocation } from "react-router-dom";
+import { useEffect, useRef } from "react";
+
 export function Navbar({ dark, setDark }) {
-    console.log(dark)
-    return (
-        <div className="h-16 px-4 flex items-center justify-between bg-slate-100 dark:bg-black border-slate-200 border-2 shadow-sm" >
-            <div className="font-bold text-xl">
-                Thailand Dashboard
-            </div>
-            <button onClick={() => setDark((p) => !p)}>{dark
-                ? <img src="src\assets\sun.svg" alt="sun logo" />
-                : <img src="src\assets\moon.svg " alt="moon logo" />
-            }</button>
+  const location = useLocation();
+  const linksContainerRef = useRef(null);
+  const indicatorRef = useRef(null);
+
+  useEffect(() => {
+    const container = linksContainerRef.current;
+    const indicator = indicatorRef.current;
+    if (!container || !indicator) return;
+
+    const activeLink = container.querySelector(".nav-item-active");
+    if (!activeLink) return;
+
+    const { offsetLeft, offsetWidth } = activeLink;
+
+    // Update DOM directly (external system) – no setState
+    indicator.style.width = `${offsetWidth}px`;
+    indicator.style.transform = `translateX(${offsetLeft}px)`;
+  }, [location.pathname]); // run when route changes
+
+  const linkBase =
+    "px-2 py-1 font-semibold text-lg text-slate-700 dark:text-slate-200";
+
+  return (
+    <div className="h-16 px-4 flex items-center justify-between bg-slate-100 dark:bg-black border-slate-200 border-2 shadow-sm">
+      <div className="font-bold text-xl">Thailand Dashboard</div>
+
+      <div className="flex items-center">
+        {/* Links container needs to be relative for the indicator */}
+        <div
+          ref={linksContainerRef}
+          className="relative flex items-center gap-6"
+        >
+          <NavLink
+            to="/"
+            end
+            className={({ isActive }) =>
+              `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
+            }
+          >
+            Home
+          </NavLink>
+
+          <NavLink
+            to="/tab1"
+            className={({ isActive }) =>
+              `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
+            }
+          >
+            Tab1
+          </NavLink>
+
+          <NavLink
+            to="/tab2"
+            className={({ isActive }) =>
+              `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
+            }
+          >
+            Tab2
+          </NavLink>
+
+          <NavLink
+            to="/tab3"
+            className={({ isActive }) =>
+              `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
+            }
+          >
+            Tab3
+          </NavLink>
+
+          {/* Sliding line indicator */}
+          <span
+            ref={indicatorRef}
+            className="pointer-events-none absolute -bottom-1 h-[2px] bg-blue-600 transition-all duration-300 ease-out"
+            style={{ width: 0, transform: "translateX(0px)" }}
+          />
         </div>
-    );
+
+        <button
+          className="ml-6"
+          onClick={() => setDark((p) => !p)}
+        >
+          {dark ? (
+            <img src="src/assets/sun.svg" alt="sun logo" className="w-6 h-6" />
+          ) : (
+            <img src="src/assets/moon.svg" alt="moon logo" className="w-6 h-6" />
+          )}
+        </button>
+      </div>
+    </div>
+  );
 }
