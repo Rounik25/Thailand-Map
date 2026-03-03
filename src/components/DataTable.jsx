@@ -50,7 +50,7 @@ export default function DataTable({ rows }) {
     "px-3 py-2 text-sm text-slate-900 dark:text-slate-50 whitespace-nowrap";
 
   return (
-    <div className="h-[30vh] mt-10 rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
+    <div className="h-7/20 mt-10 rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
       <div className="h-[6vh] flex items-center justify-between p-4">
         <div>
           <div className="text-sm font-semibold">Filtered Data</div>

@@ -2,6 +2,10 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+.nav-link {
+  @apply relative font-semibold text-lg mx-5 pb-1 text-slate-700 dark:text-slate-200 transition-colors duration-200;
+}
+
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
@@ -11,9 +15,6 @@
   scrollbar-width: none;     /* Firefox */
 }
 
-.nav-link {
-  @apply relative font-semibold text-lg mx-5 pb-1 text-slate-700 dark:text-slate-200 transition-colors duration-200;
-}
 
 /* Base underline (hidden) */
 .nav-link::after {

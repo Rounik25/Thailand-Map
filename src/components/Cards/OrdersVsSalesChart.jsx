@@ -17,7 +17,7 @@ function formatTHB(v) {
 
 export default function OrdersVsSalesChart({ data }) {
     return (
-        <div className="h-60 w-60 mt-7 rounded-xl border border-slate-200 bg-slate-100 p-4 dark:border-slate-800 dark:bg-slate-900 flex flex-col shadow-sm">
+        <div className="h-60 w-9/20 mt-7 rounded-xl border border-slate-200 bg-slate-100 p-4 dark:border-slate-800 dark:bg-slate-900 flex flex-col shadow-sm">
             <div className="mb-3">
                 <div className="text-sm font-semibold">
                     Orders vs Sales Trend

@@ -11,11 +11,11 @@ function App() {
 
   return (
     <div className={dark ? "dark" : ""}>
-      <div className="min-h-screen bg-white text-black dark:bg-slate-950 dark:text-white">
+      <div className="min-h-screen bg-slate-100 text-black dark:bg-slate-950 dark:text-white flex flex-col">
         <Navbar dark={dark} setDark={setDark} />
         <Routes>
           <Route path="/" element={<HomePage dark={dark} />} />
-          <Route path="/tab1" element={<Tab1 dark={dark} />} />
+          <Route path="/tab1" element={<Tab1 />} />
           <Route path="/tab2" element={<Tab2 dark={dark} />} />
           <Route path="/tab3" element={<Tab3 dark={dark} />} />
         </Routes>

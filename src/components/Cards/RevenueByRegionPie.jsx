@@ -9,7 +9,7 @@ function formatTHB(v) {
 export default function RevenueByRegionPie({ data }) {
     // data format: [{ name: "Central", value: 12345 }, ...]
     return (
-        <div className="h-60 w-60 mt-7 rounded-xl border border-slate-200 bg-slate-100 p-4 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
+        <div className="h-60 w-9/20 mt-7 rounded-xl border border-slate-200 bg-slate-100 p-4 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
             <div className="mb-3">
                 <div className="text-sm font-semibold">Revenue by Region</div>
                 <div className="text-xs text-slate-500 dark:text-slate-300">
