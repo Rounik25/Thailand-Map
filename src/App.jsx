@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div className={dark ? "dark" : ""}>
-      <div className="min-h-screen bg-slate-100 text-black dark:bg-slate-950 dark:text-white flex flex-col">
+      <div className="min-h-screen bg-white text-black dark:bg-slate-950 dark:text-white flex flex-col">
         <Navbar dark={dark} setDark={setDark} />
         <Routes>
           <Route path="/" element={<HomePage dark={dark} />} />

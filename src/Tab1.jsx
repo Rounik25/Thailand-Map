@@ -5,7 +5,7 @@ import { FilterTab1 } from "./components/Tab1/FilterTab1"
 export function Tab1() {
 
     return (
-        <div className="flex h-[90vh] justify-between">
+        <div className="flex h-[90vh] justify-between bg-white">
             <div className="w-15/20 flex flex-col h-full bg-white mx-10 shadow-lg">
                 <div className="text-2xl font-bold border-b-2 border-red-600 px-1 pb-2">Emission Dashboard (1/3)</div>
                 <div className="flex h-full w-full">
