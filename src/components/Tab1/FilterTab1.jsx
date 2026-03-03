@@ -2,18 +2,19 @@ import React, { useMemo, useState } from "react";
 import * as XLSX from "xlsx";
 import { FILTERS_CONFIG } from "../../utils/filterConfig";
 import { buildFilterOptions } from "../../utils/filterUtils";
-
+import { Legends } from "./Legends";
+Legends
 function Select({ label, value, onChange, options }) {
     return (
         <label className="flex flex-col gap-1">
-            <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
+            <span className="text-xs font-medium text-black dark:text-slate-300">
                 {label}
             </span>
             <select
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
-                className={`h-8 rounded-md border border-slate-300 bg-white px-3 text-sm text-slate-900
-                   dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50`}
+                className={`h-5 border-2 border-black bg-white px-3 text-xs text-black
+                   dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50 mb-2`}
             >
                 {options.map((opt) => (
                     <option key={opt} value={opt}>
@@ -34,6 +35,7 @@ export function FilterTab1() {
         return init;
     });
 
+    const size = [ 120, 70, 20, 80, 50, 130, 80, 55, 67, 11]
     const [fileName, setFileName] = useState("")
 
     async function onFileChange(e) {
@@ -63,18 +65,18 @@ export function FilterTab1() {
     }, [rows]);
 
     return (
-        <div className="space-y-4">
-            <div className="bg-white p-4 dark:border-slate-800 dark:bg-slate-950">
-                <div className="text-center text-red-600 font-bold text-xl mb-2">Filter Panel</div>
+        <div className="h-full flex flex-col justify-between">
+            <div className="flex-1 flex flex-col justify-evenly bg-white p-2 px-4 dark:border-slate-800 dark:bg-slate-950">
+                <div className="text-center text-red-600 font-bold text-lg mb-1">Filter Panel</div>
                 <div className="flex items-center">
                     <label
                         htmlFor="fileUpload"
-                        className="cursor-pointer inline-block px-2 py-1 bg-slate-600 text-white text-sm rounded-md hover:bg-slate-700"
+                        className="cursor-pointer inline-block h-7 px-2 py-1 bg-slate-600 text-white text-sm rounded-md hover:bg-slate-700"
                     >
                         Choose File
                     </label>
 
-                    <div className="ml-3 text-sm text-gray-600 w-40 overflow-hidden">
+                    <div className="ml-3 pt-1 text-sm text-gray-600 w-auto h-7 overflow-hidden">
                         {fileName || "No file selected"}
                     </div>
                 </div>
@@ -116,7 +118,12 @@ export function FilterTab1() {
             Reset
           </button>
         </div> */}
-                <div className="text-center text-red-600 font-bold text-xl mt-5">Legend</div>
+                <div className="text-center text-red-600 font-bold text-lg mt-2 mb-3">Legend</div>
+                <div><Legends size={size} /></div>
+            </div>
+
+            <div className="p-5">
+                <img src="src\assets\logo.svg" alt="Bain Logo" />
             </div>
 
 
