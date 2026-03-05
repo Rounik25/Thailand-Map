@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import * as XLSX from "xlsx";
 import { FILTERS_CONFIG } from "../../utils/filterConfig";
 import { buildFilterOptions } from "../../utils/filterUtils";
@@ -90,8 +90,7 @@ function Select({ label, value, onChange, options }) {
 //     )
 // }
 
-export function FilterTab2() {
-    const [rows, setRows] = useState([]); // Excel rows as JSON
+export function FilterTab2({rows}) {
     const [selected, setSelected] = useState(() => {
         // Initialize all filters to "All"
         const init = {};
@@ -99,38 +98,38 @@ export function FilterTab2() {
         return init;
     });
 
-    const [fileName, setFileName] = useState("")
+    // const [fileName, setFileName] = useState("")
 
-    async function onFileChange(e) {
-        const file = e.target.files?.[0];
-        if (!file) return;
+    // async function onFileChange(e) {
+    //     const file = e.target.files?.[0];
+    //     if (!file) return;
 
-        setFileName(file.name)
+    //     setFileName(file.name)
 
-        const buf = await file.arrayBuffer();
-        const wb = XLSX.read(buf, { type: "array" });
-        const wsName = wb.SheetNames[0];
-        const ws = wb.Sheets[wsName];
+    //     const buf = await file.arrayBuffer();
+    //     const wb = XLSX.read(buf, { type: "array" });
+    //     const wsName = wb.SheetNames[0];
+    //     const ws = wb.Sheets[wsName];
 
-        // Convert to JSON rows; defval keeps missing cells as empty string
-        const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
-        setRows(json);
+    //     // Convert to JSON rows; defval keeps missing cells as empty string
+    //     const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
+    //     setRows(json);
 
-        // Reset filters whenever a new file loads
-        const reset = {};
-        for (const f of FILTERS_CONFIG) reset[f.id] = "All";
-        setSelected(reset);
-    }
+    //     // Reset filters whenever a new file loads
+    //     const reset = {};
+    //     for (const f of FILTERS_CONFIG) reset[f.id] = "All";
+    //     setSelected(reset);
+    // }
 
-    const optionsByFilter = useMemo(() => {
+    const optionsByFilter = () => {
         if (!rows.length) return {};
         return buildFilterOptions(rows, FILTERS_CONFIG);
-    }, [rows]);
+    }
 
     return (
         <div className="h-full w-full flex flex-col justify-between rounded-xl p-2">
             <div className="h-8/10 flex-1 flex flex-col justify-evenly bg-white p-2 px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto scrollbar-hide">
-                <div className="text-center text-red-600 font-bold text-lg m-2">Upload Data</div>
+                {/* <div className="text-center text-red-600 font-bold text-lg m-2">Upload Data</div>
                 <div className="flex items-center my-2">
                     <label
                         htmlFor="fileUpload"
@@ -144,11 +143,11 @@ export function FilterTab2() {
                         {fileName || "No file selected"}
                         </span>
                     </div>
-                </div>
+                </div> */}
 
                 <div className="text-center text-red-600 font-bold text-lg mt-4">Filter Panel</div>
 
-                <div className="flex items-center justify-between gap-4">
+                {/* <div className="flex items-center justify-between gap-4">
 
                     <input
                         type="file"
@@ -157,7 +156,7 @@ export function FilterTab2() {
                         className="text-xs hidden"
                         id="fileUpload"
                     />
-                </div>
+                </div> */}
 
                 {/* Filters */}
                 <div className="flex flex-col mt-2 flex-1 justify-evenly " >
