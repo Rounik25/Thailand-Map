@@ -16,7 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage dark={dark} />} />
           <Route path="/tab1" element={<Tab1 />} />
-          <Route path="/tab2" element={<Tab2 dark={dark} />} />
+          <Route path="/tab2" element={<Tab2 />} />
           <Route path="/tab3" element={<Tab3 dark={dark} />} />
         </Routes>
       </div>

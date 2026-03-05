@@ -18,7 +18,7 @@ export function Tab1() {
                 </div>
             </div>
             <div className="bg-white w-7/40 mx-10 shadow-2xl">
-                <FilterTab1 />
+                <FilterTab1 /> 
             </div>
         </div>
     )

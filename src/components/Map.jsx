@@ -60,7 +60,7 @@ export default function Map({ dark }) {
     : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
 
   return (
-    <div className="sm:w-full h-full overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm ">
+    <div className="sm:w-full h-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm ">
       <MapContainer center={center} zoom={5} scrollWheelZoom className="w-full h-full">
         <TileLayer
           key={dark ? "dark-tiles" : "light-tiles"}   // IMPORTANT: forces redraw
