@@ -1,5 +1,5 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import L from "leaflet";
 
 // Vite-safe marker icon fix (CDN)
@@ -37,7 +37,25 @@ function createDivIcon(value, entity) {
   });
 }
 
-function setLocation(rows) {
+function emissionValueForRow(r, emissionType) {
+  const process = Number(r.Process || 0);
+  const fuel = Number(r.Fuel || 0);
+  const elec = Number(r.Indirect_Electricity || 0);
+
+  switch (emissionType) {
+    case "Process":
+      return process;
+    case "Fuel":
+      return fuel;
+    case "Indirect_Electricity":
+      return elec;
+    case "All":
+    default:
+      return process + fuel + elec;
+  }
+}
+
+function setLocation(rows, emissionType) {
   return rows
     .filter((r) => {
       const lat = Number(r.Latitude);
@@ -58,11 +76,13 @@ function setLocation(rows) {
         name: r.City,
         lat,
         lng,
-        value:
-          Number(r.Process || 0) +
-          Number(r.Fuel || 0) +
-          Number(r.Indirect_Electricity || 0),
+        value: emissionValueForRow(r, emissionType),
+        City: r.City,
+        CompanyName: r["Company Name"],
+        StateOrProvince: r["State or Province"],
+        Industry: r.Industry,
         Conglomerate: r.Conglomerate,
+        DecarbPlan: r["Decarbonization Plan"],
       };
     });
 }
@@ -105,8 +125,11 @@ function calculateCenter(locations) {
 }
 
 
-export default function Map({ dark, rows }) {
-  const thailandLocations = setLocation(rows)
+export default function Map({ dark, rows, emissionType, onPointClick }) {
+  const thailandLocations = useMemo(
+    () => setLocation(rows, emissionType),
+    [rows, emissionType]
+  );
   const center = calculateCenter(rows)
 
   const tileUrl = dark
@@ -129,6 +152,24 @@ export default function Map({ dark, rows }) {
             position={[loc.lat, loc.lng]}
             icon={createDivIcon(loc.value, loc.Conglomerate)}
             zIndexOffset={loc.Conglomerate === "PTT Entity" ? 1000 : 0}
+            eventHandlers={{
+              click: () => {
+                if (!onPointClick) return;
+
+                onPointClick({
+                  // these keys must match FILTERS_CONFIG ids:
+                  city: loc.City ?? "All",
+                  company: loc.CompanyName ?? "All",
+                  state: loc.StateOrProvince ?? "All",
+                  entity: loc.Conglomerate ?? "All",
+                  decarbPlan: loc.DecarbPlan ?? "All",
+
+                  // careful: both analysisDimension + sector map to Industry in your config
+                  analysisDimension: loc.Industry ?? "All",
+                  sector: loc.Industry ?? "All",
+                });
+              },
+            }}
           >
             <Popup>
               <div className="text-sm">

@@ -2,6 +2,8 @@ import React, { useMemo, useState, useEffect, useRef } from "react";
 import { FILTERS_CONFIG } from "../../utils/filterConfig";
 import { buildFilterOptions } from "../../utils/filterUtils";
 
+const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
+
 function Select({ label, value, onChange, options }) {
     const [open, setOpen] = useState(false);
     const containerRef = useRef(null);
@@ -91,6 +93,12 @@ export function FilterTab2({ rows = [], value, onChange }) {
                 <div className="text-center text-red-600 font-bold text-lg mt-4">Filter Panel</div>
 
                 <div className="flex flex-col mt-2 flex-1 justify-evenly " >
+                    <Select
+                        label="Emission Type"
+                        value={selected.emissionType ?? "All"}
+                        onChange={(v) => setSelected({ ...selected, emissionType: v })}
+                        options={EMISSION_TYPE_OPTIONS}
+                    />
                     {FILTERS_CONFIG.map((f) => (
                         <Select
                             key={f.id}
@@ -100,6 +108,7 @@ export function FilterTab2({ rows = [], value, onChange }) {
                             options={optionsByFilter[f.id] ?? ["All"]}
                         />
                     ))}
+
                 </div>
             </div>
 

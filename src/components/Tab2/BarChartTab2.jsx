@@ -11,8 +11,9 @@ import {
 } from "recharts";
 
 export function BarChartTab2({ data }) {
-    const maxValue = Math.max(...data.map(d => d.value));
-    const roundedMax = Math.ceil(maxValue / 5) * 5;
+    const maxValue = Math.max(...data.map(d => d.value), 0);
+    const paddedMax = Math.ceil(maxValue * 1.05)
+    const roundedMax = Math.ceil(paddedMax / 5) * 5;
 
     const ticks = [];
     for (let i = 0; i <= roundedMax; i += 5) {
@@ -37,10 +38,9 @@ export function BarChartTab2({ data }) {
                             angle: -90,
                             position: "outsideLeft",
                             dx: -10,
-                            style: { textAnchor: "middle", fontSize: 12, }
+                            style: { textAnchor: "middle", fontSize: 12 }
                         }}
                     />
-
                     <Tooltip
                         formatter={(value) => [`${value} Mt CO₂`, "Emission"]}
                     />

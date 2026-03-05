@@ -60,7 +60,7 @@ export function Tab2() {
     return (
         <div className="w-[100%] h-[100vh] bg-white flex justify-between">
             <div className="h-[100%] w-3/10 m-10">
-                <CardsTab2 rows={filteredRows} />
+                <CardsTab2 rows={filteredRows} emissionType={selectedFilters.emissionType} />
             </div>
 
             <div className="w-5/10 h-[100vh] m-10">
@@ -68,7 +68,17 @@ export function Tab2() {
                     <MapRadialChart data={dummy} />
                 </div> */}
                 <div className="h-16/20 shadow-lg rounded-xl bg-slate-100 flex">
-                    <Map rows={filteredRows} />
+                    <Map
+                        rows={filteredRows}
+                        emissionType={selectedFilters.emissionType}
+                        onPointClick={(patch) => {
+                            setSelectedFilters((prev) => ({
+                                ...prev,
+                                ...patch,
+                                emissionType: prev.emissionType, // keep whatever user selected
+                            }));
+                        }}
+                    />
                 </div>
             </div>
 

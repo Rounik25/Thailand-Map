@@ -1,6 +1,4 @@
 export const FILTERS_CONFIG = [
-  { id: "analysisDimension", label: "Analysis Dimension", column: "Industry" }, // example mapping
-  { id: "emissionType", label: "Emission Type", column: "Emission Type" },     // only if this column exists
   { id: "entity", label: "Entity", column: "Conglomerate" },
   { id: "sector", label: "Sector", column: "Industry" },
   { id: "decarbPlan", label: "Decarbonization Plan", column: "Decarbonization Plan" },
