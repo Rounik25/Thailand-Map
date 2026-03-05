@@ -6,6 +6,9 @@ export function Navbar({ dark, setDark }) {
   const linksContainerRef = useRef(null);
   const indicatorRef = useRef(null);
 
+  // can remove the setDark statement when enabling the onclick effect of theme button
+  setDark(false)
+
   useEffect(() => {
     const container = linksContainerRef.current;
     const indicator = indicatorRef.current;
@@ -81,7 +84,7 @@ export function Navbar({ dark, setDark }) {
 
         <button
           className="ml-6"
-          onClick={() => setDark((p) => !p)}
+          // onClick={() => setDark((p) => !p)}
         >
           {dark ? (
             <img src="src/assets/sun.svg" alt="sun logo" className="w-6 h-6" />

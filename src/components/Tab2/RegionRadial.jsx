@@ -18,8 +18,8 @@ export default function RegionRadial({ title, pttPct, nonPttPct }) {
   const non = 100 - ptt;
 
   const data = [
-    { name: "PTT", value: ptt, fill: "#2563eb" },
-    { name: "Non-PTT", value: non, fill: "#dc2626" },
+    { name: "PTT", value: ptt, fill: "#dc2626" },
+    { name: "Non-PTT", value: non, fill: "#2563eb" },
   ];
 
   return (
@@ -60,11 +60,11 @@ export default function RegionRadial({ title, pttPct, nonPttPct }) {
       <div className="mt-2 flex justify-between text-[11px] text-slate-600 dark:text-slate-300">
         <span className="flex items-center gap-2 mr-2">
           <span className="inline-block h-2 w-2 rounded-sm bg-blue-600" />
-          PTT {pct(ptt)}
+          Non-PTT {pct(non)}
         </span>
         <span className="flex items-center gap-2">
           <span className="inline-block h-2 w-2 rounded-sm bg-red-600" />
-          Non-PTT {pct(non)}
+          PTT {pct(ptt)}
         </span>
       </div>
     </div>
