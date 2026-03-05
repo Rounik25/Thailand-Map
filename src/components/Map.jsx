@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import { useEffect } from "react";
 import L from "leaflet";
 
 // Vite-safe marker icon fix (CDN)
@@ -9,21 +10,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-const thailandLocations = [
-  { id: 1, name: "Bangkok", lat: 13.7563, lng: 100.5018, value: 120 },
-  { id: 2, name: "Chiang Mai", lat: 18.7883, lng: 98.9853, value: 70 },
-  { id: 3, name: "Phuket", lat: 7.8804, lng: 98.3923, value: 20 },
-  { id: 4, name: "Pattaya", lat: 12.9236, lng: 100.8825, value: 80 },
-  { id: 5, name: "Krabi", lat: 8.0863, lng: 98.9063, value: 50 },
-  { id: 6, name: "Nakhon Ratchasima", lat: 14.9799, lng: 102.0977, value: 130 },
-  { id: 7, name: "Khon Kaen", lat: 16.4419, lng: 102.8350, value: 80 },
-  { id: 8, name: "Hat Yai", lat: 7.0084, lng: 100.4747, value: 55 },
-  { id: 9, name: "Udon Thani", lat: 17.4138, lng: 102.7870, value: 67 },
-  { id: 10, name: "Ayutthaya", lat: 14.3532, lng: 100.5689, value: 110 },
-];
-
-function createDivIcon(value) {
-  const size = Math.max(20, value * 0.4); // scale logic
+function createDivIcon(value, entity) {
+  const size = ((value * 3000) ** (4 / 10)) // scale logic
   const radius = size / 2;
 
   return L.divIcon({
@@ -33,8 +21,7 @@ function createDivIcon(value) {
           width:${size}px;
           height:${size}px;
           border-radius:50%;
-          background-color:${value > 100 ? "red" : "blue"};
-          opacity:0.75;
+          background-color:${entity === "PTT Entity" ? "#dc2626" : "#385697"};
           display:flex;
           align-items:center;
           justify-content:center;
@@ -42,7 +29,6 @@ function createDivIcon(value) {
           font-size:12px;
           font-weight:600;
         ">
-        ${value}
       </div>
     `,
     className: "",   // remove default leaflet styles
@@ -51,9 +37,77 @@ function createDivIcon(value) {
   });
 }
 
+function setLocation(rows) {
+  return rows
+    .filter((r) => {
+      const lat = Number(r.Latitude);
+      const lng = Number(r.Longitude);
 
-export default function Map({ dark }) {
-  const center = [13.736717, 100.523186];
+      return (
+        !isNaN(lat) &&
+        !isNaN(lng) &&
+        !(lat === 0 && lng === 0)
+      );
+    })
+    .map((r) => {
+      const lat = Number(r.Latitude);
+      const lng = Number(r.Longitude);
+
+      return {
+        id: crypto.randomUUID(),
+        name: r.City,
+        lat,
+        lng,
+        value:
+          Number(r.Process || 0) +
+          Number(r.Fuel || 0) +
+          Number(r.Indirect_Electricity || 0),
+        Conglomerate: r.Conglomerate,
+      };
+    });
+}
+
+function FitBounds({ locations }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!locations.length) return;
+
+    if (locations.length === 1) {
+      map.setView([locations[0].lat, locations[0].lng], 8, {
+        animate: true,
+      });
+      return;
+    }
+
+    const bounds = L.latLngBounds(
+      locations.map((loc) => [loc.lat, loc.lng])
+    );
+
+    map.fitBounds(bounds, {
+      padding: [50, 50],
+      animate: true,
+    });
+  }, [locations, map]);
+
+  return null;
+}
+
+function calculateCenter(locations) {
+  if (!locations.length) return [13.736717, 100.523186];
+  const avgLat =
+    locations.reduce((sum, loc) => sum + loc.Latitude, 0) / locations.length;
+
+  const avgLng =
+    locations.reduce((sum, loc) => sum + loc.Longitude, 0) / locations.length;
+
+  return [avgLat, avgLng];
+}
+
+
+export default function Map({ dark, rows }) {
+  const thailandLocations = setLocation(rows)
+  const center = calculateCenter(rows)
 
   const tileUrl = dark
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
@@ -61,18 +115,20 @@ export default function Map({ dark }) {
 
   return (
     <div className="sm:w-full h-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm ">
-      <MapContainer center={center} zoom={5} scrollWheelZoom className="w-full h-full">
+      <MapContainer center={center} zoom={9} scrollWheelZoom className="w-full h-full">
         <TileLayer
           key={dark ? "dark-tiles" : "light-tiles"}   // IMPORTANT: forces redraw
           attribution='&copy; OpenStreetMap contributors &copy; CARTO'
           url={tileUrl}
         />
+        <FitBounds locations={thailandLocations} />
 
         {thailandLocations.map((loc) => (
           <Marker
             key={loc.id}
             position={[loc.lat, loc.lng]}
-            icon={createDivIcon(loc.value)}
+            icon={createDivIcon(loc.value, loc.Conglomerate)}
+            zIndexOffset={loc.Conglomerate === "PTT Entity" ? 1000 : 0}
           >
             <Popup>
               <div className="text-sm">

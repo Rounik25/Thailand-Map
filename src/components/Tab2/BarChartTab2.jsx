@@ -47,7 +47,7 @@ export function BarChartTab2({ data }) {
 
                     <Bar
                         dataKey="value"
-                        barSize={200}
+                        barSize={150}
                         radius={[6, 6, 0, 0]}
                     >
                         {/* Value on top of bar */}
