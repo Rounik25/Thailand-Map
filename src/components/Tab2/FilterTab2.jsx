@@ -54,7 +54,7 @@ function Select({ label, value, onChange, options }) {
                             key={opt}
                             onClick={() => {
                                 onChange(opt);
-                                setOpen(false); // ✅ closes when selected
+                                setOpen(false); 
                             }}
                             className="px-3 py-2 text-sm cursor-pointer hover:bg-slate-100 
                             dark:hover:bg-slate-800 whitespace-normal break-words"
@@ -128,8 +128,8 @@ export function FilterTab2() {
     }, [rows]);
 
     return (
-        <div className="h-full flex flex-col justify-between rounded-xl p-2">
-            <div className="flex-1 flex flex-col justify-evenly bg-white p-2 px-4 dark:border-slate-800 dark:bg-slate-950">
+        <div className="h-full w-full flex flex-col justify-between rounded-xl p-2">
+            <div className="h-8/10 flex-1 flex flex-col justify-evenly bg-white p-2 px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto scrollbar-hide">
                 <div className="text-center text-red-600 font-bold text-lg m-2">Upload Data</div>
                 <div className="flex items-center my-2">
                     <label

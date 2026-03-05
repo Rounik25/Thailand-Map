@@ -8,10 +8,10 @@ export function CardsTab2(){
     ]
     return(
         <div className="h-full">
-            <div className="h-4/10 mb-5">
+            {/* <div className="h-4/10 mb-5">
                 <LineChartTab2 />
-            </div>
-            <div className="h-4/10 border-1 border-slate-200 rounded-xl shadow-lg">
+            </div> */}
+            <div className="h-8/10 border-1 border-slate-200 rounded-xl shadow-lg">
                 <BarChartTab2 data={data}/>
             </div>
         </div>
