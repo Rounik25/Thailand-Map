@@ -2,9 +2,9 @@ import { useState } from "react";
 import { HomePage } from "./HomePage";
 import { Navbar } from "./Navbar";
 import { Routes, Route } from "react-router-dom";
-import { Tab1 } from "./Tab1";
-import { Tab2 } from "./Tab2";
-import { Tab3 } from "./Tab3";
+// import { Tab1 } from "./Tab1";
+import { Dashboard1 } from "./Dashboard1";
+import { Dashboard2 } from "./Dashboard2";
 
 function App() {
   const [dark, setDark] = useState(false);
@@ -16,9 +16,10 @@ function App() {
         <div className="flex-1 overflow-hidden">
           <Routes>
             <Route path="/" element={<HomePage dark={dark} />} />
-            <Route path="/tab1" element={<Tab1 />} />
-            <Route path="/tab2" element={<Tab2 />} />
-            <Route path="/tab3" element={<Tab3 dark={dark} />} />
+            {/* <Route path="/dashboard1" element={<Tab1 />} /> */}
+            <Route path="/dashboard1" element={<Dashboard1 />} />
+            <Route path="/dashboard2" element={<Dashboard2 dark={dark} />} />
+            <Route path="/dashboard2" element={<Dashboard2 dark={dark} />} />
           </Routes>
         </div>
       </div>

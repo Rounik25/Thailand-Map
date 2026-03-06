@@ -132,7 +132,7 @@ function calculateCenter(locations) {
 }
 
 
-export default function MapTab2({ dark, rows, emissionType, onPointClick, analysisDimension }) {
+export default function MapDashboard1({ dark, rows, emissionType, onPointClick, analysisDimension }) {
   const thailandLocations = useMemo(
     () => setLocation(rows, emissionType, analysisDimension),
     [rows, emissionType, analysisDimension]

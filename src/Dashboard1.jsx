@@ -1,9 +1,9 @@
-import { FilterTab2 } from "./components/Tab2/FilterTab2"
-import { CardsTab2 } from "./components/Tab2/CardsTab2"
-import MapTab2 from "./components/Tab2/MapTab2"
+import { FilterDashboard1 } from "./components/Dashboard1/FilterDashboard1"
+import { CardsDashboard1 } from "./components/Dashboard1/CardsDashboard1"
+import MapDashboard1 from "./components/Dashboard1/MapDashboard1"
 import { useEffect, useMemo, useState } from "react"
 import * as XLSX from "xlsx"
-import { FILTERS_CONFIG_TAB2 } from "./utils/filterConfigTab2"
+import { FILTERS_CONFIG_DASHBOARD1 } from "./utils/filterConfigDashboard1"
 
 function applyFilters(rows, selected) {
     if (!rows?.length) return [];
@@ -11,7 +11,7 @@ function applyFilters(rows, selected) {
     return rows.filter((r) => {
         // Assumption: FILTERS_CONFIG_TAB2 ids match Excel column names.
         // If your config uses a different field name, swap `col = f.key ?? f.id` etc.
-        return FILTERS_CONFIG_TAB2.every((f) => {
+        return FILTERS_CONFIG_DASHBOARD1.every((f) => {
             const chosen = selected?.[f.id] ?? "All";
             if (chosen === "All") return true;
 
@@ -22,11 +22,11 @@ function applyFilters(rows, selected) {
     });
 }
 
-export function Tab2() {
+export function Dashboard1() {
     const [rows, setRows] = useState([]);
     const [selectedFilters, setSelectedFilters] = useState(() => {
         const init = {};
-        for (const f of FILTERS_CONFIG_TAB2) init[f.id] = "All";
+        for (const f of FILTERS_CONFIG_DASHBOARD1) init[f.id] = "All";
         return init;
     });
 
@@ -86,7 +86,7 @@ export function Tab2() {
     return (
         <div className="w-[100%] h-[100vh] bg-white flex justify-between">
             <div className="h-[100%] w-3/10 m-10">
-                <CardsTab2
+                <CardsDashboard1
                     rows={baseRows}
                     emissionType={selectedFilters.emissionType}
                     analysisDimension={analysisDimension}
@@ -100,7 +100,7 @@ export function Tab2() {
                     <MapRadialChart data={dummy} />
                 </div> */}
                 <div className="h-16/20 shadow-lg rounded-xl bg-slate-100 flex">
-                    <MapTab2
+                    <MapDashboard1
                         rows={mapRows}
                         emissionType={selectedFilters.emissionType}
                         onPointClick={(patch) => {
@@ -117,7 +117,7 @@ export function Tab2() {
 
             <div className="h-[100vh] w-5/20">
                 <div className="h-8/10 w-8/10 max-h-[100%] rounded-xl m-10 border-1 border-slate-200 ">
-                    <FilterTab2
+                    <FilterDashboard1
                         rows={rows}
                         value={selectedFilters}
                         onChange={setSelectedFilters}

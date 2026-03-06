@@ -1,4 +1,4 @@
-import { BarChartTab2 } from "./BarChartTab2"
+import { BarChartDashboard1 } from "./BarChartDashboard1"
 import { buildColorMap } from "../../utils/mapColors";
 
 const ANALYSIS_DIMENSION_TO_COLUMN = {
@@ -42,7 +42,7 @@ function updateData(rows, emissionType, analysisDimension) {
         .sort((a, b) => b.value - a.value);
 }
 
-export function CardsTab2({
+export function CardsDashboard1({
     rows,
     emissionType,
     analysisDimension,
@@ -55,7 +55,7 @@ export function CardsTab2({
     return (
         <div className="h-full">
             <div className="h-8/10 border-1 border-slate-200 rounded-xl shadow-lg">
-                <BarChartTab2
+                <BarChartDashboard1
                     data={data}
                     colorByType={colorByValue}
                     fallbackColor={fallbackColor}

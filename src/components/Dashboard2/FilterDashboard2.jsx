@@ -1,7 +1,7 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
-import { FILTERS_CONFIG_TAB2 } from "../../utils/filterConfigTab2";
+import { FILTERS_CONFIG_DASHBOARD1 } from "../../utils/filterConfigDashboard1";
 import { buildFilterOptions } from "../../utils/filterUtils";
-import Legends from "./Legends";
+import Legends from "../Dashboard1/Legends";
 
 const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
 const ANALYSIS_DIMENSIONS_OPTIONS = ["Entity", "Sector", 'Decarbonization Plan'];
@@ -72,10 +72,10 @@ function Select({ label, value, onChange, options }) {
     );
 }
 
-export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAnalysisDimensionChange }) {
+export function FilterDashboard2({ rows = [], value, onChange, analysisDimension, onAnalysisDimensionChange }) {
     const [localSelected, setLocalSelected] = useState(() => {
         const init = {};
-        for (const f of FILTERS_CONFIG_TAB2) init[f.id] = "All";
+        for (const f of FILTERS_CONFIG_DASHBOARD1) init[f.id] = "All";
         return init;
     });
 
@@ -83,7 +83,7 @@ export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAn
 
     const optionsByFilter = useMemo(() => {
         if (!rows.length) return {};
-        return buildFilterOptions(rows, FILTERS_CONFIG_TAB2);
+        return buildFilterOptions(rows, FILTERS_CONFIG_DASHBOARD1);
     }, [rows]);
 
     function setSelected(next) {
@@ -94,7 +94,7 @@ export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAn
     
 
     return (
-        <div className="h-full w-full flex flex-col justify-between rounded-xl px-2">
+        <div className="h-9/10 w-full flex flex-col justify-between rounded-xl px-2 shadow-lg rounded-xl border-2 border-slate-300">
             <div className="h-8/10 flex-1 flex flex-col justify-evenly bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto">
                 <div className="text-center text-red-600 font-bold text-lg mt-2">Filter Panel</div>
 
@@ -111,7 +111,7 @@ export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAn
                         onChange={(v) => setSelected({ ...selected, emissionType: v })}
                         options={EMISSION_TYPE_OPTIONS}
                     />
-                    {FILTERS_CONFIG_TAB2.map((f) => (
+                    {FILTERS_CONFIG_DASHBOARD1.map((f) => (
                         <Select
                             key={f.id}
                             label={f.label}

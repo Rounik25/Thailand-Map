@@ -9,7 +9,7 @@ import {
     LabelList
 } from "recharts";
 
-export function BarChartTab2({ data, colorByType = {}, fallbackColor = "#64748b", selectedType = null, onSelectType, }) {
+export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#64748b", selectedType = null, onSelectType, }) {
     const maxValue = Math.max(...data.map((d) => Number(d.value) || 0), 0);
     const paddedMax = maxValue * 1.05;
     const roundedMax = Math.ceil(paddedMax / 5) * 5;

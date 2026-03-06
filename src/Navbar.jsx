@@ -6,6 +6,21 @@ export function Navbar({ dark, setDark }) {
   const linksContainerRef = useRef(null);
   const indicatorRef = useRef(null);
 
+  const getTitle = () => {
+    switch (location.pathname) {
+      case "/":
+        return "Emissions Dashboard";
+      case "/dashboard1":
+        return "Emissions Dashboard (1/3)";
+      case "/dashboard2":
+        return "Emissions Dashboard (2/3)";
+      case "/dashboard3":
+        return "Emissions Dashboard (3/3)";
+      default:
+        return "Dashboard";
+    }
+  };
+
   // can remove the setDark statement when enabling the onclick effect of theme button
   setDark(false)
 
@@ -28,8 +43,9 @@ export function Navbar({ dark, setDark }) {
     "px-2 py-1 font-semibold text-lg text-slate-700 dark:text-slate-200";
 
   return (
-    <div className="h-15 px-4 flex items-center justify-between bg-white dark:bg-black border-slate-200 border-2 shadow-sm mb-2">
-      <div className="font-bold text-xl">Thailand Dashboard</div>
+    <div className="h-15 px-4 flex items-center justify-between bg-white dark:bg-black border-slate-200 border-2 shadow-sm mb-2 ">
+      <div className="font-bold text-xl">{getTitle()} 
+      </div>
 
       <div className="flex items-center">
         {/* Links container needs to be relative for the indicator */}
@@ -48,43 +64,43 @@ export function Navbar({ dark, setDark }) {
           </NavLink>
 
           <NavLink
-            to="/tab1"
+            to="/dashboard1"
             className={({ isActive }) =>
               `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
             }
           >
-            Tab1
+            Dashboard-1
           </NavLink>
 
           <NavLink
-            to="/tab2"
+            to="/dashboard2"
             className={({ isActive }) =>
               `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
             }
           >
-            Tab2
+            Dashboard-2
           </NavLink>
 
           <NavLink
-            to="/tab3"
+            to="/dashboard3"
             className={({ isActive }) =>
               `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
             }
           >
-            Tab3
+            Dashboard-3
           </NavLink>
 
           {/* Sliding line indicator */}
           <span
             ref={indicatorRef}
-            className="pointer-events-none absolute -bottom-1 h-[2px] bg-blue-600 transition-all duration-300 ease-out"
+            className="pointer-events-none absolute -bottom-1 h-1 rounded-full bg-red-600 transition-all duration-300 ease-out"
             style={{ width: 0, transform: "translateX(0px)" }}
           />
         </div>
 
         <button
           className="ml-6"
-          // onClick={() => setDark((p) => !p)}
+        // onClick={() => setDark((p) => !p)}
         >
           {dark ? (
             <img src="src/assets/sun.svg" alt="sun logo" className="w-6 h-6" />

@@ -1,11 +1,11 @@
 import { KPI } from "./KPI"
-import { LineChartTab3 } from "./LineChartTab3"
+import { LineChartDashboard2 } from "./LineChartDashboard2"
 
-export function DashboardTab3(){
+export function CardsDashboard2(){
     return (
         <div className="w-full h-full">
             <div className="w-full h-[70%] p-5 ">
-                <LineChartTab3 />
+                <LineChartDashboard2 />
             </div>
             <div className="w-full h-[30%]">
                 <KPI />

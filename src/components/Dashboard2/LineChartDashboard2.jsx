@@ -17,7 +17,7 @@ const data = [
   { year: "2022", value1: 20, value2: 15, value3: -6 },
 ];
 
-export function LineChartTab3() {
+export function LineChartDashboard2() {
   return (
     <div className="w-full h-full bg-white dark:bg-slate-900 p-5 shadow-lg border-2 border-slate-300 rounded-xl">
       <ResponsiveContainer width="100%" height="100%">

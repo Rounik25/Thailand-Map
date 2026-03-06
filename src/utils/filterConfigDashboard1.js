@@ -1,4 +1,4 @@
-export const FILTERS_CONFIG_TAB2 = [
+export const FILTERS_CONFIG_DASHBOARD1 = [
   { id: "entity", label: "Entity", column: "Conglomerate" },
   { id: "sector", label: "Sector", column: "Industry" },
   { id: "decarbPlan", label: "Decarbonization Plan", column: "Decarbonization Plan" },

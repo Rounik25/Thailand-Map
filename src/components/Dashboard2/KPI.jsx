@@ -13,16 +13,16 @@ export function KPI(){
         value: 7.5
     },
     {
-        text: "Weighted average cost of abatedment (if PTT does for self)",
+        text: "Weighted average cost of abatedment \n (if PTT does for self)",
         value: 286.8
     },
     {
-        text: "Weighted average cost of abatedment (if PTT does for others)",
+        text: "Weighted average cost of abatedment \n (if PTT does for others)",
         value: 192.4
     },
 ]
     return(
-        <div className="h-full w-full flex justify-evenly items-center pb-15">
+        <div className="h-full w-full flex justify-evenly items-center pb-20">
             {kpiData.map(kpi => {
                 return(
                     <div className="h-30 w-30 rounded-xl border-2 border-slate-300 bg-slate-100 p-4 shadow-lg hover:bg-slate-50">

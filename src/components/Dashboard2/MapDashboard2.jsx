@@ -52,7 +52,7 @@ function createDivIcon(value) {
 }
 
 
-export function MapTab3({ dark }) {
+export function MapDashboard2({ dark }) {
   const center = [13.736717, 100.523186];
 
   const tileUrl = dark
@@ -60,7 +60,7 @@ export function MapTab3({ dark }) {
     : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
 
   return (
-    <div className="w-full h-full overflow-hidden pt-2">
+    <div className="w-full h-full overflow-hidden">
       {/* <div className="w-full h-[10%] text-center flex items-start justify-center text-xl font-semibold">
         <p className="p-2 w-full bg-slate-700 text-white rounded-xl">Graphical View</p>
       </div> */}
