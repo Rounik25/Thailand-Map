@@ -1,6 +1,7 @@
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { useEffect, useMemo } from "react";
 import L from "leaflet";
+import { buildColorMap } from "../utils/mapColors";
 
 // Vite-safe marker icon fix (CDN)
 delete L.Icon.Default.prototype._getIconUrl;
@@ -10,7 +11,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-function createDivIcon(value, entity) {
+function createDivIcon(value, color) {
   const size = ((value * 3000) ** (4 / 10)) // scale logic
   const radius = size / 2;
 
@@ -21,7 +22,7 @@ function createDivIcon(value, entity) {
           width:${size}px;
           height:${size}px;
           border-radius:50%;
-          background-color:${entity === "PTT Entity" ? "#dc2626" : "#385697"};
+          background-color:${color};
           display:flex;
           align-items:center;
           justify-content:center;
@@ -55,7 +56,8 @@ function emissionValueForRow(r, emissionType) {
   }
 }
 
-function setLocation(rows, emissionType) {
+function setLocation(rows, emissionType, analysisDimension) {
+  const { column, colorByValue } = buildColorMap(rows, analysisDimension);
   return rows
     .filter((r) => {
       const lat = Number(r.Latitude);
@@ -71,6 +73,9 @@ function setLocation(rows, emissionType) {
       const lat = Number(r.Latitude);
       const lng = Number(r.Longitude);
 
+      const groupValue = column ? String(r?.[column] ?? "").trim() : "";
+      const color = groupValue ? (colorByValue[groupValue] ?? "#64748b") : "#64748b";
+
       return {
         id: crypto.randomUUID(),
         name: r.City,
@@ -83,6 +88,8 @@ function setLocation(rows, emissionType) {
         Industry: r.Industry,
         Conglomerate: r.Conglomerate,
         DecarbPlan: r["Decarbonization Plan"],
+        groupValue,
+        color,
       };
     });
 }
@@ -125,10 +132,10 @@ function calculateCenter(locations) {
 }
 
 
-export default function Map({ dark, rows, emissionType, onPointClick }) {
+export default function Map({ dark, rows, emissionType, onPointClick, analysisDimension }) {
   const thailandLocations = useMemo(
-    () => setLocation(rows, emissionType),
-    [rows, emissionType]
+    () => setLocation(rows, emissionType, analysisDimension),
+    [rows, emissionType, analysisDimension]
   );
   const center = calculateCenter(rows)
 
@@ -150,7 +157,7 @@ export default function Map({ dark, rows, emissionType, onPointClick }) {
           <Marker
             key={loc.id}
             position={[loc.lat, loc.lng]}
-            icon={createDivIcon(loc.value, loc.Conglomerate)}
+            icon={createDivIcon(loc.value, loc.color)}
             zIndexOffset={loc.Conglomerate === "PTT Entity" ? 1000 : 0}
             eventHandlers={{
               click: () => {
@@ -163,9 +170,6 @@ export default function Map({ dark, rows, emissionType, onPointClick }) {
                   state: loc.StateOrProvince ?? "All",
                   entity: loc.Conglomerate ?? "All",
                   decarbPlan: loc.DecarbPlan ?? "All",
-
-                  // careful: both analysisDimension + sector map to Industry in your config
-                  analysisDimension: loc.Industry ?? "All",
                   sector: loc.Industry ?? "All",
                 });
               },
@@ -174,6 +178,9 @@ export default function Map({ dark, rows, emissionType, onPointClick }) {
             <Popup>
               <div className="text-sm">
                 <div className="font-semibold">{loc.name}</div>
+                <div className="text-slate-600 dark:text-slate-300">
+                  {analysisDimension}: {loc.groupValue || "Unknown"}
+                </div>
                 <div className="text-slate-600 dark:text-slate-300">
                   {loc.lat.toFixed(5)}, {loc.lng.toFixed(5)}
                 </div>
