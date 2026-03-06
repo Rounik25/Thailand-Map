@@ -1,6 +1,6 @@
 import { FilterTab2 } from "./components/Tab2/FilterTab2"
 import { CardsTab2 } from "./components/Tab2/CardsTab2"
-import Map from "./components/Map"
+import MapTab2 from "./components/Tab2/MapTab2"
 import { useEffect, useMemo, useState } from "react"
 import * as XLSX from "xlsx"
 import { FILTERS_CONFIG } from "./utils/filterConfig"
@@ -54,15 +54,45 @@ export function Tab2() {
         };
     }, []);
 
-    const filteredRows = useMemo(
+    // const filteredRows = useMemo(
+    //     () => applyFilters(rows, selectedFilters),
+    //     [rows, selectedFilters]
+    // );
+
+    const [selectedBarType, setSelectedBarType] = useState(null);
+
+    // base rows from normal filters only (exclude analysisDimension + emissionType logic already handled)
+    const baseRows = useMemo(
         () => applyFilters(rows, selectedFilters),
         [rows, selectedFilters]
     );
 
+    // map rows: apply bar selection ONLY for the map
+    const mapRows = useMemo(() => {
+        if (!selectedBarType) return baseRows;
+
+        if (analysisDimension === "Entity") {
+            return baseRows.filter(r => String(r.Conglomerate).trim() === selectedBarType);
+        }
+        if (analysisDimension === "Sector") {
+            return baseRows.filter(r => String(r.Industry).trim() === selectedBarType);
+        }
+        if (analysisDimension === "Decarbonization Plan") {
+            return baseRows.filter(r => String(r["Decarbonization Plan"]).trim() === selectedBarType);
+        }
+        return baseRows;
+    }, [baseRows, selectedBarType, analysisDimension]);
+
     return (
         <div className="w-[100%] h-[100vh] bg-white flex justify-between">
             <div className="h-[100%] w-3/10 m-10">
-                <CardsTab2 rows={filteredRows} emissionType={selectedFilters.emissionType} />
+                <CardsTab2
+                    rows={baseRows}
+                    emissionType={selectedFilters.emissionType}
+                    analysisDimension={analysisDimension}
+                    selectedType={selectedBarType}
+                    onSelectType={setSelectedBarType}
+                />
             </div>
 
             <div className="w-5/10 h-[100vh] m-10">
@@ -70,8 +100,8 @@ export function Tab2() {
                     <MapRadialChart data={dummy} />
                 </div> */}
                 <div className="h-16/20 shadow-lg rounded-xl bg-slate-100 flex">
-                    <Map
-                        rows={filteredRows}
+                    <MapTab2
+                        rows={mapRows}
                         emissionType={selectedFilters.emissionType}
                         onPointClick={(patch) => {
                             setSelectedFilters((prev) => ({
@@ -80,18 +110,18 @@ export function Tab2() {
                                 emissionType: prev.emissionType, // keep whatever user selected
                             }));
                         }}
-                        analysisDimension={analysisDimension} 
+                        analysisDimension={analysisDimension}
                     />
                 </div>
             </div>
 
             <div className="h-[100vh] w-5/20">
-                <div className="h-8/10 max-h-[100%] rounded-xl m-10 border-1 border-slate-200 ">
+                <div className="h-8/10 w-8/10 max-h-[100%] rounded-xl m-10 border-1 border-slate-200 ">
                     <FilterTab2
                         rows={rows}
                         value={selectedFilters}
                         onChange={setSelectedFilters}
-                        analysisDimension={analysisDimension} 
+                        analysisDimension={analysisDimension}
                         onAnalysisDimensionChange={setAnalysisDimension}
                     />
                 </div>

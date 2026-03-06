@@ -28,7 +28,7 @@ function Select({ label, value, onChange, options }) {
 
 
     return (
-        <div ref={containerRef} className="flex flex-col gap-1 relative w-full">
+        <div ref={containerRef} className="relative w-full min-w-0 flex flex-col gap-1">
             <span className="text-sm font-medium text-black dark:text-slate-300">
                 {label}
             </span>
@@ -37,18 +37,18 @@ function Select({ label, value, onChange, options }) {
             <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
-                className="h-8 border-2 border-slate-200 bg-white px-3 text-sm text-left text-black rounded-lg
-                dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
+                className="w-full h-8 min-w-0 border-2 border-slate-200 bg-white px-3 text-sm text-left text-black rounded-lg
+             dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
             >
-                <span className="block truncate">
+                <span className="block truncate w-full">
                     {value || "Select option"}
                 </span>
             </button>
 
             {/* Dropdown */}
             {open && (
-                <div className="absolute top-full mt-1 w-full border border-slate-200 bg-white rounded-lg shadow-lg z-50
-                    dark:border-slate-700 dark:bg-slate-900 max-h-48 overflow-y-auto">
+                <div className="absolute left-0 top-full mt-1 w-full min-w-0 border border-slate-200 bg-white rounded-lg shadow-lg z-50
+               dark:border-slate-700 dark:bg-slate-900 max-h-48 overflow-y-auto">
 
                     {options.map((opt) => (
                         <div

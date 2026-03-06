@@ -1,54 +1,68 @@
 import { BarChartTab2 } from "./BarChartTab2"
+import { buildColorMap } from "../../utils/mapColors";
 
-function updateData(rows, emmisionType) {
-    let ptt = 0;
-    let non_ptt = 0;
+const ANALYSIS_DIMENSION_TO_COLUMN = {
+    Entity: "Conglomerate",
+    Sector: "Industry",
+    "Decarbonization Plan": "Decarbonization Plan",
+};
 
-    rows.forEach(r => {
-        let total = 0
-        const process = Number(r.Process || 0);
-        const fuel = Number(r.Fuel || 0);
-        const elec = Number(r.Indirect_Electricity || 0);
-        if (emmisionType === "Process") {
-            total = process
-        }
-        else if (emmisionType === "Fuel") {
-            total = fuel
-        }
-        else if (emmisionType === "Indirect_Electricity") {
-            total = elec
-        }
-        else {
-            total = process + fuel + elec 
-        }
+function emissionValueForRow(r, emissionType) {
+    const process = Number(r.Process || 0);
+    const fuel = Number(r.Fuel || 0);
+    const elec = Number(r.Indirect_Electricity || 0);
 
-        if (r.Conglomerate === "PTT Entity") {
-            ptt += total;
-        } else if (r.Conglomerate === "Non-PTT Entity") {
-            non_ptt += total;
-        }
-    });
-
-    return [
-        { type: "PTT", value: ptt.toFixed(2) },
-        { type: "Non-PTT", value: non_ptt.toFixed(2) }
-    ];
+    switch (emissionType) {
+        case "Process":
+            return process;
+        case "Fuel":
+            return fuel;
+        case "Indirect_Electricity":
+            return elec;
+        case "All":
+        default:
+            return process + fuel + elec;
+    }
 }
 
-// [
-//         { type: "Non-PTT", value: 47.1 },
-//         { type: "PTT", value: 31.8 }
-//     ]
-export function CardsTab2({ rows, emissionType }) {
-    const data = updateData(rows, emissionType)
+function updateData(rows, emissionType, analysisDimension) {
+    const column = ANALYSIS_DIMENSION_TO_COLUMN[analysisDimension] ?? "Conglomerate";
+
+    // Sum emissions by group value
+    const totals = new Map();
+    for (const r of rows) {
+        const key = String(r?.[column] ?? "Unknown").trim() || "Unknown";
+        const add = emissionValueForRow(r, emissionType);
+        totals.set(key, (totals.get(key) ?? 0) + add);
+    }
+
+    // Convert to recharts data and sort (largest first)
+    return Array.from(totals.entries())
+        .map(([type, value]) => ({ type, value: Number(value.toFixed(2)) }))
+        .sort((a, b) => b.value - a.value);
+}
+
+export function CardsTab2({
+    rows,
+    emissionType,
+    analysisDimension,
+    selectedType,
+    onSelectType,
+}) {
+    const data = updateData(rows, emissionType, analysisDimension);
+    const { colorByValue, fallbackColor } = buildColorMap(rows, analysisDimension);
+
     return (
         <div className="h-full">
-            {/* <div className="h-4/10 mb-5">
-                <LineChartTab2 />
-            </div> */}
             <div className="h-8/10 border-1 border-slate-200 rounded-xl shadow-lg">
-                <BarChartTab2 data={data} />
+                <BarChartTab2
+                    data={data}
+                    colorByType={colorByValue}
+                    fallbackColor={fallbackColor}
+                    selectedType={selectedType}
+                    onSelectType={onSelectType}
+                />
             </div>
         </div>
-    )
+    );
 }
