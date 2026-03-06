@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from "react";
 import * as XLSX from "xlsx";
-import { FILTERS_CONFIG } from "../../utils/filterConfig";
+import { FILTERS_CONFIG_TAB2 } from "../../utils/filterConfigTab2";
 import { buildFilterOptions } from "../../utils/filterUtils";
 import { Legends } from "./Legends";
 Legends
@@ -31,7 +31,7 @@ export function FilterTab1() {
     const [selected, setSelected] = useState(() => {
         // Initialize all filters to "All"
         const init = {};
-        for (const f of FILTERS_CONFIG) init[f.id] = "All";
+        for (const f of FILTERS_CONFIG_TAB2) init[f.id] = "All";
         return init;
     });
 
@@ -55,13 +55,13 @@ export function FilterTab1() {
 
         // Reset filters whenever a new file loads
         const reset = {};
-        for (const f of FILTERS_CONFIG) reset[f.id] = "All";
+        for (const f of FILTERS_CONFIG_TAB2) reset[f.id] = "All";
         setSelected(reset);
     }
 
     const optionsByFilter = useMemo(() => {
         if (!rows.length) return {};
-        return buildFilterOptions(rows, FILTERS_CONFIG);
+        return buildFilterOptions(rows, FILTERS_CONFIG_TAB2);
     }, [rows]);
 
     return (
@@ -94,7 +94,7 @@ export function FilterTab1() {
 
                 {/* Filters */}
                 <div className="flex flex-col mt-4 " >
-                    {FILTERS_CONFIG.map((f) => (
+                    {FILTERS_CONFIG_TAB2.map((f) => (
                         <Select
                             key={f.id}
                             label={f.label}
@@ -109,7 +109,7 @@ export function FilterTab1() {
           <button
             onClick={() => {
               const reset = {};
-              for (const f of FILTERS_CONFIG) reset[f.id] = "All";
+              for (const f of FILTERS_CONFIG_TAB2) reset[f.id] = "All";
               setSelected(reset);
             }}
             className="h-9 rounded-md border border-slate-300 px-3 text-sm

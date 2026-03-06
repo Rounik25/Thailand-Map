@@ -28,7 +28,7 @@ export function Navbar({ dark, setDark }) {
     "px-2 py-1 font-semibold text-lg text-slate-700 dark:text-slate-200";
 
   return (
-    <div className="h-16 px-4 flex items-center justify-between bg-white dark:bg-black border-slate-200 border-2 shadow-sm mb-2">
+    <div className="h-15 px-4 flex items-center justify-between bg-white dark:bg-black border-slate-200 border-2 shadow-sm mb-2">
       <div className="font-bold text-xl">Thailand Dashboard</div>
 
       <div className="flex items-center">

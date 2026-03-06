@@ -1,25 +1,23 @@
-import { Left } from "./components/Left"
-import { Right } from "./components/Right"
-import { useMemo, useState } from "react";
-import { getFilteredData } from "./utils/getData";
+import { MapTab3 } from "./components/Tab3/MapTab3"
+import { DashboardTab3 } from "./components/Tab3/DashboardTab3"
+import { FilterTab3 } from "./components/Tab3/FilterTab3"
 
 export function Tab3({ dark }) {
-
-    const [filters, setFilters] = useState({
-        month: "All",
-        city: "All",
-        region: "All",
-        category: "All",
-    });
-
-    const { records, locations } = useMemo(() => getFilteredData(filters), [filters]);
-
-    
-
     return (
-        <div className="flex h-screen sm:flex-row p-10">
-            <Left dark={dark} records={records} locations={locations} />
-            <Right dark={dark} records={records} locations={locations} filters={filters} setFilters={setFilters} />
+        <div className="flex h-screen w-full">
+            <div className="flex h-full w-[35%] p-5 pb-20">
+                <MapTab3
+                    dark={dark}
+                    // rows={filteredRows}          // or rows
+                    // emissionType={selectedFilters.emissionType}
+                />
+            </div>
+            <div className="flex h-screen w-[45%]">
+                <DashboardTab3 />
+            </div>
+            <div className="flex h-screen w-[20%]">
+                <FilterTab3 />
+            </div>
         </div>
     )
 }

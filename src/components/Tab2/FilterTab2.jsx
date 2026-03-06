@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
-import { FILTERS_CONFIG } from "../../utils/filterConfig";
+import { FILTERS_CONFIG_TAB2 } from "../../utils/filterConfigTab2";
 import { buildFilterOptions } from "../../utils/filterUtils";
 import Legends from "./Legends";
 
@@ -75,7 +75,7 @@ function Select({ label, value, onChange, options }) {
 export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAnalysisDimensionChange }) {
     const [localSelected, setLocalSelected] = useState(() => {
         const init = {};
-        for (const f of FILTERS_CONFIG) init[f.id] = "All";
+        for (const f of FILTERS_CONFIG_TAB2) init[f.id] = "All";
         return init;
     });
 
@@ -83,7 +83,7 @@ export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAn
 
     const optionsByFilter = useMemo(() => {
         if (!rows.length) return {};
-        return buildFilterOptions(rows, FILTERS_CONFIG);
+        return buildFilterOptions(rows, FILTERS_CONFIG_TAB2);
     }, [rows]);
 
     function setSelected(next) {
@@ -111,7 +111,7 @@ export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAn
                         onChange={(v) => setSelected({ ...selected, emissionType: v })}
                         options={EMISSION_TYPE_OPTIONS}
                     />
-                    {FILTERS_CONFIG.map((f) => (
+                    {FILTERS_CONFIG_TAB2.map((f) => (
                         <Select
                             key={f.id}
                             label={f.label}

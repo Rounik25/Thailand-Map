@@ -11,14 +11,16 @@ function App() {
 
   return (
     <div className={dark ? "dark" : ""}>
-      <div className="min-h-screen bg-white text-black dark:bg-slate-950 dark:text-white flex flex-col">
+      <div className="h-screen bg-white text-black dark:bg-slate-950 dark:text-white flex flex-col">
         <Navbar dark={dark} setDark={setDark} />
-        <Routes>
-          <Route path="/" element={<HomePage dark={dark} />} />
-          <Route path="/tab1" element={<Tab1 />} />
-          <Route path="/tab2" element={<Tab2 />} />
-          <Route path="/tab3" element={<Tab3 dark={dark} />} />
-        </Routes>
+        <div className="flex-1 overflow-hidden">
+          <Routes>
+            <Route path="/" element={<HomePage dark={dark} />} />
+            <Route path="/tab1" element={<Tab1 />} />
+            <Route path="/tab2" element={<Tab2 />} />
+            <Route path="/tab3" element={<Tab3 dark={dark} />} />
+          </Routes>
+        </div>
       </div>
     </div>
   );

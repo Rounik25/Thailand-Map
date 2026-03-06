@@ -164,7 +164,7 @@ export default function MapTab2({ dark, rows, emissionType, onPointClick, analys
                 if (!onPointClick) return;
 
                 onPointClick({
-                  // these keys must match FILTERS_CONFIG ids:
+                  // these keys must match FILTERS_CONFIG_TAB2 ids:
                   city: loc.City ?? "All",
                   company: loc.CompanyName ?? "All",
                   state: loc.StateOrProvince ?? "All",

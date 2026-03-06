@@ -3,15 +3,15 @@ import { CardsTab2 } from "./components/Tab2/CardsTab2"
 import MapTab2 from "./components/Tab2/MapTab2"
 import { useEffect, useMemo, useState } from "react"
 import * as XLSX from "xlsx"
-import { FILTERS_CONFIG } from "./utils/filterConfig"
+import { FILTERS_CONFIG_TAB2 } from "./utils/filterConfigTab2"
 
 function applyFilters(rows, selected) {
     if (!rows?.length) return [];
 
     return rows.filter((r) => {
-        // Assumption: FILTERS_CONFIG ids match Excel column names.
+        // Assumption: FILTERS_CONFIG_TAB2 ids match Excel column names.
         // If your config uses a different field name, swap `col = f.key ?? f.id` etc.
-        return FILTERS_CONFIG.every((f) => {
+        return FILTERS_CONFIG_TAB2.every((f) => {
             const chosen = selected?.[f.id] ?? "All";
             if (chosen === "All") return true;
 
@@ -26,7 +26,7 @@ export function Tab2() {
     const [rows, setRows] = useState([]);
     const [selectedFilters, setSelectedFilters] = useState(() => {
         const init = {};
-        for (const f of FILTERS_CONFIG) init[f.id] = "All";
+        for (const f of FILTERS_CONFIG_TAB2) init[f.id] = "All";
         return init;
     });
 
