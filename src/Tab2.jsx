@@ -30,6 +30,8 @@ export function Tab2() {
         return init;
     });
 
+    const [analysisDimension, setAnalysisDimension] = useState("Entity");
+
     useEffect(() => {
         let cancelled = false;
 
@@ -78,6 +80,7 @@ export function Tab2() {
                                 emissionType: prev.emissionType, // keep whatever user selected
                             }));
                         }}
+                        analysisDimension={analysisDimension} 
                     />
                 </div>
             </div>
@@ -88,6 +91,8 @@ export function Tab2() {
                         rows={rows}
                         value={selectedFilters}
                         onChange={setSelectedFilters}
+                        analysisDimension={analysisDimension} 
+                        onAnalysisDimensionChange={setAnalysisDimension}
                     />
                 </div>
             </div>

@@ -3,6 +3,7 @@ import { FILTERS_CONFIG } from "../../utils/filterConfig";
 import { buildFilterOptions } from "../../utils/filterUtils";
 
 const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
+const ANALYSIS_DIMENSIONS_OPTIONS = ["Entity", "Sector", 'Decarbonization Plan'];
 
 function Select({ label, value, onChange, options }) {
     const [open, setOpen] = useState(false);
@@ -68,7 +69,7 @@ function Select({ label, value, onChange, options }) {
     );
 }
 
-export function FilterTab2({ rows = [], value, onChange }) {
+export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAnalysisDimensionChange }) {
     const [localSelected, setLocalSelected] = useState(() => {
         const init = {};
         for (const f of FILTERS_CONFIG) init[f.id] = "All";
@@ -93,6 +94,12 @@ export function FilterTab2({ rows = [], value, onChange }) {
                 <div className="text-center text-red-600 font-bold text-lg mt-4">Filter Panel</div>
 
                 <div className="flex flex-col mt-2 flex-1 justify-evenly " >
+                    <Select
+                        label="Analysis Dimension"
+                        value={analysisDimension ?? "Entity"}
+                        onChange={(v) => onAnalysisDimensionChange?.(v)}
+                        options={ANALYSIS_DIMENSIONS_OPTIONS}
+                    />
                     <Select
                         label="Emission Type"
                         value={selected.emissionType ?? "All"}
