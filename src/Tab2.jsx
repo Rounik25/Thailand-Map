@@ -37,7 +37,7 @@ export function Tab2() {
 
         async function loadExcel() {
             // Served from Vite public/: public/data/data.xlsx => /data/data.xlsx
-            const res = await fetch("/data/data.xlsx");
+            const res = await fetch("/data/dataTab2.xlsx");
             if (!res.ok) throw new Error(`Failed to load excel: ${res.status}`);
 
             const buf = await res.arrayBuffer();
