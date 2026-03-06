@@ -1,9 +1,12 @@
 import React, { useMemo, useState, useEffect, useRef } from "react";
 import { FILTERS_CONFIG } from "../../utils/filterConfig";
 import { buildFilterOptions } from "../../utils/filterUtils";
+import Legends from "./Legends";
 
 const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
 const ANALYSIS_DIMENSIONS_OPTIONS = ["Entity", "Sector", 'Decarbonization Plan'];
+
+
 
 function Select({ label, value, onChange, options }) {
     const [open, setOpen] = useState(false);
@@ -37,7 +40,7 @@ function Select({ label, value, onChange, options }) {
             <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
-                className="w-full h-8 min-w-0 border-2 border-slate-200 bg-white px-3 text-sm text-left text-black rounded-lg
+                className="w-full h-7 min-w-0 border-2 border-slate-200 bg-white px-3 text-sm text-left text-black rounded-lg
              dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
             >
                 <span className="block truncate w-full">
@@ -88,10 +91,12 @@ export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAn
         else setLocalSelected(next);        // fallback uncontrolled path
     }
 
+    
+
     return (
-        <div className="h-full w-full flex flex-col justify-between rounded-xl p-2">
-            <div className="h-8/10 flex-1 flex flex-col justify-evenly bg-white p-2 px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto scrollbar-hide">
-                <div className="text-center text-red-600 font-bold text-lg mt-4">Filter Panel</div>
+        <div className="h-full w-full flex flex-col justify-between rounded-xl px-2">
+            <div className="h-8/10 flex-1 flex flex-col justify-evenly bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto">
+                <div className="text-center text-red-600 font-bold text-lg mt-2">Filter Panel</div>
 
                 <div className="flex flex-col mt-2 flex-1 justify-evenly " >
                     <Select
@@ -117,6 +122,18 @@ export function FilterTab2({ rows = [], value, onChange, analysisDimension, onAn
                     ))}
 
                 </div>
+            </div>
+
+            <div>
+                <Legends
+                    rows={rows}
+                    analysisDimension={analysisDimension}
+                    onClickItem={() => {
+                        // Optionally: call out to parent to set filters
+                        
+                    }}
+                    showCount={true}
+                />
             </div>
 
             <div className="p-5">

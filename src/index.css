@@ -58,3 +58,8 @@
 svg:focus {
   outline: none !important;
 }
+
+body{
+  margin: 0;
+  overflow: hidden;
+}
