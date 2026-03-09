@@ -18,7 +18,7 @@ export function FilterDashboard2({ sheetData = {}, value, onChange }) {
     // Controlled/uncontrolled selected state
     const [localSelected, setLocalSelected] = useState(() => {
         const init = {
-            [COL1_ID]: "All",
+            [COL1_ID]: "CCUS",
             [COL2_ID]: "All",
             emissionType: "All",
         };
@@ -70,7 +70,7 @@ export function FilterDashboard2({ sheetData = {}, value, onChange }) {
         return {
             col2ToCol1,
             col1ToCol2s,
-            col1OptionsAll: ["All", ...Array.from(col1Set).sort()],
+            col1OptionsAll: Array.from(col1Set).sort(),
             col2OptionsAll: ["All", ...Array.from(col2Set).sort()],
         };
     }, [sheetData]);
@@ -90,13 +90,6 @@ export function FilterDashboard2({ sheetData = {}, value, onChange }) {
     function onCol1Change(v) {
         setSelected((prev) => {
             const next = { ...prev, [COL1_ID]: v };
-
-            if (v === "All") {
-                // choice: keep Technology or reset it
-                // next[COL2_ID] = "All";
-                return next;
-            }
-
             const allowed = col1ToCol2s.get(v);
             const currentCol2 = prev[COL2_ID] ?? "All";
 
@@ -130,7 +123,7 @@ export function FilterDashboard2({ sheetData = {}, value, onChange }) {
                 <div className="h-6/10 flex flex-col mt-2 flex-1 justify-start overflow-y-auto " >
                     <Select
                         label="Decarbonization Lever"
-                        value={selected[COL1_ID] ?? "All"}
+                        value={selected[COL1_ID] ?? "CCUS"}
                         onChange={onCol1Change}
                         options={col1OptionsAll}
                     />

@@ -43,6 +43,17 @@ export function LineChartDashboard2({ rows = [] }) {
 
     return { chartData, technologies };
   }, [rows]);
+  const maxValue = Math.max(...rows.map((d) => Number(d.MACC) || 0), 0);
+  const minValue = Math.min(...rows.map((d) => Number(d.MACC) || 0), 0);
+  const paddedMax = maxValue * 1.1;
+  const roundedMax = Math.ceil(paddedMax / 10) * 10;
+  const paddedMin = minValue > 0 ? 0 : minValue -10;
+  const roundedMin = Math.ceil(paddedMin / 10) * 10;
+  
+  const ticks = [];
+  for (let i = roundedMin; i <= roundedMax; i += 10) {
+    ticks.push(i);
+  }
 
   return (
     <div className="w-full h-full bg-white dark:bg-slate-900 p-5 shadow-lg border-2 border-slate-300 rounded-xl">
@@ -53,8 +64,24 @@ export function LineChartDashboard2({ rows = [] }) {
             stroke="#000"
             strokeDasharray="5 5"
           />
-          <XAxis dataKey="year" />
-          <YAxis />
+          <XAxis 
+            dataKey="year"
+            label={{
+              value: "Year",
+              position: "insideBottom",
+              offset: -5,
+            }}
+          />
+          <YAxis
+            label={{
+              value: "MACC",
+              position: "insideleft",
+              angle: -90,
+              offset: -5,
+              dx: -10,
+            }}
+            ticks={ticks}
+          />
           <Tooltip />
 
           {technologies.map((tech) => (

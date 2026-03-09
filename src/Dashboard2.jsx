@@ -10,7 +10,7 @@ export function Dashboard2({ dark }) {
 
     const [sheetData, setSheetData] = useState(null);
     const [selectedFilters, setSelectedFilters] = useState({
-        [COL1_ID]: "All",
+        [COL1_ID]: "CCUS",
         [COL2_ID]: "All",
         emissionType: "All",
         conglomerate: "All",
@@ -38,18 +38,12 @@ export function Dashboard2({ dark }) {
         loadExcel();
     }, []);
 
-
-
-    // Single source of truth for selected filters
-
-
-    // Fact rows you want to filter
-    const d2Rows = useMemo(() => {
+    const d2V1Rows = useMemo(() => {
         return Array.isArray(sheetData?.D2_V1) ? sheetData.D2_V1 : [];
     }, [sheetData]);
 
     // Filtered rows based on selected filters
-    const filteredD2Rows = useMemo(() => {
+    const filteredD2V1Rows = useMemo(() => {
         const lever = selectedFilters[COL1_ID] ?? "All";
         const tech = selectedFilters[COL2_ID] ?? "All";
 
@@ -57,17 +51,31 @@ export function Dashboard2({ dark }) {
         const LEVER_COL = "Decarbonization Lever";
         const TECH_COL = "Technology";
 
-        return d2Rows.filter((r) => {
+        return d2V1Rows.filter((r) => {
             if (lever !== "All" && (r?.[LEVER_COL] ?? "") !== lever) return false;
             if (tech !== "All" && (r?.[TECH_COL] ?? "") !== tech) return false;
 
             return true;
         });
-    }, [d2Rows, selectedFilters]);
+    }, [d2V1Rows, selectedFilters]);
 
-    useEffect(()=>{
-        console.log(filteredD2Rows)
-    },[filteredD2Rows])
+    const d2V4_5Rows = useMemo(() => {
+        return Array.isArray(sheetData?.D2_V4_5) ? sheetData.D2_V4_5 : [];
+    }, [sheetData]);
+
+    // Filtered rows based on selected filters
+    const filtereddDV4_5Rows = useMemo(() => {
+        const lever = selectedFilters[COL1_ID] ?? "All";
+
+        // Column names in D2_V1 sheet (must match Excel headers)
+        const LEVER_COL = "Decarbonization Lever";
+
+        return d2V4_5Rows.filter((r) => {
+            if (lever !== "All" && (r?.[LEVER_COL] ?? "") !== lever) return false;
+            return true;
+        });
+    }, [d2V4_5Rows, selectedFilters]);
+
     return (
         <div className="flex h-screen w-full">
             <div className="flex h-full w-[35%] p-5 pb-20">
@@ -78,7 +86,7 @@ export function Dashboard2({ dark }) {
                 />
             </div>
             <div className="flex h-screen w-[45%]">
-                <CardsDashboard2 rows={filteredD2Rows} />
+                <CardsDashboard2 rowsD2V1={filteredD2V1Rows} rowsD2V4_5={filtereddDV4_5Rows} />
             </div>
             <div className="flex h-screen w-[20%] p-5">
                 <FilterDashboard2 sheetData={sheetData} value={selectedFilters} onChange={setSelectedFilters} />

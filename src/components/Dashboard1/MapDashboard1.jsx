@@ -131,7 +131,6 @@ function calculateCenter(locations) {
   return [avgLat, avgLng];
 }
 
-
 export default function MapDashboard1({ dark, rows, emissionType, onPointClick, analysisDimension }) {
   const thailandLocations = useMemo(
     () => setLocation(rows, emissionType, analysisDimension),
