@@ -25,7 +25,7 @@ export function KPI(){
         <div className="h-full w-full flex justify-evenly items-center pb-20">
             {kpiData.map(kpi => {
                 return(
-                    <div className="h-30 w-30 rounded-xl border-2 border-slate-300 bg-slate-100 p-4 shadow-lg hover:bg-slate-50">
+                    <div key={kpi.text} className="h-30 w-30 rounded-xl border-2 border-slate-300 bg-slate-100 p-4 shadow-lg hover:bg-slate-50">
                         <div className="flex h-12 py-1 text-xs text-center items-center">{kpi.text}</div>
                         <div className="text-center text-xl font-semibold pt-4">{kpi.value}</div>
                     </div>
