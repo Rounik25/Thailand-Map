@@ -30,8 +30,11 @@ export function LineChartDashboard2({ rows = [] }) {
 
       techSet.add(tech);
 
-      if (!byYear.has(year)) byYear.set(year, { year });
-      byYear.get(year)[tech] = Number(y); // each tech becomes a series key
+      const yYear = Number(year);
+      if (!Number.isFinite(yYear)) continue;
+
+      if (!byYear.has(yYear)) byYear.set(yYear, { year: yYear });
+      byYear.get(yYear)[tech] = Number(y);
     }
 
     const technologies = Array.from(techSet).sort();
@@ -45,18 +48,24 @@ export function LineChartDashboard2({ rows = [] }) {
   }, [rows]);
   const maxValue = Math.max(...rows.map((d) => Number(d.MACC) || 0), 0);
   const minValue = Math.min(...rows.map((d) => Number(d.MACC) || 0), 0);
-  const paddedMax = maxValue * 1.1;
+  const paddedMax = maxValue + 10;
   const roundedMax = Math.ceil(paddedMax / 10) * 10;
-  const paddedMin = minValue > 0 ? 0 : minValue -10;
+  const paddedMin = minValue > 0 ? 0 : minValue - 10;
   const roundedMin = Math.ceil(paddedMin / 10) * 10;
-  
+  const maxYear = Math.max(...rows.map((d) => Number(d.Year)), 2025);
+  const minYear = Math.min(...rows.map((d) => Number(d.Year)), 2025);
+
   const ticks = [];
   for (let i = roundedMin; i <= roundedMax; i += 10) {
     ticks.push(i);
   }
-
+  const years = []
+  for (let i = minYear; i <= maxYear; i += 1) {
+    years.push(i);
+  }
+  console.log(years)
   return (
-    <div className="w-full h-full bg-white dark:bg-slate-900 p-5 shadow-lg border-2 border-slate-300 rounded-xl">
+    <div className="w-full h-full bg-white dark:bg-slate-900 py-5 px-5 shadow-lg border-2 border-slate-300 rounded-xl">
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={chartData}>
           <ReferenceLine
@@ -64,13 +73,15 @@ export function LineChartDashboard2({ rows = [] }) {
             stroke="#000"
             strokeDasharray="5 5"
           />
-          <XAxis 
+          <XAxis
             dataKey="year"
-            label={{
-              value: "Year",
-              position: "insideBottom",
-              offset: -5,
-            }}
+            ldataKey="year"
+            type="number"
+            domain={[minYear, maxYear+0.5]}
+            ticks={years}
+            interval={0}              
+            tick={{ fontSize: 15 }}      // optional
+            label={{ value: "Year", position: "insideBottom", offset: -5 }}
           />
           <YAxis
             label={{

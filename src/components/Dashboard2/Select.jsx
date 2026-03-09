@@ -24,7 +24,7 @@ export function Select({ label, value, onChange, options }) {
 
     return (
         <div ref={containerRef} className="relative w-full min-w-0 flex flex-col gap-1">
-            <span className="text-sm font-medium text-black dark:text-slate-300">
+            <span className="text-xs font-medium text-black dark:text-slate-300">
                 {label}
             </span>
 

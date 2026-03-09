@@ -23,12 +23,6 @@ function createDivIcon(value, color) {
           height:${size}px;
           border-radius:50%;
           background-color:${color};
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          color:white;
-          font-size:12px;
-          font-weight:600;
         ">
       </div>
     `,

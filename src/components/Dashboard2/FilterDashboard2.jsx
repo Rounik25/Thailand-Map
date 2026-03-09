@@ -3,6 +3,7 @@ import { FILTERS_CONFIG_DASHBOARD2 } from "../../utils/filterConfigDashboard2";
 import { buildOptionsByFilterFromSheets } from "../../utils/buildFilter";
 import { Select } from "./Select";
 import { TechnologyLegend } from "./TechnologyLegend";
+import { EntityLegend } from "./EntityLegend";
 
 const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
 
@@ -114,13 +115,12 @@ export function FilterDashboard2({ sheetData = {}, value, onChange }) {
         });
     }
 
-
     return (
         <div className="h-9/10 w-full flex flex-col justify-between rounded-xl px-2 shadow-lg rounded-xl border-2 border-slate-300">
             <div className="h-8/10 flex-1 flex flex-col justify-evenly bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto">
-                <div className="text-center text-red-600 font-bold text-lg mt-2">Filter Panel</div>
+                <div className="text-center text-red-600 font-bold text-md">Filter Panel</div>
 
-                <div className="h-6/10 flex flex-col mt-2 flex-1 justify-start overflow-y-auto " >
+                <div className="h-5/10 flex flex-col mt-2 flex-1 justify-start overflow-y-auto " >
                     <Select
                         label="Decarbonization Lever"
                         value={selected[COL1_ID] ?? "CCUS"}
@@ -153,20 +153,27 @@ export function FilterDashboard2({ sheetData = {}, value, onChange }) {
                 </div>
             </div>
 
-            <div className="h-2/10 overflow-y-auto">
-                <TechnologyLegend
-                    technologies={col2OptionsAll.slice(1)} // remove "All"
-                    selectedTechnology={selected[COL2_ID] ?? "All"}
-                    onSelect={(tech) => {
-                        const current = selected[COL2_ID] ?? "All";
+            <div className="h-3/10 overflow-y-auto">
+                <div>
+                    <div className="text-md font-bold text-red-600 text-center my-1">Legend</div>
+                    <div className="p-1 text-sm font-semibold">Entity Category</div>
+                    <EntityLegend />
+                    <div className="p-1 text-sm font-semibold">Technology</div>
+                    <TechnologyLegend
+                        technologies={col2Options.filter((t) => t !== "All")}
+                        selectedTechnology={selected[COL2_ID] ?? "All"}
+                        onSelect={(tech) => {
+                            const current = selected[COL2_ID] ?? "All";
 
-                        if (current === tech) {
-                            setSelected((p) => ({ ...p, [COL2_ID]: "All" }));
-                        } else {
-                            setSelected((p) => ({ ...p, [COL2_ID]: tech }));
-                        }
-                    }}
-                />
+                            if (current === tech) {
+                                setSelected((p) => ({ ...p, [COL2_ID]: "All" }));
+                            } else {
+                                setSelected((p) => ({ ...p, [COL2_ID]: tech }));
+                            }
+                        }}
+                    />
+
+                </div>
             </div>
 
             <div className="p-5">

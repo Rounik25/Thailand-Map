@@ -7,26 +7,25 @@ const DIMENSION_TO_COLUMN = {
 // You said you’ll modify these per dimension 
 const FIXED_COLORS = {
     Entity: {
-        "PTT Entity": "#dc2626",
-        "Non-PTT Entity": "#385697",
+        "PTT Entity": "#cc0000",
+        "Non-PTT Entity": "#46647b",
     },
 
     Sector: {
-        // Replace keys EXACTLY as they appear in your Excel "Industry" column
-        "Cement and Concrete Product Manufacturing": "#dc2626",
-        "Chemicals": "#385697",
-        "Metal Products Manufacturing": "#f59e0b",
+        "Cement and Concrete Product Manufacturing": "#104c3e",
+        "Chemicals": "#507867",
+        "Metal Products Manufacturing": "#cfb793",
         "Miscellaneous Transportation Equipment Manufacturing": "#16a34a",
         "Motor Vehicle Manufacturing": "#0ea5e9",
         "Motor Vehicle Parts Manufacturing": "#a855f7",
-        "Non-Metallic Mineral Product Manufacturing": "#f97316",
+        "Non-Metallic Mineral Product Manufacturing": "#faecdb",
         "Paint, Coating, and Adhesive Manufacturing": "#64748b",
-        "Paper Product Manufacturing": "#648a8b",
+        "Paper Product Manufacturing": "#ab8933",
         "Plastic Product Manufacturing": "#cbcf62",
-        "Refining": "#8b6464",
+        "Refining": "#faeec3",
         "Rubber Product Manufacturing": "#083000",
-        "Power Plants - Coal": "#64748b",
-        "Power Plants - Natural Gas": "#fbe1ff",
+        "Power Plants - Coal": "#c6aa3d",
+        "Power Plants - Natural Gas": "#e9cd49",
         "Transport - Airport": "#5f2e36",
         "Transport - Truck": "#002559",
         "Transport - Shipping": "#925300",
