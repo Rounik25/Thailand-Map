@@ -32,7 +32,7 @@ export function Select({ label, value, onChange, options }) {
             <button
                 type="button"
                 onClick={() => setOpen((prev) => !prev)}
-                className="w-full h-7 min-w-0 border-2 border-slate-200 bg-white px-3 text-sm text-left text-black rounded-lg
+                className="w-full h-6 min-w-0 border-2 border-slate-200 bg-white px-3 text-sm text-left text-black rounded-lg
              dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
             >
                 <span className="block truncate w-full">

@@ -1,50 +1,73 @@
+import { TECHNOLOGY_COLORS } from "../../utils/Dashboard2/technologyLineColors";
+
+import React, { useMemo } from "react";
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
+  ReferenceLine
 } from "recharts";
 
-const data = [
-  { year: "2018", value1: 40, value2: 27, value3: -10 },
-  { year: "2019", value1: 35, value2: 24, value3: -9 },
-  { year: "2020", value1: 30, value2: 21, value3: -8 },
-  { year: "2021", value1: 25, value2: 18, value3: -7 },
-  { year: "2022", value1: 20, value2: 15, value3: -6 },
-];
+export function LineChartDashboard2({ rows = [] }) {
+  const { chartData, technologies } = useMemo(() => {
+    // Unique technologies
+    const techSet = new Set();
+    // year -> object row
+    const byYear = new Map();
 
-export function LineChartDashboard2() {
+    for (const r of rows) {
+      const tech = (r?.Technology ?? "").toString().trim();
+      const year = r?.Year;
+
+      // choose your y-value column here:
+      const y = r?.MACC;
+
+      if (!tech || year == null || y == null || Number.isNaN(Number(y))) continue;
+
+      techSet.add(tech);
+
+      if (!byYear.has(year)) byYear.set(year, { year });
+      byYear.get(year)[tech] = Number(y); // each tech becomes a series key
+    }
+
+    const technologies = Array.from(techSet).sort();
+
+    // convert map to array sorted by year
+    const chartData = Array.from(byYear.values()).sort(
+      (a, b) => Number(a.year) - Number(b.year)
+    );
+
+    return { chartData, technologies };
+  }, [rows]);
+
   return (
     <div className="w-full h-full bg-white dark:bg-slate-900 p-5 shadow-lg border-2 border-slate-300 rounded-xl">
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
+        <LineChart data={chartData}>
+          <ReferenceLine
+            y={0}
+            stroke="#000"
+            strokeDasharray="5 5"
+          />
           <XAxis dataKey="year" />
           <YAxis />
           <Tooltip />
-          <Legend />
 
-          <Line
-            type="linear"
-            dataKey="value1"
-            stroke="#2563eb"
-            strokeWidth={2}
-          />
-          <Line
-            type="linear"
-            dataKey="value2"
-            stroke="#dc2626"
-            strokeWidth={2}
-          />
-          <Line
-            type="linear"
-            dataKey="value3"
-            stroke="#16a34a"
-            strokeWidth={2}
-          />
+          {technologies.map((tech) => (
+            <Line
+              key={tech}
+              type="linear"
+              dataKey={tech}
+              stroke={TECHNOLOGY_COLORS[tech] || "#000000"}
+              strokeWidth={2}
+              dot={false}
+              connectNulls
+            />
+          ))}
         </LineChart>
       </ResponsiveContainer>
     </div>
