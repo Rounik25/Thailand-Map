@@ -1,8 +1,5 @@
 // utils/filterConfigDashboard2.js
 export const FILTERS_CONFIG_DASHBOARD2 = [
-  // Example: options come from a "Master" sheet
-  { id: "decarbLever", label: "Decarbonization Lever", source: { sheet: "D2_V1", column: "Decarbonization Lever" } },
-  { id: "technology", label: "Technology", source: { sheet: "D2_V1", column: "Technology" } },
   { id: "conglomerate", label: "Conglomerate", source: { sheet: "Industries and PP Factbase", column: "Conglomerate" } },
   { id: "industry", label: "Industry", source: { sheet: "Industries and PP Factbase", column: "Industry" } },
   { id: "decarbPlan", label: "Decarbonization Plan", source: { sheet: "Industries and PP Factbase", column: "Decarbonization Plan" } },

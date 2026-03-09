@@ -16,8 +16,6 @@ export function Dashboard2({ dark }) {
 
                 const parsed = parseWorkbookToSheets(arrayBuffer);
                 setSheetData(parsed);
-
-                console.log("All sheets:", parsed);
             } catch (err) {
                 console.error("Error loading Excel:", err);
             }
@@ -25,9 +23,6 @@ export function Dashboard2({ dark }) {
 
         loadExcel();
     }, []);
-
-    console.log(sheetData)
-
 
     return (
         <div className="flex h-screen w-full">

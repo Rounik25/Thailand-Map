@@ -1,96 +1,128 @@
-import React, { useMemo, useState, useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FILTERS_CONFIG_DASHBOARD2 } from "../../utils/filterConfigDashboard2";
 import { buildOptionsByFilterFromSheets } from "../../utils/buildFilter";
+import { Select } from "./Select";
 
 const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
 
-function Select({ label, value, onChange, options }) {
-    const [open, setOpen] = useState(false);
-    const containerRef = useRef(null);
-
-    // Close when clicking outside
-    useEffect(() => {
-        function handleClickOutside(event) {
-            if (
-                containerRef.current &&
-                !containerRef.current.contains(event.target)
-            ) {
-                setOpen(false);
-            }
-        }
-
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-
-
-    return (
-        <div ref={containerRef} className="relative w-full min-w-0 flex flex-col gap-1">
-            <span className="text-sm font-medium text-black dark:text-slate-300">
-                {label}
-            </span>
-
-            {/* Trigger */}
-            <button
-                type="button"
-                onClick={() => setOpen((prev) => !prev)}
-                className="w-full h-7 min-w-0 border-2 border-slate-200 bg-white px-3 text-sm text-left text-black rounded-lg
-             dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
-            >
-                <span className="block truncate w-full">
-                    {value || "Select option"}
-                </span>
-            </button>
-
-            {/* Dropdown */}
-            {open && (
-                <div className="absolute left-0 top-full mt-1 w-full min-w-0 border border-slate-200 bg-white rounded-lg shadow-lg z-50
-               dark:border-slate-700 dark:bg-slate-900 max-h-48 overflow-y-auto">
-
-                    {options.map((opt) => (
-                        <div
-                            key={opt}
-                            onClick={() => {
-                                onChange(opt);
-                                setOpen(false);
-                            }}
-                            className="px-3 py-2 text-sm cursor-pointer hover:bg-slate-100 
-                            dark:hover:bg-slate-800 whitespace-normal break-words"
-                        >
-                            {opt}
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
-    );
-}
-
 export function FilterDashboard2({ sheetData = {}, value, onChange }) {
+    const MASTER_SHEET = "D2_V1";
+    const COL1_KEY = "Decarbonization Lever";
+    const COL2_KEY = "Technology";
+
+    // IDs used in selected state (your map/charts will read these)
+    const COL1_ID = "decarbLever";
+    const COL2_ID = "technology";
+
+    // Controlled/uncontrolled selected state
     const [localSelected, setLocalSelected] = useState(() => {
-        const init = {};
+        const init = {
+            [COL1_ID]: "All",
+            [COL2_ID]: "All",
+            emissionType: "All",
+        };
         for (const f of FILTERS_CONFIG_DASHBOARD2) init[f.id] = "All";
         return init;
     });
 
-    console.log("sheetData keys:", Object.keys(sheetData || {}));
-
     const selected = value ?? localSelected;
-
-    const optionsByFilter = useMemo(() => {
-        return buildOptionsByFilterFromSheets(sheetData, FILTERS_CONFIG_DASHBOARD2);
-    }, [sheetData]);
 
     function setSelected(nextOrUpdater) {
         const next =
             typeof nextOrUpdater === "function" ? nextOrUpdater(selected) : nextOrUpdater;
-        if (onChange) onChange(next);       // controlled path
-        else setLocalSelected(next);        // fallback uncontrolled path
+        if (onChange) onChange(next); // controlled
+        else setLocalSelected(next);  // uncontrolled
     }
 
+    // Options for config-driven filters (everything except the two manual ones)
+    const optionsByFilter = useMemo(() => {
+        return buildOptionsByFilterFromSheets(sheetData, FILTERS_CONFIG_DASHBOARD2);
+    }, [sheetData]);
 
+    // Build relationship + full option lists for the two linked filters
+    const {
+        col2ToCol1,
+        col1ToCol2s,
+        col1OptionsAll,
+        col2OptionsAll,
+    } = useMemo(() => {
+        const rows = Array.isArray(sheetData?.[MASTER_SHEET]) ? sheetData[MASTER_SHEET] : [];
+
+        const col2ToCol1 = new Map();  // Technology -> Lever
+        const col1ToCol2s = new Map(); // Lever -> Set(Technology)
+        const col1Set = new Set();
+        const col2Set = new Set();
+
+        for (const r of rows) {
+            const c1 = (r?.[COL1_KEY] ?? "").toString().trim();
+            const c2 = (r?.[COL2_KEY] ?? "").toString().trim();
+            if (!c1 || !c2) continue;
+
+            col1Set.add(c1);
+            col2Set.add(c2);
+
+            col2ToCol1.set(c2, c1);
+            if (!col1ToCol2s.has(c1)) col1ToCol2s.set(c1, new Set());
+            col1ToCol2s.get(c1).add(c2);
+        }
+
+        return {
+            col2ToCol1,
+            col1ToCol2s,
+            col1OptionsAll: ["All", ...Array.from(col1Set).sort()],
+            col2OptionsAll: ["All", ...Array.from(col2Set).sort()],
+        };
+    }, [sheetData]);
+
+    const col1Value = selected[COL1_ID] ?? "All";
+
+    // Dependent Technology options based on selected Lever
+    const col2Options = useMemo(() => {
+        if (col1Value === "All") return col2OptionsAll;
+
+        const subsSet = col1ToCol2s.get(col1Value);
+        const subs = subsSet ? Array.from(subsSet).sort() : [];
+        return ["All", ...subs];
+    }, [col1Value, col1ToCol2s, col2OptionsAll]);
+
+    // Two-way linkage handlers
+    function onCol1Change(v) {
+        setSelected((prev) => {
+            const next = { ...prev, [COL1_ID]: v };
+
+            if (v === "All") {
+                // choice: keep Technology or reset it
+                // next[COL2_ID] = "All";
+                return next;
+            }
+
+            const allowed = col1ToCol2s.get(v);
+            const currentCol2 = prev[COL2_ID] ?? "All";
+
+            if (currentCol2 !== "All" && (!allowed || !allowed.has(currentCol2))) {
+                next[COL2_ID] = "All";
+            }
+
+            return next;
+        });
+    }
+
+    function onCol2Change(v) {
+        setSelected((prev) => {
+            const next = { ...prev, [COL2_ID]: v };
+
+            if (v !== "All") {
+                const parent = col2ToCol1.get(v);
+                if (parent) next[COL1_ID] = parent;
+            }
+
+            return next;
+        });
+    }
+
+    useEffect(()=>{
+        console.log(localSelected)
+    },[localSelected])
 
     return (
         <div className="h-9/10 w-full flex flex-col justify-between rounded-xl px-2 shadow-lg rounded-xl border-2 border-slate-300">
@@ -98,6 +130,19 @@ export function FilterDashboard2({ sheetData = {}, value, onChange }) {
                 <div className="text-center text-red-600 font-bold text-lg mt-2">Filter Panel</div>
 
                 <div className="flex flex-col mt-2 flex-1 justify-start " >
+                    <Select
+                        label="Decarbonization Lever"
+                        value={selected[COL1_ID] ?? "All"}
+                        onChange={onCol1Change}
+                        options={col1OptionsAll}
+                    />
+
+                    <Select
+                        label="Technology"
+                        value={selected[COL2_ID] ?? "All"}
+                        onChange={onCol2Change}
+                        options={col2Options}
+                    />
                     <Select
                         label="Emission Type"
                         value={selected.emissionType ?? "All"}
