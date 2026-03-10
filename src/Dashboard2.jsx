@@ -115,7 +115,7 @@ export function Dashboard2({ dark }) {
             <div className="flex h-screen w-[35%] p-5 pb-25">
                 <MapDashboard2
                     dark={dark}
-                    rows={filteredMapRows}          // or rows
+                    rows={filteredMapRows} 
                     emissionType={selectedFilters.emissionType}
                     decarbLever={selectedFilters.decarbLever}
                     selectedFilters = {selectedFilters}

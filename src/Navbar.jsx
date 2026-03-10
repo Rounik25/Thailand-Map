@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
-export function Navbar({ dark, setDark }) {
+export function Navbar({ /*dark,*/ setDark }) {
   const location = useLocation();
   const linksContainerRef = useRef(null);
   const indicatorRef = useRef(null);
@@ -98,16 +98,16 @@ export function Navbar({ dark, setDark }) {
           />
         </div>
 
-        <button
+        {/* <button
           className="ml-6"
-        // onClick={() => setDark((p) => !p)}
+        onClick={() => setDark((p) => !p)}
         >
           {dark ? (
             <img src="src/assets/sun.svg" alt="sun logo" className="w-6 h-6" />
           ) : (
             <img src="src/assets/moon.svg" alt="moon logo" className="w-6 h-6" />
           )}
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -10,9 +10,7 @@ export function buildOptionsByFilterFromSheets(sheetsData, filtersConfig) {
       const v = (r?.[column] ?? "").toString().trim();
       if (v) values.add(v);
     }
-
     out[f.id] = ["All", ...Array.from(values).sort()];
   }
-
   return out;
 }
