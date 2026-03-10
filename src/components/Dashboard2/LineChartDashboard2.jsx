@@ -11,19 +11,24 @@ import {
   ReferenceLine
 } from "recharts";
 
-function ActiveDot({ cx, cy, stroke, tech, setHoveredTech }) {
+function ActiveDot({ cx, cy, tech, color, dimmed, setHoveredTech, setSelectedTech }) {
   return (
     <circle
       cx={cx}
       cy={cy}
       r={5}
-      fill={stroke}
-      stroke="black"
-      strokeWidth={2}
+      fill={color}
+       opacity={dimmed ? 0.15 : 1} 
+      stroke={dimmed ? "transparent" : "black"}
+      strokeWidth={1}
       style={{ cursor: "pointer" }}
       onMouseEnter={() => setHoveredTech(tech)}
       onMouseMove={() => setHoveredTech(tech)}
       onMouseLeave={() => setHoveredTech(null)}
+      onClick={(e) => {
+        e.stopPropagation();
+        setSelectedTech((prev) => (prev === tech ? null : tech));
+      }}
     />
   );
 }
@@ -53,6 +58,11 @@ function CustomTooltip({ active, payload, label, decarbLever, hoveredTech }) {
 
 export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
   const [hoveredTech, setHoveredTech] = useState(null);
+  const [selectedTech, setSelectedTech] = React.useState(null);
+
+  function resetSelection() {
+    setSelectedTech(null);
+  }
 
   const { chartData, technologies } = useMemo(() => {
     // Unique technologies
@@ -105,9 +115,9 @@ export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
     years.push(i);
   }
   return (
-    <div className="w-full h-full bg-white dark:bg-slate-900 py-5 px-5 shadow-lg border-2 border-slate-300 rounded-xl">
+    <div className="w-full h-full bg-white dark:bg-slate-900 py-5 px-5 shadow-lg border-2 border-slate-300 rounded-xl" onClick={resetSelection}>
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData}>
+        <LineChart data={chartData} onClick={resetSelection}>
           <ReferenceLine
             y={0}
             stroke="#000"
@@ -132,6 +142,7 @@ export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
               dx: -10,
             }}
             ticks={ticks}
+            tick={{fontSize: 12}}
           />
           <Tooltip
             cursor={false}
@@ -144,29 +155,40 @@ export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
             )}
           />
 
-          {technologies.map((tech) => (
-            <Line
-              key={tech}
-              type="linear"
-              dataKey={tech}
-              stroke={TECHNOLOGY_COLORS[tech] || "#000000"}
-              strokeWidth={3}
-              dot={false}
-              connectNulls
-              isAnimationActive={false}
-              onMouseEnter={() => setHoveredTech(tech)}
-              onMouseOver={() => setHoveredTech(tech)}
-              onMouseLeave={() => setHoveredTech(null)}
-              activeDot={(dotProps) => (
-                <ActiveDot
-                  {...dotProps}
-                  tech={tech}
-                  setHoveredTech={setHoveredTech}
-                  stroke={TECHNOLOGY_COLORS[tech] || "#000000"}
-                />
-              )}
-            />
-          ))}
+          {technologies.map((tech) => {
+            const isSelected = selectedTech === tech;
+            const isFiltering = selectedTech != null;
+            const dim = isFiltering && !isSelected;
+
+            const color = TECHNOLOGY_COLORS[tech] || "#000000";
+
+            return (
+              <Line
+                key={tech}
+                type="linear"
+                dataKey={tech}
+                stroke={color}
+                strokeWidth={isSelected ? 3 : 2}
+                strokeOpacity={dim ? 0.15 : 1}      
+                dot={false}
+                connectNulls
+                isAnimationActive={false}
+                onMouseEnter={() => setHoveredTech(tech)}
+                onMouseMove={() => setHoveredTech(tech)}
+                onMouseLeave={() => setHoveredTech(null)}
+                activeDot={(dotProps) => (
+                  <ActiveDot
+                    {...dotProps}
+                    tech={tech}
+                    color={color}
+                    dimmed={dim}
+                    setHoveredTech={setHoveredTech}
+                    setSelectedTech={setSelectedTech}
+                  />
+                )}
+              />
+            );
+          })}
         </LineChart>
       </ResponsiveContainer>
     </div>
