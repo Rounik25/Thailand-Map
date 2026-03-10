@@ -122,7 +122,7 @@ export function Dashboard2({ dark }) {
                 />
             </div>
             <div className="flex h-screen w-[45%]">
-                <CardsDashboard2 rowsD2V1={filteredD2V1Rows} rowsD2V3={filteredD2V3Rows} rowsD2V4_5={filtereddDV4_5Rows} />
+                <CardsDashboard2 rowsD2V1={filteredD2V1Rows} rowsD2V3={filteredD2V3Rows} rowsD2V4_5={filtereddDV4_5Rows} selectedFilters={selectedFilters} />
             </div>
             <div className="flex h-screen w-[20%] p-5">
                 <FilterDashboard2 sheetData={sheetData} value={selectedFilters} onChange={setSelectedFilters} />
