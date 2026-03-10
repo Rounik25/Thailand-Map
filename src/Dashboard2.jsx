@@ -112,7 +112,7 @@ export function Dashboard2({ dark }) {
 
     return (
         <div className="flex h-screen w-full">
-            <div className="flex h-screen w-[35%] p-5 pb-20">
+            <div className="flex h-screen w-[35%] p-5 pb-25">
                 <MapDashboard2
                     dark={dark}
                     rows={filteredMapRows}          // or rows

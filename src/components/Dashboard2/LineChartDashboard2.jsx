@@ -1,18 +1,59 @@
 import { TECHNOLOGY_COLORS } from "../../utils/Dashboard2/technologyLineColors";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
   Tooltip,
-  Legend,
   ResponsiveContainer,
   ReferenceLine
 } from "recharts";
 
-export function LineChartDashboard2({ rows = [] }) {
+function ActiveDot({ cx, cy, stroke, tech, setHoveredTech }) {
+  return (
+    <circle
+      cx={cx}
+      cy={cy}
+      r={5}
+      fill={stroke}
+      stroke="black"
+      strokeWidth={2}
+      style={{ cursor: "pointer" }}
+      onMouseEnter={() => setHoveredTech(tech)}
+      onMouseMove={() => setHoveredTech(tech)}
+      onMouseLeave={() => setHoveredTech(null)}
+    />
+  );
+}
+
+function CustomTooltip({ active, payload, label, decarbLever, hoveredTech }) {
+  if (!active || !payload?.length) return null;
+
+  if (!hoveredTech) return null;
+
+  const item = payload.find((p) => p.dataKey === hoveredTech);
+  if (!item) return null;
+
+  const technology = item.dataKey;
+  const macc = item.value;
+  const year = item.payload?.year ?? label;
+
+  return (
+    <div className="rounded-md border border-slate-200 bg-white px-3 py-2 shadow-md text-xs dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50">
+      <div className="font-semibold mb-1">Details</div>
+      <div><span className="font-medium">Decarb Lever:</span> {decarbLever ?? "-"}</div>
+      <div><span className="font-medium">Technology:</span> {technology}</div>
+      <div><span className="font-medium">Year:</span> {year}</div>
+      <div><span className="font-medium">MACC:</span> {Number(macc).toFixed(2)}</div>
+    </div>
+  );
+}
+
+export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
+  const [hoveredTech, setHoveredTech] = useState(null);
+
   const { chartData, technologies } = useMemo(() => {
     // Unique technologies
     const techSet = new Set();
@@ -63,7 +104,6 @@ export function LineChartDashboard2({ rows = [] }) {
   for (let i = minYear; i <= maxYear; i += 1) {
     years.push(i);
   }
-  console.log(years)
   return (
     <div className="w-full h-full bg-white dark:bg-slate-900 py-5 px-5 shadow-lg border-2 border-slate-300 rounded-xl">
       <ResponsiveContainer width="100%" height="100%">
@@ -77,10 +117,10 @@ export function LineChartDashboard2({ rows = [] }) {
             dataKey="year"
             ldataKey="year"
             type="number"
-            domain={[minYear, maxYear+0.5]}
+            domain={[minYear, maxYear + 0.5]}
             ticks={years}
-            interval={0}              
-            tick={{ fontSize: 15 }}      // optional
+            interval={0}
+            tick={{ fontSize: 12 }}      // optional
             label={{ value: "Year", position: "insideBottom", offset: -5 }}
           />
           <YAxis
@@ -93,7 +133,16 @@ export function LineChartDashboard2({ rows = [] }) {
             }}
             ticks={ticks}
           />
-          <Tooltip />
+          <Tooltip
+            cursor={false}
+            content={(props) => (
+              <CustomTooltip
+                {...props}
+                decarbLever={decarbLever}
+                hoveredTech={hoveredTech}
+              />
+            )}
+          />
 
           {technologies.map((tech) => (
             <Line
@@ -101,9 +150,21 @@ export function LineChartDashboard2({ rows = [] }) {
               type="linear"
               dataKey={tech}
               stroke={TECHNOLOGY_COLORS[tech] || "#000000"}
-              strokeWidth={2}
+              strokeWidth={3}
               dot={false}
               connectNulls
+              isAnimationActive={false}
+              onMouseEnter={() => setHoveredTech(tech)}
+              onMouseOver={() => setHoveredTech(tech)}
+              onMouseLeave={() => setHoveredTech(null)}
+              activeDot={(dotProps) => (
+                <ActiveDot
+                  {...dotProps}
+                  tech={tech}
+                  setHoveredTech={setHoveredTech}
+                  stroke={TECHNOLOGY_COLORS[tech] || "#000000"}
+                />
+              )}
             />
           ))}
         </LineChart>
