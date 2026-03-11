@@ -9,6 +9,15 @@ import { FILTERS_CONFIG_DASHBOARD3 } from "./utils/filterConfigDashboard3";
 export function Dashboard3() {
     const [sheetData, setSheetData] = useState(null);
     const [analysisDimension, setAnalysisDimension] = useState("Decarbonization Lever");
+
+    const [selectedKeyAll, setSelectedKeyAll] = useState(null);
+    const [selectedKeyPtt, setSelectedKeyPtt] = useState(null);
+
+    const handleLegendChange = (nextKey) => {
+        setSelectedKeyAll(nextKey);
+        setSelectedKeyPtt(nextKey);
+    };
+
     const initialSelectedFilters = useMemo(() => {
         const init = {};
         for (const f of FILTERS_CONFIG_DASHBOARD3) init[f.id] = "All";
@@ -58,10 +67,20 @@ export function Dashboard3() {
     return (
         <div className="h-screen flex justify-evenly pb-15">
             <div className="h-full w-4/10 pl-5">
-                <AreaChart1 rows={filteredRowAll} col={analysisDimension} />
+                <AreaChart1
+                    rows={filteredRowAll}
+                    col={analysisDimension}
+                    selectedKey={selectedKeyAll}
+                    setSelectedKey={setSelectedKeyAll}
+                />
             </div>
             <div className="h-full w-4/10 pl-5">
-                <AreaChart2 rows={filteredRowPtt} col={analysisDimension} />
+                <AreaChart2
+                    rows={filteredRowPtt}
+                    col={analysisDimension}
+                    selectedKey={selectedKeyPtt}
+                    setSelectedKey={setSelectedKeyPtt}
+                />
             </div>
             <div className="h-full w-4/20 p-5 pl-10 pb-10">
                 <div className="h-full ">
@@ -72,6 +91,9 @@ export function Dashboard3() {
                         analysisDimension={analysisDimension}
                         onAnalysisDimensionChange={setAnalysisDimension}
                         filteredDataRows={filteredDataRows}
+                        selectedKeyAll={selectedKeyAll}
+                        selectedKeyPtt={selectedKeyPtt}
+                        onLegendChange={handleLegendChange}
                     />
                 </div>
             </div>

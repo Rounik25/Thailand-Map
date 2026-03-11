@@ -1,6 +1,6 @@
 import StackedAreaChart2 from "./StackedAreaChart2"
 
-export function AreaChart2({rows,col}){
+export function AreaChart2({ rows, col, selectedKey, setSelectedKey }){
     return (
         <div className="h-full flex flex-col items-end text-center">
             <div className="h-1/10 w-9/10 p-5 text-lg font-semibold text-white " >
@@ -9,7 +9,7 @@ export function AreaChart2({rows,col}){
                 </div>
             </div>
             <div className="h-8/10 w-full pl-5">
-                <StackedAreaChart2 rows={rows} col={col} />
+                <StackedAreaChart2 rows={rows} col={col} selectedKey={selectedKey} setSelectedKey={setSelectedKey} />
             </div>
             <div className="h-1/10 w-9/10 p-5 pb-10" >
                 <div className="h-full w-full flex justify-center items-center text-lg ">

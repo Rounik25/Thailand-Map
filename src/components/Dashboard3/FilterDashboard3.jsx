@@ -7,7 +7,17 @@ import ChartLegendDashboard3 from "./ChartLegendDashboard3";
 const ANALYSIS_DIMENSIONS_OPTIONS = ['Decarbonization Lever', 'Technology'];
 const DEFAULT_ANALYSIS_DIMENSION = "Decarbonization Lever";
 
-export function FilterDashboard3({ sheetData = {}, value, onChange, analysisDimension, onAnalysisDimensionChange, filteredDataRows }) {
+export function FilterDashboard3({
+    sheetData = {},
+    value,
+    onChange,
+    analysisDimension,
+    onAnalysisDimensionChange,
+    filteredDataRows,
+    selectedKeyAll,
+    selectedKeyPtt,
+    onLegendChange
+}) {
     const [localSelected, setLocalSelected] = useState(() => {
         const init = []
         for (const f of FILTERS_CONFIG_DASHBOARD3) init[f.id] = "All";
@@ -82,7 +92,14 @@ export function FilterDashboard3({ sheetData = {}, value, onChange, analysisDime
 
                 </div>
                 <div className="h-full">
-                    <ChartLegendDashboard3 rows={filteredDataRows} analysisDimension={analysisDimension} />
+                    <ChartLegendDashboard3
+                        rows={filteredDataRows}
+                        analysisDimension={analysisDimension}
+                        selectedKeyAll={selectedKeyAll}
+                        selectedKeyPtt={selectedKeyPtt}
+                        onChange={onLegendChange}  
+                        reverse
+                    />
                 </div>
             </div>
 

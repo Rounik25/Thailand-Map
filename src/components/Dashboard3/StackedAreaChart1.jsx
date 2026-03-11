@@ -92,9 +92,8 @@ function CustomTooltip({ active, label, payload, analysisDimension, hoveredKey }
   );
 }
 
-export default function StackedAreaChart1({ rows = [], col }) {
+export default function StackedAreaChart1({ rows = [], col, selectedKey, setSelectedKey }) {
   const analysisDimension = col;
-  const [selectedKey, setSelectedKey] = useState(null);
   const [hoveredKey, setHoveredKey] = useState(null);
 
   const { chartData, keys, bucket, yMax } = useMemo(() => {

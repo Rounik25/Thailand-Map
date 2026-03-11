@@ -15,27 +15,33 @@ function keyFromRow(row, analysisDimension) {
   return norm(row?.["Lever 1"] ?? row?.["Lever 2"]);
 }
 
-export default function ChartLegendDashboard3({ rows = [], analysisDimension }) {
+export default function ChartLegendDashboard3({
+  rows = [],
+  analysisDimension,
+  selectedKeyAll,  
+  selectedKeyPtt, 
+  onChange,        
+}) {
   const { bucket, items } = useMemo(() => {
     const bucket = bucketFromAnalysisDimension(analysisDimension);
 
-    // keys present in current data
     const present = new Set();
     for (const r of rows ?? []) {
       const k = keyFromRow(r, analysisDimension);
       if (k) present.add(k);
     }
 
-    // order by palette order, then unknown at end
     const paletteKeys = Object.keys(COLOR_DASHBOARD3?.[bucket] ?? {});
     const paletteIndex = new Map(paletteKeys.map((k, i) => [k, i]));
 
-    const ordered = Array.from(present).sort((a, b) => {
-      const ia = paletteIndex.has(a) ? paletteIndex.get(a) : Number.POSITIVE_INFINITY;
-      const ib = paletteIndex.has(b) ? paletteIndex.get(b) : Number.POSITIVE_INFINITY;
-      if (ia !== ib) return ia - ib;
-      return a.localeCompare(b);
-    }).reverse();
+    const ordered = Array.from(present)
+      .sort((a, b) => {
+        const ia = paletteIndex.has(a) ? paletteIndex.get(a) : Number.POSITIVE_INFINITY;
+        const ib = paletteIndex.has(b) ? paletteIndex.get(b) : Number.POSITIVE_INFINITY;
+        if (ia !== ib) return ia - ib;
+        return a.localeCompare(b);
+      })
+      .reverse();
 
     const items = ordered.map((k) => ({
       key: k,
@@ -45,11 +51,14 @@ export default function ChartLegendDashboard3({ rows = [], analysisDimension }) 
     return { bucket, items };
   }, [rows, analysisDimension]);
 
+  const anySelected = Boolean(selectedKeyAll || selectedKeyPtt);
+
   return (
     <div className="mt-3 rounded-xl bg-white p-3">
-        <div className="text-red-600 text-md font-bold text-center p-1">Legend</div>
+      <div className="text-red-600 text-md font-bold text-center p-1">Legend</div>
+
       <div className="text-xs font-semibold text-slate-700 mb-2">
-        {bucket==="Lever 1" ? "Decarbonization Lever" : "Technology"}
+        {bucket === "Lever 1" ? "Decarbonization Lever" : "Technology"}
       </div>
 
       {items.length === 0 ? (
@@ -57,15 +66,34 @@ export default function ChartLegendDashboard3({ rows = [], analysisDimension }) 
       ) : (
         <div className="overflow-auto pr-1">
           <ul className="space-y-2">
-            {items.map((it) => (
-              <li key={it.key} className="flex items-center gap-2">
-                <span
-                  className="h-3 w-3 rounded-sm border border-slate-300"
-                  style={{ backgroundColor: it.color }}
-                />
-                <span className="text-xs text-slate-700">{it.key}</span>
-              </li>
-            ))}
+            {items.map((it) => {
+              // considered selected if either chart selected it
+              const isSelected = selectedKeyAll === it.key || selectedKeyPtt === it.key;
+              const dim = anySelected && !isSelected;
+
+              return (
+                <li key={it.key}>
+                  <button
+                    type="button"
+                    className="w-full flex items-center gap-2 text-left"
+                    style={{ opacity: dim ? 0.25 : 1 }}
+                    onClick={() => {
+                      // toggle: if both charts currently on this key, reset -> null
+                      const bothSelectedThis =
+                        selectedKeyAll === it.key && selectedKeyPtt === it.key;
+
+                      onChange?.(bothSelectedThis ? null : it.key);
+                    }}
+                  >
+                    <span
+                      className="h-3 w-3 rounded-sm border border-slate-300"
+                      style={{ backgroundColor: it.color }}
+                    />
+                    <span className="text-xs text-slate-700">{it.key}</span>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
