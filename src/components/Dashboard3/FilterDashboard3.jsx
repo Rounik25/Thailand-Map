@@ -3,6 +3,7 @@ import { FILTERS_CONFIG_DASHBOARD3 } from "../../utils/filterConfigDashboard3";
 import { buildOptionsByFilterFromSheets2 } from "../../utils/buildFilter";
 import { Select } from "./Select";
 import ChartLegendDashboard3 from "./ChartLegendDashboard3";
+import AddFilter from "./AddFilter";
 
 const ANALYSIS_DIMENSIONS_OPTIONS = ['Decarbonization Lever', 'Technology'];
 const DEFAULT_ANALYSIS_DIMENSION = "Decarbonization Lever";
@@ -16,7 +17,10 @@ export function FilterDashboard3({
     filteredDataRows,
     selectedKeyAll,
     selectedKeyPtt,
-    onLegendChange
+    onLegendChange,
+    filtersConfig,
+    handleAddFilter,
+    dataSheet = "D3",
 }) {
     const [localSelected, setLocalSelected] = useState(() => {
         const init = []
@@ -34,15 +38,20 @@ export function FilterDashboard3({
     }
 
     // Options for config-driven filters (everything except the two manual ones)
-    const optionsByFilter = useMemo(() => {
-        return buildOptionsByFilterFromSheets2(sheetData, FILTERS_CONFIG_DASHBOARD3);
-    }, [sheetData]);
+    // const optionsByFilter = useMemo(() => {
+    //     return buildOptionsByFilterFromSheets2(sheetData, FILTERS_CONFIG_DASHBOARD3);
+    // }, [sheetData]);
 
     useEffect(() => {
         if (!analysisDimension && onAnalysisDimensionChange) {
             onAnalysisDimensionChange(DEFAULT_ANALYSIS_DIMENSION);
         }
     }, [analysisDimension, onAnalysisDimensionChange]);
+
+    const optionsByFilter = useMemo(() => {
+        return buildOptionsByFilterFromSheets2(sheetData, filtersConfig);
+    }, [sheetData, filtersConfig]);
+
 
     useEffect(() => {
         if (!optionsByFilter) return;
@@ -67,7 +76,7 @@ export function FilterDashboard3({
 
     return (
         <div className="h-full w-full flex flex-col justify-between rounded-xl px-2 shadow-lg rounded-xl border-2 border-slate-300">
-            <div className="h-8/10 flex-1 flex flex-col justify-start bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto">
+            <div className="h-8/10 flex-1 flex flex-col justify-start bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto scrollbar-hide">
                 <div className="text-center text-red-600 font-bold text-md mt-5">Filter Panel</div>
                 <div className="h-8/10 flex flex-col mt-2 justify-start z-10" >
                     <Select
@@ -76,7 +85,7 @@ export function FilterDashboard3({
                         onChange={(v) => onAnalysisDimensionChange?.(v)}
                         options={ANALYSIS_DIMENSIONS_OPTIONS}
                     />
-                    {FILTERS_CONFIG_DASHBOARD3.map((f) => {
+                    {filtersConfig.map((f) => {
                         const opts = optionsByFilter[f.id] ?? ["All"];
                         const v = selected[f.id] ?? opts[0] ?? "All";
                         return (
@@ -90,6 +99,15 @@ export function FilterDashboard3({
                         );
                     })}
 
+                    <div className="mt-2">
+                        <AddFilter
+                            sheetData={sheetData}
+                            defaultSheet={dataSheet}
+                            existingFilterIds={filtersConfig.map(f => f.id)}
+                            onAdd={handleAddFilter}
+                        />
+                    </div>
+
                 </div>
                 <div className="h-full">
                     <ChartLegendDashboard3
@@ -97,7 +115,7 @@ export function FilterDashboard3({
                         analysisDimension={analysisDimension}
                         selectedKeyAll={selectedKeyAll}
                         selectedKeyPtt={selectedKeyPtt}
-                        onChange={onLegendChange}  
+                        onChange={onLegendChange}
                         reverse
                     />
                 </div>

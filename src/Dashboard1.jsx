@@ -116,7 +116,7 @@ export function Dashboard1() {
             </div>
 
             <div className="h-[100vh] w-5/20">
-                <div className="h-8/10 w-8/10 max-h-[100%] rounded-xl m-10 border-1 border-slate-200 ">
+                <div className="h-8/10 w-8/10 max-h-[100%] rounded-xl m-10 border-2 border-slate-300  shadow-lg">
                     <FilterDashboard1
                         rows={rows}
                         value={selectedFilters}

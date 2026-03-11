@@ -54,7 +54,7 @@ export function CardsDashboard1({
 
     return (
         <div className="h-full">
-            <div className="h-8/10 border-1 border-slate-200 rounded-xl shadow-lg">
+            <div className="h-8/10 border-2 border-slate-300 rounded-xl shadow-lg">
                 <BarChartDashboard1
                     data={data}
                     colorByType={colorByValue}

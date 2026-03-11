@@ -13,6 +13,19 @@ export function Dashboard3() {
     const [selectedKeyAll, setSelectedKeyAll] = useState(null);
     const [selectedKeyPtt, setSelectedKeyPtt] = useState(null);
 
+    const [filtersConfig, setFiltersConfig] = useState(() => {
+        // make a shallow copy we can extend
+        return FILTERS_CONFIG_DASHBOARD3.slice();
+    });
+
+    const handleAddFilter = (newFilter, defaultSelected, meta) => {
+        // attach includeAll on config (so options builder can decide)
+        const filterWithMeta = { ...newFilter, includeAll: meta?.includeAll ?? true };
+
+        setFiltersConfig((prev) => [...(prev ?? []), filterWithMeta]);
+        setSelectedFilters((prev) => ({ ...(prev ?? {}), [newFilter.id]: defaultSelected }));
+    };
+
     const handleLegendChange = (nextKey) => {
         setSelectedKeyAll(nextKey);
         setSelectedKeyPtt(nextKey);
@@ -58,8 +71,8 @@ export function Dashboard3() {
 
     // Filtered rows based on selected filters
     const filteredDataRows = useMemo(() => {
-        return applyConfigFiltersDashboard3(dataRows, selectedFilters, FILTERS_CONFIG_DASHBOARD3, dataSheet);
-    }, [dataRows, selectedFilters, dataSheet]);
+        return applyConfigFiltersDashboard3(dataRows, selectedFilters, filtersConfig, dataSheet);
+    }, [dataRows, selectedFilters, dataSheet, filtersConfig]);
 
 
     const filteredRowPtt = useMemo(() => {
@@ -117,6 +130,9 @@ export function Dashboard3() {
                         selectedKeyAll={selectedKeyAll}
                         selectedKeyPtt={selectedKeyPtt}
                         onLegendChange={handleLegendChange}
+                        filtersConfig={filtersConfig}
+                        handleAddFilter={handleAddFilter}
+                        dataSheet={dataSheet}
                     />
                 </div>
             </div>
