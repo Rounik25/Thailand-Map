@@ -9,7 +9,7 @@ function applyFilters(rows, selected) {
     if (!rows?.length) return [];
 
     return rows.filter((r) => {
-        // Assumption: FILTERS_CONFIG_TAB2 ids match Excel column names.
+        // Assumption: FILTERS_CONFIG_dASHBOARD1 ids match Excel column names.
         // If your config uses a different field name, swap `col = f.key ?? f.id` etc.
         return FILTERS_CONFIG_DASHBOARD1.every((f) => {
             const chosen = selected?.[f.id] ?? "All";

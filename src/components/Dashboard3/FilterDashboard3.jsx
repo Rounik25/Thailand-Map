@@ -1,11 +1,12 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FILTERS_CONFIG_DASHBOARD3 } from "../../utils/filterConfigDashboard3";
-import { buildOptionsByFilterFromSheets } from "../../utils/buildFilter";
+import { buildOptionsByFilterFromSheets2 } from "../../utils/buildFilter";
 import { Select } from "./Select";
 
-const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
+const ANALYSIS_DIMENSIONS_OPTIONS = ['Decarbonization Lever', 'Technology'];
+const DEFAULT_ANALYSIS_DIMENSION = "Decarbonization Lever";
 
-export function FilterDashboard3({ sheetData = {}, value, onChange }) {
+export function FilterDashboard3({ sheetData = {}, value, onChange, analysisDimension, onAnalysisDimensionChange }) {
     const [localSelected, setLocalSelected] = useState(() => {
         const init = []
         for (const f of FILTERS_CONFIG_DASHBOARD3) init[f.id] = "All";
@@ -23,24 +24,60 @@ export function FilterDashboard3({ sheetData = {}, value, onChange }) {
 
     // Options for config-driven filters (everything except the two manual ones)
     const optionsByFilter = useMemo(() => {
-        return buildOptionsByFilterFromSheets(sheetData, FILTERS_CONFIG_DASHBOARD3);
+        return buildOptionsByFilterFromSheets2(sheetData, FILTERS_CONFIG_DASHBOARD3);
     }, [sheetData]);
+
+    useEffect(() => {
+        if (!analysisDimension && onAnalysisDimensionChange) {
+            onAnalysisDimensionChange(DEFAULT_ANALYSIS_DIMENSION);
+        }
+    }, [analysisDimension, onAnalysisDimensionChange]);
+
+    useEffect(() => {
+        if (!optionsByFilter) return;
+
+        let changed = false;
+        const next = { ...selected };
+
+        for (const f of FILTERS_CONFIG_DASHBOARD3) {
+            const opts = optionsByFilter[f.id] ?? ["All"];
+            const current = next[f.id];
+
+            // if missing or not in available options, pick first option (or "All")
+            if (!current || !opts.includes(current)) {
+                next[f.id] = opts[0] ?? "All";
+                changed = true;
+            }
+        }
+
+        if (changed) setSelected(next);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [optionsByFilter]);
 
     return (
         <div className="h-full w-full flex flex-col justify-between rounded-xl px-2 shadow-lg rounded-xl border-2 border-slate-300">
             <div className="h-8/10 flex-1 flex flex-col justify-evenly bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto">
                 <div className="text-center text-red-600 font-bold text-md">Filter Panel</div>
-
                 <div className="h-5/10 flex flex-col mt-2 flex-1 justify-start overflow-y-auto " >
-                    {FILTERS_CONFIG_DASHBOARD3.map((f) => (
-                        <Select
-                            key={f.id}
-                            label={f.label}
-                            value={selected[f.id] ?? "All"}
-                            onChange={(v) => setSelected((p) => ({ ...p, [f.id]: v }))}
-                            options={optionsByFilter[f.id] ?? ["All"]}
-                        />
-                    ))}
+                    <Select
+                        label="Analysis Dimension"
+                        value={analysisDimension ?? "Decarbonization Lever"}
+                        onChange={(v) => onAnalysisDimensionChange?.(v)}
+                        options={ANALYSIS_DIMENSIONS_OPTIONS}
+                    />
+                    {FILTERS_CONFIG_DASHBOARD3.map((f) => {
+                        const opts = optionsByFilter[f.id] ?? ["All"];
+                        const v = selected[f.id] ?? opts[0] ?? "All";
+                        return (
+                            <Select
+                                key={f.id}
+                                label={f.label}
+                                value={v} 
+                                onChange={(val) => setSelected((p) => ({ ...p, [f.id]: val }))}
+                                options={opts}
+                            />
+                        );
+                    })}
 
                 </div>
             </div>

@@ -60,7 +60,6 @@ export function Dashboard2({ dark }) {
         const lever = selectedFilters[COL1_ID] ?? "All";
         const tech = selectedFilters[COL2_ID] ?? "All";
 
-        // Column names in D2_V1 sheet (must match Excel headers)
         const LEVER_COL = "Decarbonization Lever";
         const TECH_COL = "Technology";
 
@@ -81,7 +80,6 @@ export function Dashboard2({ dark }) {
         const lever = selectedFilters[COL1_ID] ?? "All";
         const tech = selectedFilters[COL2_ID] ?? "All";
 
-        // Column names in D2_V1 sheet (must match Excel headers)
         const LEVER_COL = "Decarbonization Lever";
         const TECH_COL = "Technology";
 
@@ -101,7 +99,6 @@ export function Dashboard2({ dark }) {
     const filtereddDV4_5Rows = useMemo(() => {
         const lever = selectedFilters[COL1_ID] ?? "All";
 
-        // Column names in D2_V1 sheet (must match Excel headers)
         const LEVER_COL = "Decarbonization Lever";
 
         return d2V4_5Rows.filter((r) => {

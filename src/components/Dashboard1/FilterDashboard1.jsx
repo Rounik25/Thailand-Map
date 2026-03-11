@@ -6,8 +6,6 @@ import Legends from "./Legends";
 const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
 const ANALYSIS_DIMENSIONS_OPTIONS = ["Entity", "Sector", 'Decarbonization Plan'];
 
-
-
 function Select({ label, value, onChange, options }) {
     const [open, setOpen] = useState(false);
     const containerRef = useRef(null);
