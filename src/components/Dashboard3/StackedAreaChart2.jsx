@@ -180,60 +180,66 @@ export default function StackedAreaChart2({ rows = [], col }) {
   };
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={chartData} margin={{ top: 18, right: 16, bottom: 0, left: 0 }} onClick={handleChartClick} >
-        <XAxis
-          dataKey="year"
-          interval={0}
-          tick={{ fontSize: 12 }}
-          tickMargin={6}
-        />
-        <YAxis
-          domain={[0, yMax]}
-          ticks={Array.from({ length: yMax / 2 + 1 }, (_, i) => i * 2)}
-        />
-        <Tooltip
-          content={
-            <CustomTooltip
-              analysisDimension={analysisDimension}
-              hoveredKey={hoveredKey}
-            />
-          }
-        />
+    <div
+      className="w-full h-full"
+      onMouseLeave={() => setHoveredKey(null)}
+      onBlur={() => setHoveredKey(null)}
+    >
+      <ResponsiveContainer width="100%" height="100%">
+        <AreaChart data={chartData} margin={{ top: 18, right: 16, bottom: 0, left: 0 }} onClick={handleChartClick} >
+          <XAxis
+            dataKey="year"
+            interval={0}
+            tick={{ fontSize: 12 }}
+            tickMargin={6}
+          />
+          <YAxis
+            domain={[0, yMax]}
+            ticks={Array.from({ length: yMax / 2 + 1 }, (_, i) => i * 2)}
+          />
+          <Tooltip
+            content={
+              <CustomTooltip
+                analysisDimension={analysisDimension}
+                hoveredKey={hoveredKey}
+              />
+            }
+          />
 
-        {keys.map((k) => {
-          const c = getColor(bucket, k);
-          const dimOthers = selectedKey && selectedKey !== k;
-          return (
-            <Area
-              key={k}
-              type="linear"
-              dataKey={k}
-              stackId="1"
-              stroke={c}
-              fill={c}
-              isAnimationActive={false}
-              fillOpacity={dimOthers ? 0.2 : 1}
-              strokeOpacity={dimOthers ? 0.2 : 1}
-              onMouseEnter={() => setHoveredKey(k)}
-              onMouseMove={() => setHoveredKey(k)}
-              onMouseLeave={() => setHoveredKey(null)}
-              style={{ cursor: "pointer" }}
-            />
-          );
-        })}
+          {keys.map((k) => {
+            const c = getColor(bucket, k);
+            const dimOthers = selectedKey && selectedKey !== k;
+            return (
+              <Area
+                key={k}
+                type="linear"
+                dataKey={k}
+                stackId="1"
+                stroke={c}
+                fill={c}
+                isAnimationActive={false}
+                fillOpacity={dimOthers ? 0.2 : 1}
+                strokeOpacity={dimOthers ? 0.2 : 1}
+                onMouseEnter={() => setHoveredKey(k)}
+                onMouseMove={() => setHoveredKey(k)}
+                onMouseLeave={() => setHoveredKey(null)}
+                style={{ cursor: "pointer" }}
+              />
+            );
+          })}
 
-        <Line
-          type="monotone"
-          dataKey="__total"
-          stroke="transparent"
-          dot={false}
-          activeDot={false}
-          isAnimationActive={false}
-        >
-          <LabelList dataKey="__total" content={<TotalTopLabel />} />
-        </Line>
-      </AreaChart>
-    </ResponsiveContainer>
+          <Line
+            type="monotone"
+            dataKey="__total"
+            stroke="transparent"
+            dot={false}
+            activeDot={false}
+            isAnimationActive={false}
+          >
+            <LabelList dataKey="__total" content={<TotalTopLabel />} />
+          </Line>
+        </AreaChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
