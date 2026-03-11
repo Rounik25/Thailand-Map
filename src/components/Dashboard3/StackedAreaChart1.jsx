@@ -186,16 +186,24 @@ export default function StackedAreaChart1({ rows = [], col }) {
       onBlur={() => setHoveredKey(null)}
     >
       <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={chartData} margin={{ top: 18, right: 16, bottom: 0, left: 0 }} onClick={handleChartClick} >
+        <AreaChart data={chartData} margin={{ top: 18, right: 16, bottom: 15, left: 0 }} onClick={handleChartClick} >
           <XAxis
             dataKey="year"
             interval={0}
             tick={{ fontSize: 12 }}
             tickMargin={6}
+            label={{ value: "Year", position: "insideBottom", offset: -10 }}
           />
           <YAxis
             domain={[0, yMax]}
             ticks={Array.from({ length: yMax / 5 + 1 }, (_, i) => i * 5)}
+            label={{
+              value: "Estimated Value (Million tons CO2)",
+              angle: -90,
+              position: "outsideLeft",
+              dx: -10,
+              style: { textAnchor: "middle" },
+            }}
           />
           <Tooltip
             content={

@@ -46,15 +46,15 @@ export function Dashboard3() {
         return applyConfigFiltersDashboard3(dataRows, selectedFilters, FILTERS_CONFIG_DASHBOARD3, dataSheet);
     }, [dataRows, selectedFilters, dataSheet]);
 
-    
-    const filteredRowPtt = useMemo(() =>{
-        return filteredDataRows.filter(i => i.Company==="PTT")
-    },[filteredDataRows])
 
-    const filteredRowAll = useMemo(() =>{
-        return filteredDataRows.filter(i => i.Company==="All Company")
-    },[filteredDataRows])
-    
+    const filteredRowPtt = useMemo(() => {
+        return filteredDataRows.filter(i => i.Company === "PTT")
+    }, [filteredDataRows])
+
+    const filteredRowAll = useMemo(() => {
+        return filteredDataRows.filter(i => i.Company === "All Company")
+    }, [filteredDataRows])
+
     return (
         <div className="h-screen flex justify-evenly pb-15">
             <div className="h-full w-4/10 pl-5">
@@ -71,6 +71,7 @@ export function Dashboard3() {
                         onChange={setSelectedFilters}
                         analysisDimension={analysisDimension}
                         onAnalysisDimensionChange={setAnalysisDimension}
+                        filteredDataRows={filteredDataRows}
                     />
                 </div>
             </div>

@@ -2,11 +2,12 @@ import React, { useEffect, useMemo, useState } from "react";
 import { FILTERS_CONFIG_DASHBOARD3 } from "../../utils/filterConfigDashboard3";
 import { buildOptionsByFilterFromSheets2 } from "../../utils/buildFilter";
 import { Select } from "./Select";
+import ChartLegendDashboard3 from "./ChartLegendDashboard3";
 
 const ANALYSIS_DIMENSIONS_OPTIONS = ['Decarbonization Lever', 'Technology'];
 const DEFAULT_ANALYSIS_DIMENSION = "Decarbonization Lever";
 
-export function FilterDashboard3({ sheetData = {}, value, onChange, analysisDimension, onAnalysisDimensionChange }) {
+export function FilterDashboard3({ sheetData = {}, value, onChange, analysisDimension, onAnalysisDimensionChange, filteredDataRows }) {
     const [localSelected, setLocalSelected] = useState(() => {
         const init = []
         for (const f of FILTERS_CONFIG_DASHBOARD3) init[f.id] = "All";
@@ -56,9 +57,9 @@ export function FilterDashboard3({ sheetData = {}, value, onChange, analysisDime
 
     return (
         <div className="h-full w-full flex flex-col justify-between rounded-xl px-2 shadow-lg rounded-xl border-2 border-slate-300">
-            <div className="h-8/10 flex-1 flex flex-col justify-evenly bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto">
-                <div className="text-center text-red-600 font-bold text-md">Filter Panel</div>
-                <div className="h-5/10 flex flex-col mt-2 flex-1 justify-start overflow-y-auto " >
+            <div className="h-8/10 flex-1 flex flex-col justify-start bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto">
+                <div className="text-center text-red-600 font-bold text-md mt-5">Filter Panel</div>
+                <div className="h-8/10 flex flex-col mt-2 justify-start z-10" >
                     <Select
                         label="Analysis Dimension"
                         value={analysisDimension ?? "Decarbonization Lever"}
@@ -72,7 +73,7 @@ export function FilterDashboard3({ sheetData = {}, value, onChange, analysisDime
                             <Select
                                 key={f.id}
                                 label={f.label}
-                                value={v} 
+                                value={v}
                                 onChange={(val) => setSelected((p) => ({ ...p, [f.id]: val }))}
                                 options={opts}
                             />
@@ -80,7 +81,11 @@ export function FilterDashboard3({ sheetData = {}, value, onChange, analysisDime
                     })}
 
                 </div>
+                <div className="h-full">
+                    <ChartLegendDashboard3 rows={filteredDataRows} analysisDimension={analysisDimension} />
+                </div>
             </div>
+
 
             <div className="p-5">
                 <img src="src\assets\logo.svg" alt="Bain Logo" />
