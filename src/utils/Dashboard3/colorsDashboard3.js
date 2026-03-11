@@ -1,15 +1,15 @@
 export const COLOR_DASHBOARD3 ={
     "Lever 1": {
+        "Low-Carbon Feedstock":"#640a40",
         "Process Optimization":"#ba749f",
         "Solar":"#d9abc6",
         "Energy efficiency":"#ab8933",
         "Affrorestation":"#2d475a",
         "CCUS" :"#a3bcd3",
         "Wind":"#eed6e5",
-        "Low-Carbon Feedstock":"#640a40",
+        "Process / product redesign":"#973b74",
         "Green: Hydrogen":"#dce5ea",
         "Carbon Credits":"#7891aa",
-        "Process / product redesign":"#973b74",
         "Blue: Hydrogen":"#46647b",
     },
     "Lever 2": {
