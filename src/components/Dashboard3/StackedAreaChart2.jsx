@@ -111,15 +111,10 @@ export default function StackedAreaChart2({ rows = [], col }) {
       const key = getStackKey(r, analysisDimension);
       if (!key) continue;
 
-      const val = toNumber(
-        r?.["Emission Abated Cum"] ?? r?.["Emission Abated"] ?? r?.EmissionAbated ?? r?.emissionAbated
-      );
-
       keySet.add(key);
 
       if (!byYear.has(year)) byYear.set(year, { year });
       const obj = byYear.get(year);
-      obj[key] = (obj[key] ?? 0) + val;
 
       const valCum = toNumber(
         r?.["Emission Abated Cum"] ?? r?.EmissionAbatedCum ?? r?.emissionAbatedCum
@@ -129,8 +124,9 @@ export default function StackedAreaChart2({ rows = [], col }) {
         r?.["Emission Abated"] ?? r?.EmissionAbated ?? r?.emissionAbated
       );
 
-      obj[key] = (obj[key] ?? 0) + valCum;                 // used by areas
-      obj[`__ea__${key}`] = (obj[`__ea__${key}`] ?? 0) + valEA; // used by tooltip
+      obj[key] = (obj[key] ?? 0) + valCum;
+
+      obj[`__ea__${key}`] = (obj[`__ea__${key}`] ?? 0) + valEA;
     }
 
     // --- 2) Order keys by COLOR_DASHBOARD3 order
