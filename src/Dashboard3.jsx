@@ -50,6 +50,12 @@ export function Dashboard3() {
         return Array.isArray(sheetData?.[dataSheet]) ? sheetData[dataSheet] : [];
     }, [sheetData, dataSheet]);
 
+    const costSheet = "D3_Cost";
+
+    const costRows = useMemo(() => {
+        return Array.isArray(sheetData?.[costSheet]) ? sheetData[costSheet] : [];
+    }, [sheetData, costSheet]);
+
     // Filtered rows based on selected filters
     const filteredDataRows = useMemo(() => {
         return applyConfigFiltersDashboard3(dataRows, selectedFilters, FILTERS_CONFIG_DASHBOARD3, dataSheet);
@@ -59,6 +65,21 @@ export function Dashboard3() {
     const filteredRowPtt = useMemo(() => {
         return filteredDataRows.filter(i => i.Company === "PTT")
     }, [filteredDataRows])
+
+    const [filteredPttCost, filteredAllCost] = useMemo(() => {
+        const filteredCosts = costRows.filter(r =>
+            r.Scenario === selectedFilters.scenario &&
+            r["Sub-Scenario"] === selectedFilters.subScenario
+        );
+
+        const allRow = filteredCosts.find(r => r["Company"] === "All Company");
+        const pttRow = filteredCosts.find(r => r["Company"] === "PTT");
+
+        return [
+            pttRow?.["Weighted average cost of abatement"] ?? null,
+            allRow?.["Weighted average cost of abatement"] ?? null,
+        ];
+    }, [costRows, selectedFilters]);
 
     const filteredRowAll = useMemo(() => {
         return filteredDataRows.filter(i => i.Company === "All Company")
@@ -72,6 +93,7 @@ export function Dashboard3() {
                     col={analysisDimension}
                     selectedKey={selectedKeyAll}
                     setSelectedKey={setSelectedKeyAll}
+                    cost={filteredAllCost}
                 />
             </div>
             <div className="h-full w-4/10 pl-5">
@@ -80,6 +102,7 @@ export function Dashboard3() {
                     col={analysisDimension}
                     selectedKey={selectedKeyPtt}
                     setSelectedKey={setSelectedKeyPtt}
+                    cost={filteredPttCost}
                 />
             </div>
             <div className="h-full w-4/20 p-5 pl-10 pb-10">
