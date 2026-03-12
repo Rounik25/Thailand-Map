@@ -1,6 +1,6 @@
 import Map from "./Map"
-import DataTable from "./DataTable"
-import { enrichRecordsWithLocation } from "../utils/getData";
+import DataTable from "./DataTable";
+import { enrichRecordsWithLocation } from "../../utils/getData";
 import { useMemo } from "react";
 
 export function Left({ dark, records, locations }) {

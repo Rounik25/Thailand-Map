@@ -1,9 +1,9 @@
-import { Left } from "./components/Left"
-import { Right } from "./components/Right"
+import { Left } from "./components/DummyDashboard/Left"
+import { Right } from "./components/DummyDashboard/Right"
 import { useMemo, useState } from "react";
 import { getFilteredData } from "./utils/getData";
 
-export function HomePage({ dark }) {
+export function DummyDashboard({ dark }) {
 
     const [filters, setFilters] = useState({
         month: "All",

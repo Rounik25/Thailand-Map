@@ -13,7 +13,7 @@ import {
     getOrdersVsSalesByDate,
     getFilteredData,
     getMonthlyConversion,
-} from "../utils/getData";
+} from "../../utils/getData";
 
 export function Cards({ records, locations, filters, setFilters }) {
     const monthOptions = useMemo(() => getMonthOptions(), []);
@@ -44,7 +44,7 @@ export function Cards({ records, locations, filters, setFilters }) {
     }, [filters.city, filters.region, filters.category]);
 
     return (
-        <div className="">
+        <div className="h-full flex flex-col justify-between pb-15">
             <Filters
                 monthOptions={monthOptions}
                 cityOptions={cityOptions}

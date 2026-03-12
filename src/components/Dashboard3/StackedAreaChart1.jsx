@@ -156,7 +156,6 @@ export default function StackedAreaChart1({ rows = [], col, selectedKey, setSele
         }
         return { ...v, __total: total };
       });
-
     const maxTotal = Math.max(
       0,
       ...chartData.map(d => d.__total ?? 0)

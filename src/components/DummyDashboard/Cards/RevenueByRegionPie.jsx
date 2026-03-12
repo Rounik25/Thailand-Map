@@ -1,6 +1,6 @@
 import React from "react";
 import { PieChart, Pie, Tooltip, Legend, Cell, ResponsiveContainer } from "recharts";
-import { REGION_COLORS } from "../../utils/getColors";
+import { REGION_COLORS } from "../../../utils/getColors";
 
 function formatTHB(v) {
     return (v ?? 0).toLocaleString("en-IN");
