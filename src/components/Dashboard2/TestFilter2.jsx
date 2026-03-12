@@ -1,9 +1,8 @@
 import React, { useMemo } from "react";
 import Filters from "../common/Filter";
 import { FILTERS_CONFIG_DASHBOARD2 } from "../../utils/filterConfigDashboard2";
-import { TechnologyLegend } from "./TechnologyLegend";
-import { EntityLegend } from "./EntityLegend";
-import { Select } from "../common/Select";
+import { RenderCustomFilters } from "./RenderCustomFilters";
+import { RenderLegend } from "./RenderLegend";
 
 const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
 
@@ -71,45 +70,20 @@ export function TestFilter2({ sheetData = {}, value, onChange }) {
               : ["All", ...Array.from(col1ToCol2s.get(col1Value) ?? []).sort()];
 
           return (
-            <>
-              <Select
-                label="Decarbonization Lever"
-                value={col1Value}
-                onChange={(nextCol1) => {
-                  const allowedTechs =
-                    nextCol1 === "All"
-                      ? col2OptionsAll
-                      : ["All", ...Array.from(col1ToCol2s.get(nextCol1) ?? []).sort()];
-
-                  const nextCol2 = allowedTechs.includes(col2Value) ? col2Value : "All";
-
-                  setSelected((p) => ({
-                    ...p,
-                    [COL1_ID]: nextCol1,
-                    [COL2_ID]: nextCol2,
-                  }));
-                }}
-                options={col1OptionsAll}
-              />
-
-              <Select
-                label="Technology"
-                value={col2Value}
-                onChange={(nextCol2) => {
-                  const mappedCol1 =
-                    nextCol2 === "All"
-                      ? selected[COL1_ID]
-                      : col2ToCol1.get(nextCol2) ?? selected[COL1_ID];
-
-                  setSelected((p) => ({
-                    ...p,
-                    [COL2_ID]: nextCol2,
-                    [COL1_ID]: mappedCol1,
-                  }));
-                }}
-                options={col2Options}
-              />
-            </>
+            <RenderCustomFilters 
+              selected={selected} 
+              setSelected={setSelected}
+              col1Value={col1Value}
+              col2Value={col2Value} 
+              COL1_ID={COL1_ID}
+              COL2_ID={COL2_ID}
+              col2OptionsAll={col2OptionsAll} 
+              col1ToCol2s={col1ToCol2s}
+              col1OptionsAll={col1OptionsAll} 
+              col2Options={col2Options}
+              col2ToCol1={col2ToCol1} 
+            />
+              
           );
         }}
         renderLegend={({ selected, setSelected }) => {
@@ -120,31 +94,14 @@ export function TestFilter2({ sheetData = {}, value, onChange }) {
               : ["All", ...Array.from(col1ToCol2s.get(col1Value) ?? []).sort()];
 
           return (
-            <div>
-              <div className="text-md font-bold text-red-600 text-center my-1">Legend</div>
-
-              <div className="p-1 text-sm font-semibold">Entity Category</div>
-              <EntityLegend />
-
-              <div className="p-1 text-sm font-semibold">Technology</div>
-              <TechnologyLegend
-                technologies={currentTechOptions.filter((t) => t !== "All")}
-                selectedTechnology={selected[COL2_ID] ?? "All"}
-                onSelect={(tech) => {
-                  const current = selected[COL2_ID] ?? "All";
-
-                  if (current === tech) {
-                    setSelected((p) => ({ ...p, [COL2_ID]: "All" }));
-                  } else {
-                    setSelected((p) => ({
-                      ...p,
-                      [COL2_ID]: tech,
-                      [COL1_ID]: col2ToCol1.get(tech) ?? p[COL1_ID],
-                    }));
-                  }
-                }}
-              />
-            </div>
+            <RenderLegend
+              selected={selected}
+              setSelected={setSelected}
+              currentTechOptions={currentTechOptions}
+              COL1_ID={COL1_ID}
+              COL2_ID={COL2_ID}
+              col2ToCol1={col2ToCol1} 
+            />
           );
         }}
         renderFooter={() => <img src="src/assets/logo.svg" alt="Bain Logo" />}

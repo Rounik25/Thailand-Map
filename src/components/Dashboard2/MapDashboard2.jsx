@@ -63,11 +63,7 @@ function colorForEntity(entity) {
   return "#64748b";
 }
 
-/**
- * Filter + aggregate rows into unique marker points.
- * - Filters by selected lever & emissionType (if provided)
- * - Groups duplicates (company repeated by lever/type) and SUMs Emission
- */
+
 function buildLocationsAggregated(rows, { lever, emissionType }) {
   const LEVER_COL = "Decarbonization Lever";
   const EMISSION_TYPE_COL = "Emission Type";

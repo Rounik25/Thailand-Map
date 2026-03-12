@@ -1,31 +1,10 @@
-import { FilterDashboard1 } from "./components/Dashboard1/FilterDashboard1"
 import { CardsDashboard1 } from "./components/Dashboard1/CardsDashboard1"
 import MapDashboard1 from "./components/Dashboard1/MapDashboard1"
 import { useEffect, useMemo, useState } from "react"
 import * as XLSX from "xlsx"
 import { FILTERS_CONFIG_DASHBOARD1 } from "./utils/filterConfigDashboard1"
 import { TestFilter1 } from "./components/Dashboard1/TestFilter1"
-import Legends from "./components/Dashboard1/Legends"
-import Filters from "./components/common/Filter"
-
-const ANALYSIS_DIMENSIONS_OPTIONS = ["Entity", "Sector", "Decarbonization Plan"];
-
-function applyFilters(rows, selected) {
-    if (!rows?.length) return [];
-
-    return rows.filter((r) => {
-        // Assumption: FILTERS_CONFIG_dASHBOARD1 ids match Excel column names.
-        // If your config uses a different field name, swap `col = f.key ?? f.id` etc.
-        return FILTERS_CONFIG_DASHBOARD1.every((f) => {
-            const chosen = selected?.[f.id] ?? "All";
-            if (chosen === "All") return true;
-
-            const cell = r?.[f.column];
-            // Normalize to string compare (handles numbers/empty)
-            return String(cell ?? "").trim() === String(chosen).trim();
-        });
-    });
-}
+import { applyFilters } from "./utils/filterUtils"
 
 export function Dashboard1() {
     const [rows, setRows] = useState([]);
@@ -63,7 +42,7 @@ export function Dashboard1() {
 
     // base rows from normal filters only (exclude analysisDimension + emissionType logic already handled)
     const baseRows = useMemo(
-        () => applyFilters(rows, selectedFilters),
+        () => applyFilters(rows, FILTERS_CONFIG_DASHBOARD1, selectedFilters),
         [rows, selectedFilters]
     );
 
@@ -96,14 +75,10 @@ export function Dashboard1() {
             </div>
 
             <div className="w-5/10 h-[100vh] m-10">
-                {/* <div className="h-3/20 mt-10 mb-5 flex rounded-xl justify-evenly items-center">
-                    <MapRadialChart data={dummy} />
-                </div> */}
                 <div className="h-16/20 shadow-lg rounded-xl bg-slate-100 flex">
                     <MapDashboard1
                         rows={mapRows}
                         emissionType={selectedFilters.emissionType}
-                        
                         analysisDimension={analysisDimension}
                     />
                 </div>
@@ -111,13 +86,6 @@ export function Dashboard1() {
 
             <div className="h-[100vh] w-5/20">
                 <div className="h-8/10 w-8/10 max-h-[100%] rounded-xl m-10 border-2 border-slate-300  shadow-lg">
-                    {/* <FilterDashboard1
-                        rows={rows}
-                        value={selectedFilters}
-                        onChange={setSelectedFilters}
-                        analysisDimension={analysisDimension}
-                        onAnalysisDimensionChange={setAnalysisDimension}
-                    /> */}
                     <TestFilter1
                         rows={rows}
                         value={selectedFilters}
@@ -125,7 +93,6 @@ export function Dashboard1() {
                         analysisDimension={analysisDimension}
                         onAnalysisDimensionChange={setAnalysisDimension}
                     />
-                    
                 </div>
             </div>
         </div>

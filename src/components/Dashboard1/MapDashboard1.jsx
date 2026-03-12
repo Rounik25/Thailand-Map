@@ -197,21 +197,6 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
                 },
               }}
 
-            // eventHandlers={{
-            //   click: () => {
-            //     if (!onPointClick) return;
-
-            //     onPointClick({
-            //       // these keys must match FILTERS_CONFIG_TAB2 ids:
-            //       city: loc.City ?? "All",
-            //       company: loc.CompanyName ?? "All",
-            //       state: loc.StateOrProvince ?? "All",
-            //       entity: loc.Conglomerate ?? "All",
-            //       decarbPlan: loc.DecarbPlan ?? "All",
-            //       sector: loc.Industry ?? "All",
-            //     });
-            //   },
-            // }}
             >
               <Popup>
                 <div className="text-sm">
