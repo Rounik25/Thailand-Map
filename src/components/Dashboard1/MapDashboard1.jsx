@@ -2,6 +2,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "re
 import { useEffect, useMemo, useState } from "react";
 import L from "leaflet";
 import { buildColorMap } from "../../utils/mapColors";
+import { createValueScaler } from "../../utils/mapIconValues";
 
 // Vite-safe marker icon fix (CDN)
 delete L.Icon.Default.prototype._getIconUrl;
@@ -11,10 +12,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-function createDivIcon(value, color, { dimmed = false, active = false } = {}) {
-  const v = Math.max(0, Number(value) || 0);
-  const sizeRaw = (v * 3000) ** (4 / 10);
-  const size = Number.isFinite(sizeRaw) && sizeRaw > 8 ? sizeRaw : 10;
+function createDivIcon(value, color, { dimmed = false, active = false } = {}, getSize) {
+  const size = getSize(value)
   const radius = size / 2;
 
   const opacity = dimmed ? 0.25 : 1;
@@ -151,6 +150,9 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
 
   const [activeId, setActiveId] = useState(null);
 
+  const values = thailandLocations.map((loc) => loc.value);
+  const getSize = createValueScaler(values, 1, 50, "sqrt");
+
   const tileUrl = dark
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
     : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
@@ -174,7 +176,7 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
             <Marker
               key={loc.id}
               position={[loc.lat, loc.lng]}
-              icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive })}
+              icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive },getSize)}
               zIndexOffset={loc.Conglomerate === "PTT Entity" ? 1000 : 0}
 
               eventHandlers={{

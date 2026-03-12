@@ -2,6 +2,7 @@ import { useMapEvents, MapContainer, TileLayer, Marker, useMap, Tooltip } from "
 import { useEffect, useMemo } from "react";
 import L from "leaflet";
 import { useState } from "react";
+import { createValueScaler } from "../../utils/mapIconValues";
 
 // marker icon fix
 delete L.Icon.Default.prototype._getIconUrl;
@@ -23,10 +24,8 @@ function toNum(v) {
   return Number.isFinite(n) ? n : 0;
 }
 
-function createDivIcon(value, color, { dimmed = false, active = false } = {}) {
-  const v = Math.max(0, Number(value) || 0);
-  const sizeRaw = (v * 5000) ** (4 / 10);
-  const size = Number.isFinite(sizeRaw) && sizeRaw > 8 ? sizeRaw : 10;
+function createDivIcon(value, color, { dimmed = false, active = false } = {}, getSize) {
+  const size = getSize(value)
   const radius = size / 2;
 
   const opacity = dimmed ? 0.25 : 1;
@@ -72,7 +71,7 @@ function buildLocationsAggregated(rows, { lever, emissionType }) {
   const LAT_COL = "Latitude";
   const LNG_COL = "Longitude";
 
-  const COMPANY_COL = "Company Name";
+  const COMPANY_COL = "Company";
   const CITY_COL = "City";
   const STATE_COL = "State or Province";
   const INDUSTRY_COL = "Industry";
@@ -167,6 +166,9 @@ export function MapDashboard2({
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
     : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
 
+  const values = locations.map((loc) => loc.value);
+  const getSize = createValueScaler(values, 1, 50, "sqrt");
+
   return (
     <div className="sm:w-full h-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
       <MapContainer center={[13.736717, 100.523186]} zoom={6} scrollWheelZoom className="w-full h-full">
@@ -189,7 +191,7 @@ export function MapDashboard2({
             <Marker
               key={loc.id}
               position={[loc.lat, loc.lng]}
-              icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive })}
+              icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive }, getSize)}
               zIndexOffset={isPTT ? 1000 : 0}
               eventHandlers={{
                 click: (e) => {
@@ -230,7 +232,7 @@ export function MapDashboard2({
                   <div>Emission Type: {selectedFilters.emissionType ?? "All"}</div>
 
                   <div className="font-medium pt-1">
-                    Total Emission: {loc.value.toFixed(2)}
+                    Total Emission: {loc.value.toFixed(1)}
                   </div>
                 </div>
               </Tooltip>
