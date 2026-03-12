@@ -4,7 +4,7 @@ import MapDashboard1 from "./components/Dashboard1/MapDashboard1"
 import { useEffect, useMemo, useState } from "react"
 import * as XLSX from "xlsx"
 import { FILTERS_CONFIG_DASHBOARD1 } from "./utils/filterConfigDashboard1"
-import { TestFilter } from "./components/Dashboard1/TestFilter"
+import { TestFilter1 } from "./components/Dashboard1/TestFilter1"
 import Legends from "./components/Dashboard1/Legends"
 import Filters from "./components/common/Filter"
 
@@ -34,11 +34,6 @@ export function Dashboard1() {
         for (const f of FILTERS_CONFIG_DASHBOARD1) init[f.id] = "All";
         return init;
     });
-
-    const initialSelected = {
-        emissionType: "All",
-        ...Object.fromEntries(FILTERS_CONFIG_DASHBOARD1.map((f) => [f.id, "All"])),
-    };
 
     const [analysisDimension, setAnalysisDimension] = useState("Entity");
 
@@ -108,13 +103,7 @@ export function Dashboard1() {
                     <MapDashboard1
                         rows={mapRows}
                         emissionType={selectedFilters.emissionType}
-                        onPointClick={(patch) => {
-                            setSelectedFilters((prev) => ({
-                                ...prev,
-                                ...patch,
-                                emissionType: prev.emissionType, // keep whatever user selected
-                            }));
-                        }}
+                        
                         analysisDimension={analysisDimension}
                     />
                 </div>
@@ -129,29 +118,14 @@ export function Dashboard1() {
                         analysisDimension={analysisDimension}
                         onAnalysisDimensionChange={setAnalysisDimension}
                     /> */}
-                    <Filters
+                    <TestFilter1
                         rows={rows}
                         value={selectedFilters}
                         onChange={setSelectedFilters}
-                        initialSelected={initialSelected}
-                        filtersConfig={FILTERS_CONFIG_DASHBOARD1}
-                        optionBuilder="rows"
                         analysisDimension={analysisDimension}
                         onAnalysisDimensionChange={setAnalysisDimension}
-                        analysisDimensionOptions={ANALYSIS_DIMENSIONS_OPTIONS}
-                        showEmissionType
-                        renderLegend={() => (
-                            <Legends
-                                rows={rows}
-                                analysisDimension={analysisDimension}
-                                onClickItem={() => { }}
-                                showCount={true}
-                            />
-                        )}
-                        renderFooter={() => (
-                            <img src="src/assets/logo.svg" alt="Bain Logo" />
-                        )}
                     />
+                    
                 </div>
             </div>
         </div>

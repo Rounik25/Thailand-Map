@@ -1,5 +1,5 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import { useEffect, useMemo } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from "react-leaflet";
+import { useEffect, useMemo, useState } from "react";
 import L from "leaflet";
 import { buildColorMap } from "../../utils/mapColors";
 
@@ -11,26 +11,43 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
-function createDivIcon(value, color) {
-  const size = ((value * 3000) ** (4 / 10)) // scale logic
+function createDivIcon(value, color, { dimmed = false, active = false } = {}) {
+  const v = Math.max(0, Number(value) || 0);
+  const sizeRaw = (v * 3000) ** (4 / 10);
+  const size = Number.isFinite(sizeRaw) && sizeRaw > 8 ? sizeRaw : 10;
   const radius = size / 2;
+
+  const opacity = dimmed ? 0.25 : 1;
+  const ring = active ? "0 0 0 1px" : "none"; // subtle glow (optional)
 
   return L.divIcon({
     html: `
-      <div 
-        style="
-          width:${size}px;
-          height:${size}px;
-          border-radius:50%;
-          background-color:${color};
-        ">
-      </div>
+      <div style="
+        width:${size}px;
+        height:${size}px;
+        border-radius:50%;
+        background-color:${color};
+        opacity:${opacity};
+        box-shadow:${ring};
+        transition: opacity 150ms ease, box-shadow 150ms ease;
+      "
+      onmouseover="this.style.border='2px solid black'"
+      onmouseout="this.style.border='2px solid transparent'"
+      ></div>
     `,
-    className: "",   // remove default leaflet styles
+    className: "",
     iconSize: [size, size],
     iconAnchor: [radius, radius],
   });
 }
+
+function ResetOnMapClick({ onReset }) {
+  useMapEvents({
+    click: () => onReset?.(),
+  });
+  return null;
+}
+
 
 function emissionValueForRow(r, emissionType) {
   const process = Number(r.Process || 0);
@@ -132,6 +149,8 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
   );
   const center = calculateCenter(rows)
 
+  const [activeId, setActiveId] = useState(null);
+
   const tileUrl = dark
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
     : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
@@ -144,43 +163,70 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
           attribution='&copy; OpenStreetMap contributors &copy; CARTO'
           url={tileUrl}
         />
+        <ResetOnMapClick onReset={() => setActiveId(null)} />
         <FitBounds locations={thailandLocations} />
 
-        {thailandLocations.map((loc) => (
-          <Marker
-            key={loc.id}
-            position={[loc.lat, loc.lng]}
-            icon={createDivIcon(loc.value, loc.color)}
-            zIndexOffset={loc.Conglomerate === "PTT Entity" ? 1000 : 0}
-            eventHandlers={{
-              click: () => {
-                if (!onPointClick) return;
+        {thailandLocations.map((loc) => {
+          const isActive = activeId === loc.id;
+          const isDimmed = activeId !== null && !isActive;
 
-                onPointClick({
-                  // these keys must match FILTERS_CONFIG_TAB2 ids:
-                  city: loc.City ?? "All",
-                  company: loc.CompanyName ?? "All",
-                  state: loc.StateOrProvince ?? "All",
-                  entity: loc.Conglomerate ?? "All",
-                  decarbPlan: loc.DecarbPlan ?? "All",
-                  sector: loc.Industry ?? "All",
-                });
-              },
-            }}
-          >
-            <Popup>
-              <div className="text-sm">
-                <div className="font-semibold">{loc.name}</div>
-                <div className="text-slate-600 dark:text-slate-300">
-                  {analysisDimension}: {loc.groupValue || "Unknown"}
+          return (
+            <Marker
+              key={loc.id}
+              position={[loc.lat, loc.lng]}
+              icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive })}
+              zIndexOffset={loc.Conglomerate === "PTT Entity" ? 1000 : 0}
+
+              eventHandlers={{
+                click: (e) => {
+                  // prevent map click reset from firing immediately
+                  L.DomEvent.stopPropagation(e.originalEvent);
+
+                  // toggle active
+                  setActiveId((prev) => (prev === loc.id ? null : loc.id));
+
+                  // optional: still notify parent for filter updates
+                  onPointClick?.({
+                    city: loc.City ?? "All",
+                    company: loc.CompanyName ?? "All",
+                    state: loc.StateOrProvince ?? "All",
+                    conglomerate: loc.Conglomerate ?? "All",
+                    decarbPlan: loc.DecarbPlan ?? "All",
+                    industry: loc.Industry ?? "All",
+                  });
+                },
+              }}
+
+            // eventHandlers={{
+            //   click: () => {
+            //     if (!onPointClick) return;
+
+            //     onPointClick({
+            //       // these keys must match FILTERS_CONFIG_TAB2 ids:
+            //       city: loc.City ?? "All",
+            //       company: loc.CompanyName ?? "All",
+            //       state: loc.StateOrProvince ?? "All",
+            //       entity: loc.Conglomerate ?? "All",
+            //       decarbPlan: loc.DecarbPlan ?? "All",
+            //       sector: loc.Industry ?? "All",
+            //     });
+            //   },
+            // }}
+            >
+              <Popup>
+                <div className="text-sm">
+                  <div className="font-semibold">{loc.name}</div>
+                  <div className="text-slate-600 dark:text-slate-300">
+                    {analysisDimension}: {loc.groupValue || "Unknown"}
+                  </div>
+                  <div className="text-slate-600 dark:text-slate-300">
+                    {loc.lat.toFixed(5)}, {loc.lng.toFixed(5)}
+                  </div>
                 </div>
-                <div className="text-slate-600 dark:text-slate-300">
-                  {loc.lat.toFixed(5)}, {loc.lng.toFixed(5)}
-                </div>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
+              </Popup>
+            </Marker>
+          );
+        })}
       </MapContainer>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Select } from "./Select";
+import { Select } from "../Dashboard3/Select";
 
 export default function AddFilter({
   sheetData = {},

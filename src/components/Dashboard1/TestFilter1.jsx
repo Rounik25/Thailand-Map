@@ -5,7 +5,7 @@ import Legends from "./Legends";
 
 const ANALYSIS_DIMENSIONS_OPTIONS = ["Entity", "Sector", "Decarbonization Plan"];
 
-export function TestFilter({
+export function TestFilter1({
   rows = [],
   value,
   onChange,
@@ -29,11 +29,12 @@ export function TestFilter({
       onAnalysisDimensionChange={onAnalysisDimensionChange}
       analysisDimensionOptions={ANALYSIS_DIMENSIONS_OPTIONS}
       showEmissionType
+      
       renderLegend={() => (
         <Legends
           rows={rows}
           analysisDimension={analysisDimension}
-          onClickItem={() => {}}
+          onClickItem={() => { }}
           showCount={true}
         />
       )}

@@ -1,58 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { buildFilterOptions } from "../../utils/filterUtils";
 import {
   buildOptionsByFilterFromSheets,
   buildOptionsByFilterFromSheets2,
 } from "../../utils/buildFilter";
-
-function Select({ label, value, onChange, options = [] }) {
-  const [open, setOpen] = useState(false);
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
-        setOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  return (
-    <div ref={containerRef} className="relative w-full min-w-0 flex flex-col gap-1">
-      <span className="text-sm font-medium text-black dark:text-slate-300">
-        {label}
-      </span>
-
-      <button
-        type="button"
-        onClick={() => setOpen((prev) => !prev)}
-        className="w-full h-7 min-w-0 border-2 border-slate-200 bg-white px-3 text-sm text-left text-black rounded-lg dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
-      >
-        <span className="block truncate w-full">{value || "Select option"}</span>
-      </button>
-
-      {open && (
-        <div className="absolute left-0 top-full mt-1 w-full min-w-0 border border-slate-200 bg-white rounded-lg shadow-lg z-50 dark:border-slate-700 dark:bg-slate-900 max-h-48 overflow-y-auto">
-          {options.map((opt) => (
-            <div
-              key={opt}
-              onClick={() => {
-                onChange(opt);
-                setOpen(false);
-              }}
-              className="px-3 py-2 text-sm cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800 whitespace-normal break-words"
-            >
-              {opt}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-}
+import { Select } from "./Select";
 
 function getOptions({
   optionBuilder,
@@ -97,6 +49,7 @@ export default function Filters({
   showEmissionType = false,
   emissionTypeOptions = ["All", "Process", "Fuel", "Indirect_Electricity"],
 
+  renderCustomFiltersTop,
   renderCustomFilters,
   renderLegend,
   renderFooter,
@@ -131,11 +84,18 @@ export default function Filters({
       <div
         className={`flex-1 flex flex-col bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto scrollbar-hide ${innerClassName}`}
       >
-        <div className="text-center text-red-600 font-bold text-md mt-5">
+        <div className="text-center text-red-600 font-bold text-md mt-3">
           {title}
         </div>
 
-        <div className="flex flex-col mt-2 justify-start z-10 gap-3">
+        <div className="flex flex-col justify-start z-10">
+          {renderCustomFiltersTop?.({
+            selected,
+            setSelected,
+            optionsByFilter,
+            Select,
+          })}
+          
           {analysisDimensionOptions?.length ? (
             <Select
               label="Analysis Dimension"
@@ -154,7 +114,6 @@ export default function Filters({
             />
           ) : null}
 
-          
           {filtersConfig.map((f) => {
             const opts = optionsByFilter[f.id] ?? ["All"];
             const v = selected[f.id] ?? opts[0] ?? "All";

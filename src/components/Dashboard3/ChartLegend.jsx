@@ -89,7 +89,7 @@ export default function ChartLegendDashboard3({
                       className="h-3 w-3 rounded-sm border border-slate-300"
                       style={{ backgroundColor: it.color }}
                     />
-                    <span className="text-xs text-slate-700">{it.key}</span>
+                    <span className="text-sm text-slate-700">{it.key}</span>
                   </button>
                 </li>
               );

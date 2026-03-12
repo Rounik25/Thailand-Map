@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { FILTERS_CONFIG_DASHBOARD3 } from "../../utils/filterConfigDashboard3";
 import { buildOptionsByFilterFromSheets2 } from "../../utils/buildFilter";
 import { Select } from "./Select";
-import ChartLegendDashboard3 from "./ChartLegendDashboard3";
-import AddFilter from "./AddFilter";
+import ChartLegendDashboard3 from "./ChartLegend";
+import AddFilter from "../common/AddFilter";
 
 const ANALYSIS_DIMENSIONS_OPTIONS = ['Decarbonization Lever', 'Technology'];
 const DEFAULT_ANALYSIS_DIMENSION = "Decarbonization Lever";

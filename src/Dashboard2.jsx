@@ -124,7 +124,7 @@ export function Dashboard2({ dark }) {
             </div>
             <div className="flex h-screen w-[20%] p-5 pb-25">
                 {/* <FilterDashboard2 sheetData={sheetData} value={selectedFilters} onChange={setSelectedFilters} /> */}
-                <TestFilter2 sheetData={sheetData} value={selectedFilters} onChange={setSelectedFilters} />
+                <TestFilter2 sheetData={sheetData} value={selectedFilters} onChange={setSelectedFilters}  />
 
             </div>
         </div>
