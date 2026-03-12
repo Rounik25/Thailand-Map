@@ -10,8 +10,10 @@ import {
   LabelList,
 } from "recharts";
 import { COLOR_DASHBOARD3 } from "../../utils/Dashboard3/colorsDashboard3";
+import { toNumber, getYear, bucketFromAnalysisDimension, getStackKey, getColor } from "../../utils/Dashboard3/mapFunctions";
+import { CustomTooltip } from "./CustomToolTip";
 
-function TotalTopLabel({ x, y, value }) {
+export function TotalTopLabel({ x, y, value }) {
   if (!Number.isFinite(value)) return null;
 
   return (
@@ -27,68 +29,6 @@ function TotalTopLabel({ x, y, value }) {
         maximumFractionDigits: 2,
       })}
     </text>
-  );
-}
-
-function toNumber(v) {
-  if (v == null) return 0;
-  const s = String(v).replace(/,/g, "").trim();
-  const n = Number(s);
-  return Number.isFinite(n) ? n : 0;
-}
-
-function norm(v) {
-  return (v ?? "").toString().trim();
-}
-
-function getYear(row) {
-  const y = row?.Year ?? row?.year;
-  const n = Number(String(y ?? "").trim());
-  return Number.isFinite(n) ? n : null;
-}
-
-function bucketFromAnalysisDimension(analysisDimension) {
-  if (analysisDimension === "Decarbonization Lever") return "Lever 1";
-  if (analysisDimension === "Technology") return "Lever 2";
-  return "Lever 1";
-}
-
-function getStackKey(row, analysisDimension) {
-  if (analysisDimension === "Decarbonization Lever") return norm(row?.["Lever 1"]);
-  if (analysisDimension === "Technology") return norm(row?.["Lever 2"]);
-  return norm(row?.["Lever 1"] ?? row?.["Lever 2"]);
-}
-
-function getColor(bucket, key) {
-  return COLOR_DASHBOARD3?.[bucket]?.[key] ?? "#64748b";
-}
-
-function CustomTooltip({ active, label, payload, analysisDimension, hoveredKey }) {
-  if (!active || !payload?.length) return null;
-
-  // `label` is the X value (year)
-  const year = label;
-
-  // The full row object for this year is on payload[0].payload
-  const row = payload[0]?.payload;
-
-  // We only want tooltip when we know which stack is hovered
-  if (!hoveredKey || !row) return null;
-
-  const emissionAbated = Number(row[`__ea__${hoveredKey}`] ?? 0);
-
-  return (
-    <div className="rounded-md border border-slate-200 bg-white px-3 py-2 shadow">
-      <div className="text-xs text-black">{analysisDimension}: {hoveredKey}</div>
-      <div className="mt-1 text-xs text-black">Year: {year}</div>
-      <div className="text-xs text-black">
-        Emission Abated:{" "}
-        {emissionAbated.toLocaleString(undefined, {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}
-      </div>
-    </div>
   );
 }
 

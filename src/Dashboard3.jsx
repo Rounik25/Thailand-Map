@@ -121,21 +121,6 @@ export function Dashboard3() {
             </div>
             <div className="h-full w-4/20 p-5 pl-10 pb-10">
                 <div className="h-full ">
-                    {/* <FilterDashboard3
-                        sheetData={sheetData}
-                        value={selectedFilters}
-                        onChange={setSelectedFilters}
-                        analysisDimension={analysisDimension}
-                        onAnalysisDimensionChange={setAnalysisDimension}
-                        filteredDataRows={filteredDataRows}
-                        selectedKeyAll={selectedKeyAll}
-                        selectedKeyPtt={selectedKeyPtt}
-                        onLegendChange={handleLegendChange}
-                        filtersConfig={filtersConfig}
-                        handleAddFilter={handleAddFilter}
-                        dataSheet={dataSheet}
-                    /> */}
-
                     <TestFilter3
                         sheetData={sheetData}
                         value={selectedFilters}

@@ -54,10 +54,10 @@ export default function ChartLegendDashboard3({
   const anySelected = Boolean(selectedKeyAll || selectedKeyPtt);
 
   return (
-    <div className="mt-3 rounded-xl bg-white p-3">
+    <div className="rounded-xl bg-white">
       <div className="text-red-600 text-md font-bold text-center p-1">Legend</div>
 
-      <div className="text-xs font-semibold text-slate-700 mb-2">
+      <div className="text-sm font-semibold text-slate-700 mb-2">
         {bucket === "Lever 1" ? "Decarbonization Lever" : "Technology"}
       </div>
 
