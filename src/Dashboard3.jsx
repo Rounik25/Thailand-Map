@@ -5,6 +5,7 @@ import { useState, useEffect, useMemo } from "react";
 import { parseWorkbookToSheets } from "./utils/importData";
 import { applyConfigFiltersDashboard3 } from "./utils/Dashboard3/applyFiltersDashboard3";
 import { FILTERS_CONFIG_DASHBOARD3 } from "./utils/filterConfigDashboard3";
+import { TestFilter3 } from "./components/Dashboard3/TestFilter3";
 
 export function Dashboard3() {
     const [sheetData, setSheetData] = useState(null);
@@ -120,7 +121,22 @@ export function Dashboard3() {
             </div>
             <div className="h-full w-4/20 p-5 pl-10 pb-10">
                 <div className="h-full ">
-                    <FilterDashboard3
+                    {/* <FilterDashboard3
+                        sheetData={sheetData}
+                        value={selectedFilters}
+                        onChange={setSelectedFilters}
+                        analysisDimension={analysisDimension}
+                        onAnalysisDimensionChange={setAnalysisDimension}
+                        filteredDataRows={filteredDataRows}
+                        selectedKeyAll={selectedKeyAll}
+                        selectedKeyPtt={selectedKeyPtt}
+                        onLegendChange={handleLegendChange}
+                        filtersConfig={filtersConfig}
+                        handleAddFilter={handleAddFilter}
+                        dataSheet={dataSheet}
+                    /> */}
+
+                    <TestFilter3
                         sheetData={sheetData}
                         value={selectedFilters}
                         onChange={setSelectedFilters}
@@ -134,6 +150,7 @@ export function Dashboard3() {
                         handleAddFilter={handleAddFilter}
                         dataSheet={dataSheet}
                     />
+
                 </div>
             </div>
         </div>
