@@ -44,7 +44,7 @@ export function TestFilter3({
       analysisDimension={analysisDimension}
       onAnalysisDimensionChange={onAnalysisDimensionChange}
       analysisDimensionOptions={ANALYSIS_DIMENSIONS_OPTIONS}
-      className="shadow-lg border-2 border-slate-300"
+      className=""
       renderCustomFilters={() => (
         <div className="mt-2">
           <AddFilter

@@ -79,23 +79,23 @@ export default function Filters({
 
   return (
     <div
-      className={`h-full w-full flex flex-col justify-between rounded-xl px-2 ${className}`}
+      className={`h-full w-full flex flex-col rounded-xl px-2 min-h-0 overflow-hidden ${className}`}
     >
       <div
-        className={`flex-1 flex flex-col bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-y-auto scrollbar-hide ${innerClassName}`}
+        className={`flex-1 min-h-0 flex flex-col bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-hidden ${innerClassName}`}
       >
-        <div className="text-center text-red-600 font-bold text-md mt-3">
+        <div className="text-center text-red-600 font-bold text-md mt-3 shrink-0">
           {title}
         </div>
 
-        <div className="flex flex-col justify-start z-10">
+        <div className="flex flex-col justify-start z-10 shrink-0">
           {renderCustomFiltersTop?.({
             selected,
             setSelected,
             optionsByFilter,
             Select,
           })}
-          
+
           {analysisDimensionOptions?.length ? (
             <Select
               label="Analysis Dimension"
@@ -128,23 +128,27 @@ export default function Filters({
               />
             );
           })}
+
           {renderCustomFilters?.({
             selected,
             setSelected,
             optionsByFilter,
             Select,
           })}
-
         </div>
 
         {renderLegend ? (
-          <div className="h-full mt-3">
+          <div className="flex-1 min-h-0 mt-3 overflow-hidden">
             {renderLegend({ selected, setSelected, optionsByFilter })}
           </div>
         ) : null}
       </div>
 
-      {renderFooter ? <div className="p-5">{renderFooter()}</div> : null}
+      {renderFooter ? (
+        <div className="shrink-0 pb-1">
+          {renderFooter()}
+        </div>
+      ) : null}
     </div>
   );
 }

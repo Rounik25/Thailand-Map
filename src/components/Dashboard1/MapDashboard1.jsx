@@ -155,66 +155,69 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
 
   const tileUrl = dark
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-    : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+    : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
 
   return (
-    <div className="sm:w-full h-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm ">
-      <MapContainer center={center} zoom={9} scrollWheelZoom className="w-full h-full">
-        <TileLayer
-          key={dark ? "dark-tiles" : "light-tiles"}   // IMPORTANT: forces redraw
-          attribution='&copy; OpenStreetMap contributors &copy; CARTO'
-          url={tileUrl}
-        />
-        <ResetOnMapClick onReset={() => setActiveId(null)} />
-        <FitBounds locations={thailandLocations} />
+    <div className="h-full w-full pb-10">
+      <div className="h-10 text-2xl px-5 font-semibold">Geological View</div>
+      <div className="sm:w-full h-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm ">
+        <MapContainer center={center} zoom={9} scrollWheelZoom className="w-full h-full">
+          <TileLayer
+            key={dark ? "dark-tiles" : "light-tiles"}   // IMPORTANT: forces redraw
+            attribution='&copy; OpenStreetMap contributors &copy; CARTO'
+            url={tileUrl}
+          />
+          <ResetOnMapClick onReset={() => setActiveId(null)} />
+          <FitBounds locations={thailandLocations} />
 
-        {thailandLocations.map((loc) => {
-          const isActive = activeId === loc.id;
-          const isDimmed = activeId !== null && !isActive;
+          {thailandLocations.map((loc) => {
+            const isActive = activeId === loc.id;
+            const isDimmed = activeId !== null && !isActive;
 
-          return (
-            <Marker
-              key={loc.id}
-              position={[loc.lat, loc.lng]}
-              icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive },getSize)}
-              zIndexOffset={loc.Conglomerate === "PTT Entity" ? 1000 : 0}
+            return (
+              <Marker
+                key={loc.id}
+                position={[loc.lat, loc.lng]}
+                icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive }, getSize)}
+                zIndexOffset={loc.Conglomerate === "PTT Entity" ? 1000 : 0}
 
-              eventHandlers={{
-                click: (e) => {
-                  // prevent map click reset from firing immediately
-                  L.DomEvent.stopPropagation(e.originalEvent);
+                eventHandlers={{
+                  click: (e) => {
+                    // prevent map click reset from firing immediately
+                    L.DomEvent.stopPropagation(e.originalEvent);
 
-                  // toggle active
-                  setActiveId((prev) => (prev === loc.id ? null : loc.id));
+                    // toggle active
+                    setActiveId((prev) => (prev === loc.id ? null : loc.id));
 
-                  // optional: still notify parent for filter updates
-                  onPointClick?.({
-                    city: loc.City ?? "All",
-                    company: loc.CompanyName ?? "All",
-                    state: loc.StateOrProvince ?? "All",
-                    conglomerate: loc.Conglomerate ?? "All",
-                    decarbPlan: loc.DecarbPlan ?? "All",
-                    industry: loc.Industry ?? "All",
-                  });
-                },
-              }}
+                    // optional: still notify parent for filter updates
+                    onPointClick?.({
+                      city: loc.City ?? "All",
+                      company: loc.CompanyName ?? "All",
+                      state: loc.StateOrProvince ?? "All",
+                      conglomerate: loc.Conglomerate ?? "All",
+                      decarbPlan: loc.DecarbPlan ?? "All",
+                      industry: loc.Industry ?? "All",
+                    });
+                  },
+                }}
 
-            >
-              <Popup>
-                <div className="text-sm">
-                  <div className="font-semibold">{loc.name}</div>
-                  <div className="text-slate-600 dark:text-slate-300">
-                    {analysisDimension}: {loc.groupValue || "Unknown"}
+              >
+                <Popup>
+                  <div className="text-sm">
+                    <div className="font-semibold">{loc.name}</div>
+                    <div className="text-slate-600 dark:text-slate-300">
+                      {analysisDimension}: {loc.groupValue || "Unknown"}
+                    </div>
+                    <div className="text-slate-600 dark:text-slate-300">
+                      {loc.lat.toFixed(5)}, {loc.lng.toFixed(5)}
+                    </div>
                   </div>
-                  <div className="text-slate-600 dark:text-slate-300">
-                    {loc.lat.toFixed(5)}, {loc.lng.toFixed(5)}
-                  </div>
-                </div>
-              </Popup>
-            </Marker>
-          );
-        })}
-      </MapContainer>
+                </Popup>
+              </Marker>
+            );
+          })}
+        </MapContainer>
+      </div>
     </div>
   );
 }

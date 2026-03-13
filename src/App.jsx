@@ -6,17 +6,20 @@ import { Routes, Route } from "react-router-dom";
 import { Dashboard1 } from "./Dashboard1";
 import { Dashboard2 } from "./Dashboard2";
 import { Dashboard3 } from "./Dashboard3";
+import { HomePage } from "./HomePage";
 
 function App() {
   const [dark, setDark] = useState(false);
 
   return (
     <div className={dark ? "dark" : ""}>
-      <div className="h-screen bg-white text-black dark:bg-slate-950 dark:text-white flex flex-col">
-        <Navbar dark={dark} setDark={setDark} />
-        <div className="flex-1 overflow-hidden">
+      <div className="h-screen bg-white text-black dark:bg-slate-950 dark:text-white flex flex-col overflow-hidden scrollbar-hide">
+        <div className="sticky top-0 z-9999">
+          <Navbar dark={dark} setDark={setDark} />
+        </div>
+        <div className="flex-1">
           <Routes>
-            <Route path="/" element={<DummyDashboard dark={dark} />} />
+            <Route path="/" element={<HomePage />} />
             {/* <Route path="/dashboard1" element={<Tab1 />} /> */}
             <Route path="/dashboard1" element={<Dashboard1 />} />
             <Route path="/dashboard2" element={<Dashboard2 />} />

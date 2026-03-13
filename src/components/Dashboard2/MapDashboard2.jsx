@@ -164,82 +164,85 @@ export function MapDashboard2({
 
   const tileUrl = dark
     ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-    : "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png";
+    : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
 
   const values = locations.map((loc) => loc.value);
   const getSize = createValueScaler(values, 1, 50, "sqrt");
 
   return (
-    <div className="sm:w-full h-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-      <MapContainer center={[13.736717, 100.523186]} zoom={6} scrollWheelZoom className="w-full h-full">
-        <TileLayer
-          key={dark ? "dark-tiles" : "light-tiles"}
-          attribution='&copy; OpenStreetMap contributors &copy; CARTO'
-          url={tileUrl}
-        />
+    <div className="h-full w-full pb-10">
+      <div className="h-10 text-2xl px-5 font-semibold">Geographical View</div>
+      <div className="w-full h-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <MapContainer center={[13.736717, 100.523186]} zoom={6} scrollWheelZoom className="h-full w-full">
+          <TileLayer
+            key={dark ? "dark-tiles" : "light-tiles"}
+            attribution='&copy; OpenStreetMap contributors &copy; CARTO'
+            url={tileUrl}
+          />
 
-        <ResetOnMapClick onReset={() => setActiveId(null)} />
-        <FitBounds locations={locations} />
+          <ResetOnMapClick onReset={() => setActiveId(null)} />
+          <FitBounds locations={locations} />
 
-        {locations.map((loc) => {
-          const isActive = activeId === loc.id;
-          const isDimmed = activeId !== null && !isActive;
+          {locations.map((loc) => {
+            const isActive = activeId === loc.id;
+            const isDimmed = activeId !== null && !isActive;
 
-          const isPTT = loc.Conglomerate === "PTT Entity";
+            const isPTT = loc.Conglomerate === "PTT Entity";
 
-          return (
-            <Marker
-              key={loc.id}
-              position={[loc.lat, loc.lng]}
-              icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive }, getSize)}
-              zIndexOffset={isPTT ? 1000 : 0}
-              eventHandlers={{
-                click: (e) => {
-                  // prevent map click reset from firing immediately
-                  L.DomEvent.stopPropagation(e.originalEvent);
+            return (
+              <Marker
+                key={loc.id}
+                position={[loc.lat, loc.lng]}
+                icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive }, getSize)}
+                zIndexOffset={isPTT ? 1000 : 0}
+                eventHandlers={{
+                  click: (e) => {
+                    // prevent map click reset from firing immediately
+                    L.DomEvent.stopPropagation(e.originalEvent);
 
-                  // toggle active
-                  setActiveId((prev) => (prev === loc.id ? null : loc.id));
+                    // toggle active
+                    setActiveId((prev) => (prev === loc.id ? null : loc.id));
 
-                  // optional: still notify parent for filter updates
-                  onPointClick?.({
-                    city: loc.City ?? "All",
-                    company: loc.CompanyName ?? "All",
-                    state: loc.StateOrProvince ?? "All",
-                    conglomerate: loc.Conglomerate ?? "All",
-                    decarbPlan: loc.DecarbPlan ?? "All",
-                    industry: loc.Industry ?? "All",
-                  });
-                },
-              }}
-            >
-              <Tooltip
-                direction="top"
-                offset={[0, -10]}
-                opacity={1}
-                permanent={false}
+                    // optional: still notify parent for filter updates
+                    onPointClick?.({
+                      city: loc.City ?? "All",
+                      company: loc.CompanyName ?? "All",
+                      state: loc.StateOrProvince ?? "All",
+                      conglomerate: loc.Conglomerate ?? "All",
+                      decarbPlan: loc.DecarbPlan ?? "All",
+                      industry: loc.Industry ?? "All",
+                    });
+                  },
+                }}
               >
-                <div className="text-sm space-y-1">
-                  <div className="font-semibold">{loc.CompanyName || "Unknown"}</div>
+                <Tooltip
+                  direction="top"
+                  offset={[0, -10]}
+                  opacity={1}
+                  permanent={false}
+                >
+                  <div className="text-sm space-y-1">
+                    <div className="font-semibold">{loc.CompanyName || "Unknown"}</div>
 
-                  <div>City: {loc.City || "-"}</div>
-                  <div>State: {loc.StateOrProvince || "-"}</div>
-                  <div>Conglomerate: {loc.Conglomerate || "-"}</div>
-                  <div>Industry: {loc.Industry || "-"}</div>
-                  <div>Decarbonization Plan: {loc.DecarbPlan || "-"}</div>
-                  <div>Decarbonization Lever: {selectedFilters.decarbLever ?? "All"}</div>
-                  <div>Technology: *</div>
-                  <div>Emission Type: {selectedFilters.emissionType ?? "All"}</div>
+                    <div>City: {loc.City || "-"}</div>
+                    <div>State: {loc.StateOrProvince || "-"}</div>
+                    <div>Conglomerate: {loc.Conglomerate || "-"}</div>
+                    <div>Industry: {loc.Industry || "-"}</div>
+                    <div>Decarbonization Plan: {loc.DecarbPlan || "-"}</div>
+                    <div>Decarbonization Lever: {selectedFilters.decarbLever ?? "All"}</div>
+                    <div>Technology: *</div>
+                    <div>Emission Type: {selectedFilters.emissionType ?? "All"}</div>
 
-                  <div className="font-medium pt-1">
-                    Total Emission: {loc.value.toFixed(1)}
+                    <div className="font-medium pt-1">
+                      Total Emission: {loc.value.toFixed(1)}
+                    </div>
                   </div>
-                </div>
-              </Tooltip>
-            </Marker>
-          );
-        })}
-      </MapContainer>
+                </Tooltip>
+              </Marker>
+            );
+          })}
+        </MapContainer>
+      </div>
     </div>
   );
 }

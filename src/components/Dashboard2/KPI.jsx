@@ -45,12 +45,12 @@ export function KPI({ rowsD2V3, rowsD2V4_5 }) {
     ]
 
     return (
-        <div className="h-full w-full flex justify-evenly items-center pb-20">
+        <div className="h-full w-full flex justify-between items-center">
             {kpiData.map(kpi => {
                 return (
-                    <div key={kpi.text} className="h-30 w-30 rounded-xl border-2 border-slate-300 bg-slate-100 p-4 shadow-lg hover:bg-slate-50">
-                        <div className="flex h-12 py-1 text-xs text-center items-center">{kpi.text}</div>
-                        <div className="text-center text-xl font-semibold pt-4">{kpi.value}</div>
+                    <div key={kpi.text} className="h-35 w-35 rounded-xl border-2 border-slate-300 bg-slate-100 p-4 shadow-lg hover:bg-slate-50">
+                        <div className=" h-10 text-center text-2xl font-semibold pb-4">{kpi.value}</div>
+                        <div className="flex h-15 py-1 text-xs text-center">{kpi.text}</div>
                     </div>
                 )
             })}

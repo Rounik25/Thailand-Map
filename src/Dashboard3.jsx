@@ -1,6 +1,5 @@
 import { AreaChart1 } from "./components/Dashboard3/AreaChart1"
 import { AreaChart2 } from "./components/Dashboard3/AreaChart2"
-import { FilterDashboard3 } from "./components/Dashboard3/FilterDashboard3"
 import { useState, useEffect, useMemo } from "react";
 import { parseWorkbookToSheets } from "./utils/importData";
 import { applyConfigFiltersDashboard3 } from "./utils/Dashboard3/applyFiltersDashboard3";
@@ -100,27 +99,31 @@ export function Dashboard3() {
     }, [filteredDataRows])
 
     return (
-        <div className="h-screen flex justify-evenly pb-15">
-            <div className="h-full w-4/10 pl-5">
-                <AreaChart1
-                    rows={filteredRowAll}
-                    col={analysisDimension}
-                    selectedKey={selectedKeyAll}
-                    setSelectedKey={setSelectedKeyAll}
-                    cost={filteredAllCost}
-                />
+        <div className="h-full flex justify-between scrollbar-hide overflow-y-auto">
+            <div className="h-full w-8/10 flex p-10">
+                <div className="flex w-full h-full">
+                    <div className="h-full w-1/2 mr-10">
+                        <AreaChart1
+                            rows={filteredRowAll}
+                            col={analysisDimension}
+                            selectedKey={selectedKeyAll}
+                            setSelectedKey={setSelectedKeyAll}
+                            cost={filteredAllCost}
+                        />
+                    </div>
+                    <div className="h-full w-1/2">
+                        <AreaChart2
+                            rows={filteredRowPtt}
+                            col={analysisDimension}
+                            selectedKey={selectedKeyPtt}
+                            setSelectedKey={setSelectedKeyPtt}
+                            cost={filteredPttCost}
+                        />
+                    </div>
+                </div>
             </div>
-            <div className="h-full w-4/10 pl-5">
-                <AreaChart2
-                    rows={filteredRowPtt}
-                    col={analysisDimension}
-                    selectedKey={selectedKeyPtt}
-                    setSelectedKey={setSelectedKeyPtt}
-                    cost={filteredPttCost}
-                />
-            </div>
-            <div className="h-full w-4/20 p-5 pl-10 pb-10">
-                <div className="h-full ">
+            <div className="h-full w-2/10 flex p-10">
+                <div className="h-full w-full max-w-full rounded-xl border-2 border-slate-300 shadow-lg">
                     <TestFilter3
                         sheetData={sheetData}
                         value={selectedFilters}

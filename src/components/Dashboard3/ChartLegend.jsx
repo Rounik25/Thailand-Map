@@ -54,7 +54,7 @@ export default function ChartLegendDashboard3({
   const anySelected = Boolean(selectedKeyAll || selectedKeyPtt);
 
   return (
-    <div className="rounded-xl bg-white">
+    <div className="h-50 rounded-xl bg-white">
       <div className="text-red-600 text-md font-bold text-center p-1">Legend</div>
 
       <div className="text-sm font-semibold text-slate-700 mb-2">

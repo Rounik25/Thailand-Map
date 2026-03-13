@@ -1,6 +1,5 @@
 import { MapDashboard2 } from "./components/Dashboard2/MapDashboard2"
 import { CardsDashboard2 } from "./components/Dashboard2/CardsDashboard2"
-import { FilterDashboard2 } from "./components/Dashboard2/FilterDashboard2"
 import { parseWorkbookToSheets } from "./utils/importData"
 import { useState, useEffect, useMemo } from "react"
 import { FILTERS_CONFIG_DASHBOARD2 } from "./utils/filterConfigDashboard2"
@@ -109,22 +108,27 @@ export function Dashboard2({ dark }) {
     }, [d2V4_5Rows, selectedFilters]);
 
     return (
-        <div className="flex h-screen w-full">
-            <div className="flex h-screen w-[35%] p-5 pb-25">
-                <MapDashboard2
-                    dark={dark}
-                    rows={filteredMapRows} 
-                    emissionType={selectedFilters.emissionType}
-                    decarbLever={selectedFilters.decarbLever}
-                    selectedFilters = {selectedFilters}
-                />
+        <div className="h-screen pb-15 flex justify-between scrollbar-hide overflow-y-auto">
+            <div className="flex h-full w-8/10 p-10">
+                <div className="h-full w-1/3 mr-10">
+                    <div className="h-full w-full">
+                        <MapDashboard2
+                            dark={dark}
+                            rows={filteredMapRows}
+                            emissionType={selectedFilters.emissionType}
+                            decarbLever={selectedFilters.decarbLever}
+                            selectedFilters={selectedFilters}
+                        />
+                    </div>
+                </div>
+                <div className="h-full w-2/3">
+                    <CardsDashboard2 rowsD2V1={filteredD2V1Rows} rowsD2V3={filteredD2V3Rows} rowsD2V4_5={filtereddDV4_5Rows} selectedFilters={selectedFilters} />
+                </div>
             </div>
-            <div className="flex h-screen w-[45%]">
-                <CardsDashboard2 rowsD2V1={filteredD2V1Rows} rowsD2V3={filteredD2V3Rows} rowsD2V4_5={filtereddDV4_5Rows} selectedFilters={selectedFilters} />
-            </div>
-            <div className="flex h-screen w-[20%] p-5 pb-25">
-                {/* <FilterDashboard2 sheetData={sheetData} value={selectedFilters} onChange={setSelectedFilters} /> */}
-                <TestFilter2 sheetData={sheetData} value={selectedFilters} onChange={setSelectedFilters}  />
+            <div className="flex h-full w-2/10 p-10">
+                <div className="h-full w-full min-h-0 overflow-y-auto scrollbar-hide">
+                <TestFilter2 sheetData={sheetData} value={selectedFilters} onChange={setSelectedFilters} />
+                </div>
 
             </div>
         </div>

@@ -50,7 +50,7 @@ export function TestFilter2({ sheetData = {}, value, onChange }) {
   }, [sheetData]);
 
   return (
-    <div className="h-full w-full shadow-lg border-2 border-slate-300 rounded-lg">
+    <div className="h-full w-full max-h-full shadow-lg border-2 border-slate-300 rounded-xl">
       <Filters
         sheetData={sheetData}
         value={value}

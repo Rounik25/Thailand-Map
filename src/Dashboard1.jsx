@@ -63,29 +63,31 @@ export function Dashboard1() {
     }, [baseRows, selectedBarType, analysisDimension]);
 
     return (
-        <div className="w-[100%] h-[100vh] bg-white flex justify-between">
-            <div className="h-[100%] w-3/10 m-10">
-                <CardsDashboard1
-                    rows={baseRows}
-                    emissionType={selectedFilters.emissionType}
-                    analysisDimension={analysisDimension}
-                    selectedType={selectedBarType}
-                    onSelectType={setSelectedBarType}
-                />
-            </div>
-
-            <div className="w-5/10 h-[100vh] m-10">
-                <div className="h-16/20 shadow-lg rounded-xl bg-slate-100 flex">
-                    <MapDashboard1
-                        rows={mapRows}
+        <div className="w-full h-full bg-white flex justify-between">
+            <div className="w-8/10 h-full flex p-10">
+                <div className="h-full w-1/2 mr-10">
+                    <CardsDashboard1
+                        rows={baseRows}
                         emissionType={selectedFilters.emissionType}
                         analysisDimension={analysisDimension}
+                        selectedType={selectedBarType}
+                        onSelectType={setSelectedBarType}
                     />
+                </div>
+
+                <div className="h-full w-1/2">
+                    <div className="h-full flex">
+                        <MapDashboard1
+                            rows={mapRows}
+                            emissionType={selectedFilters.emissionType}
+                            analysisDimension={analysisDimension}
+                        />
+                    </div>
                 </div>
             </div>
 
-            <div className="h-[100vh] w-5/20">
-                <div className="h-8/10 w-8/10 max-h-[100%] rounded-xl m-10 border-2 border-slate-300  shadow-lg">
+            <div className="h-full w-2/10 p-10">
+                <div className="h-full w-full max-h-[100%] rounded-xl border-2 border-slate-300  shadow-lg">
                     <TestFilter1
                         rows={rows}
                         value={selectedFilters}

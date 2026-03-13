@@ -1,9 +1,10 @@
 import { EntityLegend } from "./EntityLegend";
 import { TechnologyLegend } from "./TechnologyLegend";
+import { FinalLegend } from "../Dashboard3/FinalLegend";
 
-export function RenderLegend({selected, setSelected, currentTechOptions, COL1_ID, COL2_ID, col2ToCol1}) {
+export function RenderLegend({ selected, setSelected, currentTechOptions, COL1_ID, COL2_ID, col2ToCol1 }) {
     return (
-        <div>
+        <div className="h-full min-h-0 flex flex-col">
             <div className="text-md font-bold text-red-600 text-center my-1">Legend</div>
             <div className="p-1 text-sm font-semibold">Entity Category</div>
             <EntityLegend />

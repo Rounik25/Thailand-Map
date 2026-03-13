@@ -40,10 +40,10 @@ export function Navbar({ /*dark,*/ setDark }) {
   }, [location.pathname]); // run when route changes
 
   const linkBase =
-    "px-2 py-1 font-semibold text-lg text-slate-700 dark:text-slate-200";
+    "px-2 py-1 font-semibold text-md dark:text-slate-200";
 
   return (
-    <div className="h-15 px-4 flex items-center justify-between bg-white dark:bg-black border-slate-200 border-2 shadow-sm mb-2 ">
+    <div className="h-15 min-h-15 px-4 flex items-center justify-between bg-white dark:bg-black border-slate-200 border-2 shadow-sm sticky">
       <div className="font-bold text-xl">{getTitle()} 
       </div>
 
@@ -60,7 +60,7 @@ export function Navbar({ /*dark,*/ setDark }) {
               `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
             }
           >
-            Home
+            Home Page
           </NavLink>
 
           <NavLink
@@ -69,7 +69,7 @@ export function Navbar({ /*dark,*/ setDark }) {
               `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
             }
           >
-            Dashboard-1
+            EEC Emissions Baseline Dashboard
           </NavLink>
 
           <NavLink
@@ -78,7 +78,7 @@ export function Navbar({ /*dark,*/ setDark }) {
               `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
             }
           >
-            Dashboard-2
+            Decarbonization Technology Dashboard
           </NavLink>
 
           <NavLink
@@ -87,7 +87,7 @@ export function Navbar({ /*dark,*/ setDark }) {
               `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
             }
           >
-            Dashboard-3
+            Emission Abatement Pathways
           </NavLink>
 
           {/* Sliding line indicator */}

@@ -34,7 +34,6 @@ export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#6
                         dataKey="type"
                         tick = {false}
                         interval={0}
-                        // tick={{ fontSize: 11 }}
                         angle={n > 6 ? -20 : 0}
                         textAnchor={n > 6 ? "end" : "middle"}
                         height={n > 6 ? 60 : 30}
@@ -43,6 +42,7 @@ export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#6
                     <YAxis
                         domain={[0, roundedMax]}
                         ticks={ticks}
+                        tick={{fontSize: 12}}
                         label={{
                             value: "Estimated Value (Million tons CO2)",
                             angle: -90,

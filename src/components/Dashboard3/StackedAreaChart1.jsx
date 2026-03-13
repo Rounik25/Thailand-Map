@@ -135,6 +135,7 @@ export default function StackedAreaChart1({ rows = [], col, selectedKey, setSele
           <YAxis
             domain={[0, yMax]}
             ticks={Array.from({ length: yMax / 5 + 1 }, (_, i) => i * 5)}
+            tick={{ fontSize: 12 }}
             label={{
               value: "Estimated Value (Million tons CO2)",
               angle: -90,
