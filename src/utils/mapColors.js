@@ -34,20 +34,54 @@ const FIXED_COLORS = {
     "Decarbonization Plan": {
         // Replace keys EXACTLY as they appear in your Excel "Decarbonization Plan" column
         "Companies with net zero target beyond 2045": "#16a34a",
-        "Companies with no net zero ambitions but have decarbonization ambitions": "#f59e0b",
         "Companies with no stated decarbonization ambitions": "#0ea5e9",
-        "Companies with net zero target by 2045": "#64748b",
-        "Companies with no decarb ambitions but have regulatory exposure to Europe": "#8b6482",
+        "Companies with net zero target by 2045": "#cc3b3b",
+        "Companies with no net-zero targets but have compliance-led decarbonization ambitions": "#f59e0b",
+    },
+};
+
+const FIXED_COLORS_DARK = {
+    Entity: {
+        "PTT Entity": "#ff0000",
+        "Non-PTT Entity": "#0091ff",
+    },
+
+    Sector: {
+        "Cement and Concrete Product Manufacturing": "#104c3e",
+        "Chemicals": "#507867",
+        "Metal Products Manufacturing": "#cfb793",
+        "Miscellaneous Transportation Equipment Manufacturing": "#16a34a",
+        "Motor Vehicle Manufacturing": "#0ea5e9",
+        "Motor Vehicle Parts Manufacturing": "#a855f7",
+        "Non-Metallic Mineral Product Manufacturing": "#faecdb",
+        "Paint, Coating, and Adhesive Manufacturing": "#64748b",
+        "Paper Product Manufacturing": "#ab8933",
+        "Plastic Product Manufacturing": "#cbcf62",
+        "Refining": "#faeec3",
+        "Rubber Product Manufacturing": "#083000",
+        "Power Plants - Coal": "#c6aa3d",
+        "Power Plants - Natural Gas": "#e9cd49",
+        "Transport - Airport": "#5f2e36",
+        "Transport - Truck": "#002559",
+        "Transport - Shipping": "#925300",
+    },
+
+    "Decarbonization Plan": {
+        // Replace keys EXACTLY as they appear in your Excel "Decarbonization Plan" column
+        "Companies with net zero target beyond 2045": "#16a34a",
+        "Companies with no stated decarbonization ambitions": "#0ea5e9",
+        "Companies with net zero target by 2045": "#cc3b3b",
+        "Companies with no net-zero targets but have compliance-led decarbonization ambitions": "#f59e0b",
     },
 };
 
 const FALLBACK_COLOR = "#64748b"; // slate
 
-export function buildColorMap(rows, analysisDimension) {
+export function buildColorMap(rows, analysisDimension, dark) {
     const column = DIMENSION_TO_COLUMN[analysisDimension];
 
     // Fixed map for this dimension (may be undefined if you haven’t defined it yet)
-    const fixed = FIXED_COLORS[analysisDimension] ?? {};
+    const fixed = dark ? FIXED_COLORS_DARK[analysisDimension] ?? {} : FIXED_COLORS[analysisDimension] ?? {};
 
     // Optional: collect uniques (useful for legend / debugging)
     const uniques = Array.from(
@@ -62,6 +96,7 @@ export function buildColorMap(rows, analysisDimension) {
     const colorByValue = {};
     uniques.forEach((val) => {
         colorByValue[val] = fixed[val] ?? FALLBACK_COLOR;
+        console.log(colorByValue)
     });
 
     return { column, colorByValue, uniques, fallbackColor: FALLBACK_COLOR };

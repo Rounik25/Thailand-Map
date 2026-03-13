@@ -6,7 +6,7 @@ import { FILTERS_CONFIG_DASHBOARD1 } from "./utils/filterConfigDashboard1"
 import { TestFilter1 } from "./components/Dashboard1/TestFilter1"
 import { applyFilters } from "./utils/filterUtils"
 
-export function Dashboard1() {
+export function Dashboard1({ dark }) {
     const [rows, setRows] = useState([]);
     const [selectedFilters, setSelectedFilters] = useState(() => {
         const init = {};
@@ -20,19 +20,26 @@ export function Dashboard1() {
         let cancelled = false;
 
         async function loadExcel() {
-            // Served from Vite public/: public/data/data.xlsx => /data/data.xlsx
-            const res = await fetch("/data/dataTab2.xlsx");
+            const res = await fetch("/data/data.xlsx");
             if (!res.ok) throw new Error(`Failed to load excel: ${res.status}`);
 
             const buf = await res.arrayBuffer();
             const wb = XLSX.read(buf, { type: "array" });
-            const ws = wb.Sheets[wb.SheetNames[0]];
+
+            const sheetName = "Industries and PP Factbase";
+            const ws = wb.Sheets[sheetName];
+
+            if (!ws) {
+                throw new Error(`Sheet "${sheetName}" not found in Excel file`);
+            }
+
             const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
 
             if (!cancelled) setRows(json);
         }
 
         loadExcel().catch(console.error);
+
         return () => {
             cancelled = true;
         };
@@ -63,37 +70,46 @@ export function Dashboard1() {
     }, [baseRows, selectedBarType, analysisDimension]);
 
     return (
-        <div className="w-full h-full bg-white flex justify-between">
-            <div className="w-8/10 h-full flex p-10">
-                <div className="h-full w-1/2 mr-10">
-                    <CardsDashboard1
-                        rows={baseRows}
-                        emissionType={selectedFilters.emissionType}
-                        analysisDimension={analysisDimension}
-                        selectedType={selectedBarType}
-                        onSelectType={setSelectedBarType}
-                    />
-                </div>
+        <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex justify-between">
+            <div className="flex flex-col w-8/10 h-full flex p-5 pr-0">
+                <div className="h-full w-full bg-white dark:bg-slate-900 border-2 border-slate-300 rounded-xl shadow-xl flex flex-col min-h-0">
+                    <div className="h-20 w-full shrink-0"></div>
+                    <div className="flex-1 flex min-h-0 w-full flex">
+                        <div className="h-full w-1/2 mr-5 ">
+                            <CardsDashboard1
+                                rows={baseRows}
+                                emissionType={selectedFilters.emissionType}
+                                analysisDimension={analysisDimension}
+                                selectedType={selectedBarType}
+                                onSelectType={setSelectedBarType}
+                                dark={dark}
+                            />
+                        </div>
 
-                <div className="h-full w-1/2">
-                    <div className="h-full flex">
-                        <MapDashboard1
-                            rows={mapRows}
-                            emissionType={selectedFilters.emissionType}
-                            analysisDimension={analysisDimension}
-                        />
+                        <div className="h-full w-1/2">
+                            <div className="h-full flex p-5 pt-0">
+                                <MapDashboard1
+                                    rows={mapRows}
+                                    emissionType={selectedFilters.emissionType}
+                                    analysisDimension={analysisDimension}
+                                    dark={dark}
+                                />
+                            </div>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
 
-            <div className="h-full w-2/10 p-10">
-                <div className="h-full w-full max-h-[100%] rounded-xl border-2 border-slate-300  shadow-lg">
+            <div className="h-full w-2/10 p-5">
+                <div className="h-full w-full max-h-[100%] rounded-xl border-2 border-slate-300 shadow-xl bg-white dark:bg-slate-900">
                     <TestFilter1
                         rows={rows}
                         value={selectedFilters}
                         onChange={setSelectedFilters}
                         analysisDimension={analysisDimension}
                         onAnalysisDimensionChange={setAnalysisDimension}
+                        dark={dark}
                     />
                 </div>
             </div>

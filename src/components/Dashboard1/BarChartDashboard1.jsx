@@ -9,7 +9,7 @@ import {
     LabelList
 } from "recharts";
 
-export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#64748b", selectedType = null, onSelectType, }) {
+export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#64748b", selectedType = null, onSelectType, dark }) {
     const maxValue = Math.max(...data.map((d) => Number(d.value) || 0), 0);
     const paddedMax = maxValue * 1.05;
     const roundedMax = Math.ceil(paddedMax / 5) * 5;
@@ -21,6 +21,9 @@ export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#6
 
     const n = Math.max(data.length, 1);
     const maxBarSize = Math.max(18, Math.min(90, Math.floor(240 / n)));
+
+    const axisColor = dark ? "#ffffff" : "#334155";   // axis + ticks
+    const labelColor = dark ? "#ffffff" : "#0f172a";  // axis label
     return (
         <div className="w-full h-full " style={{ outline: "none" }}>
             <ResponsiveContainer width="100%" height="100%">
@@ -32,23 +35,27 @@ export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#6
 
                     <XAxis
                         dataKey="type"
-                        tick = {false}
+                        tick={false}
                         interval={0}
                         angle={n > 6 ? -20 : 0}
                         textAnchor={n > 6 ? "end" : "middle"}
                         height={n > 6 ? 60 : 30}
+                        axisLine={{stroke: axisColor}}
+                        tickLine={{stroke: labelColor}}
                     />
 
                     <YAxis
                         domain={[0, roundedMax]}
                         ticks={ticks}
-                        tick={{fontSize: 12}}
+                        tick={{ fontSize: 12, fill: axisColor }}
+                        axisLine={{stroke: axisColor}}
+                        tickLine={{stroke: labelColor}}
                         label={{
                             value: "Estimated Value (Million tons CO2)",
                             angle: -90,
                             position: "outsideLeft",
                             dx: -10,
-                            style: { textAnchor: "middle", fontSize: 12 },
+                            style: { textAnchor: "middle", fontSize: 12, fill: axisColor },
                         }}
                     />
                     <Tooltip

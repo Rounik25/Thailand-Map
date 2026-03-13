@@ -115,7 +115,7 @@ export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
     years.push(i);
   }
   return (
-    <div className="w-full h-full bg-white dark:bg-slate-900 py-5 pr-5 shadow-lg border-2 border-slate-300 rounded-xl" onClick={resetSelection}>
+    <div className="w-full h-full bg-white dark:bg-slate-900 pr-5" onClick={resetSelection}>
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={chartData} onClick={resetSelection}>
           <ReferenceLine

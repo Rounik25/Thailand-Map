@@ -66,8 +66,8 @@ function emissionValueForRow(r, emissionType) {
   }
 }
 
-function setLocation(rows, emissionType, analysisDimension) {
-  const { column, colorByValue } = buildColorMap(rows, analysisDimension);
+function setLocation(rows, emissionType, analysisDimension, dark) {
+  const { column, colorByValue } = buildColorMap(rows, analysisDimension, dark);
   return rows
     .filter((r) => {
       const lat = Number(r.Latitude);
@@ -143,8 +143,8 @@ function calculateCenter(locations) {
 
 export default function MapDashboard1({ dark, rows, emissionType, onPointClick, analysisDimension }) {
   const thailandLocations = useMemo(
-    () => setLocation(rows, emissionType, analysisDimension),
-    [rows, emissionType, analysisDimension]
+    () => setLocation(rows, emissionType, analysisDimension, dark),
+    [rows, emissionType, analysisDimension, dark]
   );
   const center = calculateCenter(rows)
 
@@ -159,8 +159,8 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
 
   return (
     <div className="h-full w-full pb-10">
-      <div className="h-10 text-2xl px-5 font-semibold">Geological View</div>
-      <div className="sm:w-full h-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm ">
+      <div className="h-10 text-xl px-5 font-semibold">Geological View</div>
+      <div className="sm:w-full h-full overflow-hidden rounded-xl border-slate-300 border-2">
         <MapContainer center={center} zoom={9} scrollWheelZoom className="w-full h-full">
           <TileLayer
             key={dark ? "dark-tiles" : "light-tiles"}   // IMPORTANT: forces redraw

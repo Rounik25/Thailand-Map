@@ -51,7 +51,6 @@ export default function Filters({
 
   renderCustomFiltersTop,
   renderCustomFilters,
-  renderLegend,
   renderFooter,
 
   className = "",
@@ -82,7 +81,7 @@ export default function Filters({
       className={`h-full w-full flex flex-col rounded-xl px-2 min-h-0 overflow-hidden ${className}`}
     >
       <div
-        className={`flex-1 min-h-0 flex flex-col bg-white px-4 dark:border-slate-800 dark:bg-slate-950 overflow-hidden ${innerClassName}`}
+        className={`flex-1 min-h-0 flex flex-col bg-white px-4 dark:border-slate-800 dark:bg-slate-900 overflow-hidden ${innerClassName}`}
       >
         <div className="text-center text-red-600 font-bold text-md mt-3 shrink-0">
           {title}
@@ -136,12 +135,6 @@ export default function Filters({
             Select,
           })}
         </div>
-
-        {renderLegend ? (
-          <div className="flex-1 min-h-0 mt-3 overflow-hidden">
-            {renderLegend({ selected, setSelected, optionsByFilter })}
-          </div>
-        ) : null}
       </div>
 
       {renderFooter ? (

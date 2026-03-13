@@ -170,9 +170,8 @@ export function MapDashboard2({
   const getSize = createValueScaler(values, 1, 50, "sqrt");
 
   return (
-    <div className="h-full w-full pb-10">
-      <div className="h-10 text-2xl px-5 font-semibold">Geographical View</div>
-      <div className="w-full h-full overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+    <div className="h-full w-full">
+      <div className="w-full h-full overflow-hidden rounded-xl border-2 border-slate-300 shadow-xl">
         <MapContainer center={[13.736717, 100.523186]} zoom={6} scrollWheelZoom className="h-full w-full">
           <TileLayer
             key={dark ? "dark-tiles" : "light-tiles"}

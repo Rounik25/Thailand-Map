@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
-export function Navbar({ /*dark,*/ setDark }) {
+export function Navbar({ dark, setDark }) {
   const location = useLocation();
   const linksContainerRef = useRef(null);
   const indicatorRef = useRef(null);
@@ -20,9 +20,6 @@ export function Navbar({ /*dark,*/ setDark }) {
         return "Dashboard";
     }
   };
-
-  // can remove the setDark statement when enabling the onclick effect of theme button
-  setDark(false)
 
   useEffect(() => {
     const container = linksContainerRef.current;
@@ -43,8 +40,8 @@ export function Navbar({ /*dark,*/ setDark }) {
     "px-2 py-1 font-semibold text-md dark:text-slate-200";
 
   return (
-    <div className="h-15 min-h-15 px-4 flex items-center justify-between bg-white dark:bg-black border-slate-200 border-2 shadow-sm sticky">
-      <div className="font-bold text-xl">{getTitle()} 
+    <div className="h-15 min-h-15 px-4 flex items-center justify-between border-b-2 border-slate-300 bg-slate-100 dark:bg-slate-950 sticky shadow-lg">
+      <div className="font-bold text-3xl pl-10">{getTitle()} 
       </div>
 
       <div className="flex items-center">
@@ -57,7 +54,7 @@ export function Navbar({ /*dark,*/ setDark }) {
             to="/"
             end
             className={({ isActive }) =>
-              `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
+              `${linkBase} ${isActive ? "nav-item-active" : ""}`
             }
           >
             Home Page
@@ -66,7 +63,7 @@ export function Navbar({ /*dark,*/ setDark }) {
           <NavLink
             to="/dashboard1"
             className={({ isActive }) =>
-              `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
+              `${linkBase} ${isActive ? "nav-item-active" : ""}`
             }
           >
             EEC Emissions Baseline Dashboard
@@ -75,7 +72,7 @@ export function Navbar({ /*dark,*/ setDark }) {
           <NavLink
             to="/dashboard2"
             className={({ isActive }) =>
-              `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
+              `${linkBase} ${isActive ? "nav-item-active" : ""}`
             }
           >
             Decarbonization Technology Dashboard
@@ -84,7 +81,7 @@ export function Navbar({ /*dark,*/ setDark }) {
           <NavLink
             to="/dashboard3"
             className={({ isActive }) =>
-              `${linkBase} ${isActive ? "nav-item-active text-blue-600" : ""}`
+              `${linkBase} ${isActive ? "nav-item-active" : ""}`
             }
           >
             Emission Abatement Pathways
@@ -98,16 +95,17 @@ export function Navbar({ /*dark,*/ setDark }) {
           />
         </div>
 
-        {/* <button
-          className="ml-6"
-        onClick={() => setDark((p) => !p)}
+        <button
+          className="ml-6 cursor-pointer"
+          // onClick={() => setDark((p) => !p)}  
+          onClick={() => setDark(false)}  
         >
           {dark ? (
             <img src="src/assets/sun.svg" alt="sun logo" className="w-6 h-6" />
           ) : (
             <img src="src/assets/moon.svg" alt="moon logo" className="w-6 h-6" />
           )}
-        </button> */}
+        </button>
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 export function Legends({ size }) {
-    console.log(Math.min(...size))
     const minSize = Math.min(...size)/2
     const maxSize = Math.max(...size)/2
     const sum = size.reduce((accumulator, currentValue) => accumulator + currentValue, 0)

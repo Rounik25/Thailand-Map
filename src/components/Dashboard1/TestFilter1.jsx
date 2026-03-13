@@ -30,14 +30,6 @@ export function TestFilter1({
       analysisDimensionOptions={ANALYSIS_DIMENSIONS_OPTIONS}
       showEmissionType
       
-      renderLegend={() => (
-        <Legends
-          rows={rows}
-          analysisDimension={analysisDimension}
-          onClickItem={() => { }}
-          showCount={true}
-        />
-      )}
       renderFooter={() => (
         <img src="src/assets/logo.svg" alt="Bain Logo" />
       )}

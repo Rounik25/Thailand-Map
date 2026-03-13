@@ -24,33 +24,38 @@ export function KPI({ rowsD2V3, rowsD2V4_5 }) {
     const kpiData = [
         {
             text: "Minimum volume required \n (Mn TCo2 abeted)",
-            value: minVolume
+            value: minVolume,
+            color: "#0897d9"
         },
         {
             text: "PTT abatement volume",
-            value: Ptt.toFixed(1)
+            value: Ptt.toFixed(1),
+            color: "#1ea873"
         },
         {
             text: "Non-PTT abatement volume",
-            value: Non_ptt.toFixed(1)
+            value: Non_ptt.toFixed(1),
+            color: "#ff2735"
         },
         {
-            text: "Weighted average cost of abatedment \n (if PTT does for self)",
-            value: avgNon_PTT_Col
+            text: "Average cost of abatedment for only PTT entities ($/ton)",
+            value: avgPTT_Col,
+            color: "#af00a0"
         },
         {
-            text: "Weighted average cost of abatedment \n (if PTT does for others)",
-            value: avgPTT_Col
+            text: "Average cost of abatedment for all entities ($/ton)",
+            value: avgNon_PTT_Col,
+            color: "#f45900"
         },
     ]
 
     return (
-        <div className="h-full w-full flex justify-between items-center">
+        <div className="h-full w-full flex justify-between items-start">
             {kpiData.map(kpi => {
                 return (
-                    <div key={kpi.text} className="h-35 w-35 rounded-xl border-2 border-slate-300 bg-slate-100 p-4 shadow-lg hover:bg-slate-50">
+                    <div key={kpi.text} style={{backgroundColor: kpi.color}} className={`h-40 w-40 text-white border-2 rounded-xl border-slate-300 bg-white p-4 shadow-xl hover:bg-slate-50`}>
                         <div className=" h-10 text-center text-2xl font-semibold pb-4">{kpi.value}</div>
-                        <div className="flex h-15 py-1 text-xs text-center">{kpi.text}</div>
+                        <div className="flex h-15 py-1 text-sm text-center">{kpi.text}</div>
                     </div>
                 )
             })}

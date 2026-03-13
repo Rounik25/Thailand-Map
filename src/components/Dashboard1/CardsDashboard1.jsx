@@ -29,7 +29,7 @@ function updateData(rows, emissionType, analysisDimension) {
     const column = ANALYSIS_DIMENSION_TO_COLUMN[analysisDimension] ?? "Conglomerate";
 
     // Sum emissions by group value
-    console.log(rows.filter(f => f["State or Province"] === "Across provinces (Trucking)"))
+    // console.log(rows.filter(f => f["State or Province"] === "Across provinces (Trucking)"))
     const totals = new Map();
     for (const r of rows) {
         const key = String(r?.[column] ?? "Unknown").trim() || "Unknown";
@@ -49,19 +49,21 @@ export function CardsDashboard1({
     analysisDimension,
     selectedType,
     onSelectType,
+    dark,
 }) {
     const data = updateData(rows, emissionType, analysisDimension);
-    const { colorByValue, fallbackColor } = buildColorMap(rows, analysisDimension);
+    const { colorByValue, fallbackColor } = buildColorMap(rows, analysisDimension, dark);
     return (
-        <div className="h-full w-full pb-10">
-            <div className="h-10 text-2xl px-5 font-semibold">Analytic View</div>
-            <div className="h-full w-full border-2 border-slate-300 rounded-xl shadow-lg">
+        <div className="h-full w-full pb-10 dark:text-white">
+            <div className="h-10 text-xl px-10 font-semibold">Analytic View</div>
+            <div className="h-full w-full">
                 <BarChartDashboard1
                     data={data}
                     colorByType={colorByValue}
                     fallbackColor={fallbackColor}
                     selectedType={selectedType}
                     onSelectType={onSelectType}
+                    dark={dark}
                 />
             </div>
         </div>

@@ -100,30 +100,34 @@ export function Dashboard3() {
 
     return (
         <div className="h-full flex justify-between scrollbar-hide overflow-y-auto">
-            <div className="h-full w-8/10 flex p-10">
-                <div className="flex w-full h-full">
-                    <div className="h-full w-1/2 mr-10">
-                        <AreaChart1
-                            rows={filteredRowAll}
-                            col={analysisDimension}
-                            selectedKey={selectedKeyAll}
-                            setSelectedKey={setSelectedKeyAll}
-                            cost={filteredAllCost}
-                        />
-                    </div>
-                    <div className="h-full w-1/2">
-                        <AreaChart2
-                            rows={filteredRowPtt}
-                            col={analysisDimension}
-                            selectedKey={selectedKeyPtt}
-                            setSelectedKey={setSelectedKeyPtt}
-                            cost={filteredPttCost}
-                        />
+            <div className="h-full w-8/10 flex p-5 pr-0">
+                <div className="flex flex-col w-full h-full bg-white border-2 border-slate-300 rounded-xl shadow-xl">
+                    <div className="text-2xl text-center font-semibold py-1">Emissions to be Abated</div>
+                    <div className="">Legend</div>
+                    <div className="flex-1 w-full flex">
+                        <div className="h-full w-1/2 mr-5">
+                            <AreaChart1
+                                rows={filteredRowAll}
+                                col={analysisDimension}
+                                selectedKey={selectedKeyAll}
+                                setSelectedKey={setSelectedKeyAll}
+                                cost={filteredAllCost}
+                            />
+                        </div>
+                        <div className="h-full w-1/2">
+                            <AreaChart2
+                                rows={filteredRowPtt}
+                                col={analysisDimension}
+                                selectedKey={selectedKeyPtt}
+                                setSelectedKey={setSelectedKeyPtt}
+                                cost={filteredPttCost}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="h-full w-2/10 flex p-10">
-                <div className="h-full w-full max-w-full rounded-xl border-2 border-slate-300 shadow-lg">
+            <div className="h-full w-2/10 flex p-5">
+                <div className="h-full w-full max-w-full rounded-xl border-2 border-slate-300 shadow-xl bg-white">
                     <TestFilter3
                         sheetData={sheetData}
                         value={selectedFilters}

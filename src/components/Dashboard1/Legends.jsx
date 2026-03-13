@@ -7,10 +7,11 @@ export default function Labels({
   onClickItem,
   showCount = true,
   maxHeightPx = 180, // scroll height
+  dark
 }) {
   const colorInfo = useMemo(
-    () => buildColorMap(rows, analysisDimension),
-    [rows, analysisDimension]
+    () => buildColorMap(rows, analysisDimension, dark),
+    [rows, analysisDimension, dark]
   );
 
   const { column, colorByValue, uniques, fallbackColor = "#64748b" } = colorInfo;
