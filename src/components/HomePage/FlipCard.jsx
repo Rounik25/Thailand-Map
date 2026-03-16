@@ -15,7 +15,7 @@ export default function FlipCard({data}) {
         }`}
       >
         {/* Front */}
-        <div className="absolute w-full h-full backface-hidden flex items-center justify-center rounded-lg shadow-lg bg-slate-100 hover:bg-slate-50 text-2xl">  
+        <div className="absolute w-full h-full backface-hidden flex items-center justify-center rounded-lg shadow-lg bg-white hover:bg-slate-50 text-2xl">  
           {data.name}
         </div>
 

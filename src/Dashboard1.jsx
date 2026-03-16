@@ -1,14 +1,12 @@
 import { CardsDashboard1 } from "./components/Dashboard1/CardsDashboard1"
 import MapDashboard1 from "./components/Dashboard1/MapDashboard1"
-import { useEffect, useMemo, useState } from "react"
-import * as XLSX from "xlsx"
+import { useMemo, useState } from "react"
 import { FILTERS_CONFIG_DASHBOARD1 } from "./utils/filterConfigDashboard1"
 import { TestFilter1 } from "./components/Dashboard1/TestFilter1"
 import { applyFilters } from "./utils/filterUtils"
 import Legends from "./components/Dashboard1/Legends"
 
-export function Dashboard1({ dark }) {
-    const [rows, setRows] = useState([]);
+export function Dashboard1({ dark, rows }) {
     const [selectedFilters, setSelectedFilters] = useState(() => {
         const init = {};
         for (const f of FILTERS_CONFIG_DASHBOARD1) init[f.id] = "All";
@@ -16,35 +14,6 @@ export function Dashboard1({ dark }) {
     });
 
     const [analysisDimension, setAnalysisDimension] = useState("Entity");
-
-    useEffect(() => {
-        let cancelled = false;
-
-        async function loadExcel() {
-            const res = await fetch("/data/data.xlsx");
-            if (!res.ok) throw new Error(`Failed to load excel: ${res.status}`);
-
-            const buf = await res.arrayBuffer();
-            const wb = XLSX.read(buf, { type: "array" });
-
-            const sheetName = "Industries and PP Factbase";
-            const ws = wb.Sheets[sheetName];
-
-            if (!ws) {
-                throw new Error(`Sheet "${sheetName}" not found in Excel file`);
-            }
-
-            const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
-
-            if (!cancelled) setRows(json);
-        }
-
-        loadExcel().catch(console.error);
-
-        return () => {
-            cancelled = true;
-        };
-    }, []);
 
     const [selectedBarType, setSelectedBarType] = useState(null);
 
