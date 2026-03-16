@@ -12,20 +12,20 @@ const FIXED_COLORS = {
     },
 
     Sector: {
-        "Cement and Concrete Product Manufacturing": "#104c3e",
-        "Chemicals": "#507867",
-        "Metal Products Manufacturing": "#cfb793",
+        "Cement and Concrete Product Manufacturing": "#9c487f",
+        "Chemicals": "#1c4b74",
+        "Metal Products Manufacturing": "#529045",
         "Miscellaneous Transportation Equipment Manufacturing": "#16a34a",
-        "Motor Vehicle Manufacturing": "#0ea5e9",
+        "Motor Vehicle Manufacturing": "#64c693",
         "Motor Vehicle Parts Manufacturing": "#a855f7",
         "Non-Metallic Mineral Product Manufacturing": "#faecdb",
         "Paint, Coating, and Adhesive Manufacturing": "#64748b",
         "Paper Product Manufacturing": "#ab8933",
-        "Plastic Product Manufacturing": "#cbcf62",
-        "Refining": "#faeec3",
-        "Rubber Product Manufacturing": "#083000",
-        "Power Plants - Coal": "#c6aa3d",
-        "Power Plants - Natural Gas": "#e9cd49",
+        "Plastic Product Manufacturing": "#bcf3ac",
+        "Refining": "#7D9AB3",
+        "Rubber Product Manufacturing": "#18490e",
+        "Power Plants - Coal": "#CAD5DF",
+        "Power Plants - Natural Gas": "#00284b",
         "Transport - Airport": "#5f2e36",
         "Transport - Truck": "#002559",
         "Transport - Shipping": "#925300",
@@ -33,9 +33,9 @@ const FIXED_COLORS = {
 
     "Decarbonization Plan": {
         // Replace keys EXACTLY as they appear in your Excel "Decarbonization Plan" column
-        "Companies with net zero target beyond 2045": "#16a34a",
-        "Companies with no stated decarbonization ambitions": "#0ea5e9",
-        "Companies with net zero target by 2045": "#cc3b3b",
+        "Companies with net zero target beyond 2045": "#497659",
+        "Companies with no stated decarbonization ambitions": "#639fbb",
+        "Companies with net zero target by 2045": "#c16d6d",
         "Companies with no net-zero targets but have compliance-led decarbonization ambitions": "#f59e0b",
     },
 };

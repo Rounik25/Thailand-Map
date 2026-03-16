@@ -5,6 +5,7 @@ import * as XLSX from "xlsx"
 import { FILTERS_CONFIG_DASHBOARD1 } from "./utils/filterConfigDashboard1"
 import { TestFilter1 } from "./components/Dashboard1/TestFilter1"
 import { applyFilters } from "./utils/filterUtils"
+import Legends from "./components/Dashboard1/Legends"
 
 export function Dashboard1({ dark }) {
     const [rows, setRows] = useState([]);
@@ -72,9 +73,15 @@ export function Dashboard1({ dark }) {
     return (
         <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex justify-between">
             <div className="flex flex-col w-8/10 h-full flex p-5 pr-0">
-                <div className="h-full w-full bg-white dark:bg-slate-900 border-2 border-slate-300 rounded-xl shadow-xl flex flex-col min-h-0">
-                    <div className="font-semibold text-2xl pl-10 py-5">Analytic View</div>
-                    <div className="h-20 w-full shrink-0"></div>
+                <div className="h-full w-full bg-white dark:bg-slate-900 rounded-xl shadow-xl flex flex-col min-h-0">
+                    <div className="h-auto w-full shrink-0 pb-5">
+                        <Legends
+                            rows={baseRows}
+                            analysisDimension={analysisDimension}
+                            onClickItem={() => {}}
+                            showCount={false}
+                        />
+                    </div>
                     <div className="flex-1 flex min-h-0 w-full flex">
                         <div className="h-full w-1/2 mr-5 ">
                             <CardsDashboard1
@@ -103,7 +110,7 @@ export function Dashboard1({ dark }) {
             </div>
 
             <div className="h-full w-2/10 p-5">
-                <div className="h-full w-full max-h-[100%] rounded-xl border-2 border-slate-300 shadow-xl bg-white dark:bg-slate-900">
+                <div className="h-full w-full max-h-[100%] rounded-xl shadow-xl bg-white dark:bg-slate-900">
                     <TestFilter1
                         rows={rows}
                         value={selectedFilters}

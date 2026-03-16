@@ -42,6 +42,7 @@ export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#6
                         height={n > 6 ? 60 : 30}
                         axisLine={{stroke: axisColor}}
                         tickLine={{stroke: labelColor}}
+                        padding={{ left: 10 }}
                     />
 
                     <YAxis
@@ -50,6 +51,7 @@ export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#6
                         tick={{ fontSize: 12, fill: axisColor }}
                         axisLine={{stroke: axisColor}}
                         tickLine={{stroke: labelColor}}
+                        
                         label={{
                             value: "Estimated Value (Million tons CO2)",
                             angle: -90,
@@ -70,6 +72,7 @@ export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#6
                         maxBarSize={maxBarSize}
                         activeBar={false}
                         stroke="none"
+                        padding={{ left: 10 }}
                         onClick={(barData) => {
                             // barData.payload is your row: { type, value }
                             const clickedType = barData?.payload?.type;

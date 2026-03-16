@@ -1,6 +1,6 @@
 import { TECHNOLOGY_COLORS } from "../../utils/Dashboard2/technologyLineColors";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import {
   LineChart,
   Line,
@@ -18,7 +18,7 @@ function ActiveDot({ cx, cy, tech, color, dimmed, setHoveredTech, setSelectedTec
       cy={cy}
       r={5}
       fill={color}
-       opacity={dimmed ? 0.15 : 1} 
+      opacity={dimmed ? 0.15 : 1}
       stroke={dimmed ? "transparent" : "black"}
       strokeWidth={1}
       style={{ cursor: "pointer" }}
@@ -56,10 +56,14 @@ function CustomTooltip({ active, payload, label, decarbLever, hoveredTech }) {
   );
 }
 
-export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
-  const [hoveredTech, setHoveredTech] = useState(null);
-  const [selectedTech, setSelectedTech] = React.useState(null);
-
+export function LineChartDashboard2({
+  rows = [],
+  decarbLever = "",
+  selectedTech,
+  setSelectedTech,
+  hoveredTech,
+  setHoveredTech,
+}) {
   function resetSelection() {
     setSelectedTech(null);
   }
@@ -102,7 +106,6 @@ export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
   const roundedMax = Math.ceil(maxValue / 10) * 10;
   const paddedMin = minValue - 20;
   const roundedMin = Math.ceil(paddedMin / 10) * 10;
-  console.log(roundedMax)
   const maxYear = Math.max(...rows.map((d) => Number(d.Year)), 2025);
   const minYear = Math.min(...rows.map((d) => Number(d.Year)), 2025);
 
@@ -130,7 +133,7 @@ export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
             domain={[minYear, maxYear + 0.5]}
             ticks={years}
             interval={0}
-            tick={{ fontSize: 12 }} 
+            tick={{ fontSize: 12 }}
             label={{ value: "Year", position: "insideBottom", offset: -5 }}
           />
           <YAxis
@@ -142,7 +145,7 @@ export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
               dx: -10,
             }}
             ticks={ticks}
-            tick={{fontSize: 12}}
+            tick={{ fontSize: 12 }}
           />
           <Tooltip
             cursor={false}
@@ -169,7 +172,7 @@ export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
                 dataKey={tech}
                 stroke={color}
                 strokeWidth={isSelected ? 3 : 2}
-                strokeOpacity={dim ? 0.15 : 1}      
+                strokeOpacity={dim ? 0.15 : 1}
                 dot={false}
                 connectNulls
                 isAnimationActive={false}

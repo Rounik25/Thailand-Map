@@ -1,7 +1,6 @@
 import React from "react";
 import Filters from "../common/Filter";
 import { FILTERS_CONFIG_DASHBOARD1 } from "../../utils/filterConfigDashboard1";
-import Legends from "./Legends";
 
 const ANALYSIS_DIMENSIONS_OPTIONS = ["Entity", "Sector", "Decarbonization Plan"];
 

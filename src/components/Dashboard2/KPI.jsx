@@ -25,27 +25,27 @@ export function KPI({ rowsD2V3, rowsD2V4_5 }) {
         {
             text: "Minimum volume required \n (Mn TCo2 abeted)",
             value: minVolume,
-            color: "#0897d9"
+            color: "#7D9AB3"
         },
         {
             text: "PTT abatement volume",
             value: Ptt.toFixed(1),
-            color: "#1ea873"
+            color: "#8FA7BB"
         },
         {
             text: "Non-PTT abatement volume",
             value: Non_ptt.toFixed(1),
-            color: "#ff2735"
+            color: "#9AAFC2"
         },
         {
             text: "Average cost of abatedment for only PTT entities ($/ton)",
             value: avgPTT_Col,
-            color: "#af00a0"
+            color: "#B7C6D4"
         },
         {
             text: "Average cost of abatedment for all entities ($/ton)",
             value: avgNon_PTT_Col,
-            color: "#f45900"
+            color: "#CAD5DF"
         },
     ]
 
@@ -53,7 +53,11 @@ export function KPI({ rowsD2V3, rowsD2V4_5 }) {
         <div className="h-full w-full flex justify-between items-start">
             {kpiData.map(kpi => {
                 return (
-                    <div key={kpi.text} style={{backgroundColor: kpi.color}} className={`h-40 w-40 text-white border-2 rounded-xl border-slate-300 bg-white p-4 shadow-xl hover:bg-slate-50`}>
+                    <div 
+                        key={kpi.text} 
+                        style={{backgroundColor: kpi.color}} 
+                        className={`h-40 w-40 text-black rounded-xl p-4 hover:bg-slate-50 m-1`}
+                    >
                         <div className=" h-10 text-center text-2xl font-semibold pb-4">{kpi.value}</div>
                         <div className="flex h-15 py-1 text-sm text-center">{kpi.text}</div>
                     </div>

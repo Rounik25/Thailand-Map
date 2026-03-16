@@ -18,11 +18,11 @@ function keyFromRow(row, analysisDimension) {
 export default function ChartLegendDashboard3({
   rows = [],
   analysisDimension,
-  selectedKeyAll,  
-  selectedKeyPtt, 
-  onChange,        
+  selectedKeyAll,
+  selectedKeyPtt,
+  onChange,
 }) {
-  const { bucket, items } = useMemo(() => {
+  const { items } = useMemo(() => {
     const bucket = bucketFromAnalysisDimension(analysisDimension);
 
     const present = new Set();
@@ -48,34 +48,28 @@ export default function ChartLegendDashboard3({
       color: COLOR_DASHBOARD3?.[bucket]?.[k] ?? "#64748b",
     }));
 
-    return { bucket, items };
+    return { items };
   }, [rows, analysisDimension]);
 
   const anySelected = Boolean(selectedKeyAll || selectedKeyPtt);
 
   return (
-    <div className="h-50 rounded-xl bg-white">
-      <div className="text-red-600 text-md font-bold text-center p-1">Legend</div>
-
-      <div className="text-sm font-semibold text-slate-700 mb-2">
-        {bucket === "Lever 1" ? "Decarbonization Lever" : "Technology"}
-      </div>
-
-      {items.length === 0 ? (
-        <div className="text-xs text-slate-500">No legend items</div>
-      ) : (
-        <div className="overflow-auto pr-1">
-          <ul className="space-y-2">
+    <div className="w-fullrounded-xl bg-white flex justify-center">
+      <div>
+        {items.length === 0 ? (
+          <div className="text-xs text-slate-500">No legend items</div>
+        ) : (
+          <div className="grid grid-cols-5 w-full">
             {items.map((it) => {
               // considered selected if either chart selected it
               const isSelected = selectedKeyAll === it.key || selectedKeyPtt === it.key;
               const dim = anySelected && !isSelected;
 
               return (
-                <li key={it.key}>
+                <div key={it.key}>
                   <button
                     type="button"
-                    className="w-full flex items-center gap-2 text-left"
+                    className="w-full flex items-center gap-2 text-left mx-5"
                     style={{ opacity: dim ? 0.25 : 1 }}
                     onClick={() => {
                       // toggle: if both charts currently on this key, reset -> null
@@ -91,12 +85,12 @@ export default function ChartLegendDashboard3({
                     />
                     <span className="text-sm text-slate-700">{it.key}</span>
                   </button>
-                </li>
+                </div>
               );
             })}
-          </ul>
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

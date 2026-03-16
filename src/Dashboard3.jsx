@@ -5,6 +5,7 @@ import { parseWorkbookToSheets } from "./utils/importData";
 import { applyConfigFiltersDashboard3 } from "./utils/Dashboard3/applyFiltersDashboard3";
 import { FILTERS_CONFIG_DASHBOARD3 } from "./utils/filterConfigDashboard3";
 import { TestFilter3 } from "./components/Dashboard3/TestFilter3";
+import ChartLegendDashboard3 from "./components/Dashboard3/ChartLegend";
 
 export function Dashboard3() {
     const [sheetData, setSheetData] = useState(null);
@@ -101,9 +102,21 @@ export function Dashboard3() {
     return (
         <div className="h-full flex justify-between scrollbar-hide overflow-y-auto">
             <div className="h-full w-8/10 flex p-5 pr-0">
-                <div className="flex flex-col w-full h-full bg-white border-2 border-slate-300 rounded-xl shadow-xl">
-                    <div className="text-2xl text-center font-semibold py-1">Emissions to be Abated</div>
-                    <div className="">Legend</div>
+                <div className="flex flex-col w-full h-full bg-white rounded-xl shadow-xl">
+                    <div className="text-2xl text-center font-semibold pb-5 pt-2 flex">
+                        <img src="src\assets\area-chart.svg" alt="area-chart logo" className="pl-10"/>
+                        Emissions to be Abated
+                    </div>
+                    <div className="">
+                        <ChartLegendDashboard3
+                            rows={filteredDataRows}
+                            analysisDimension={analysisDimension}
+                            selectedKeyAll={selectedKeyAll}
+                            selectedKeyPtt={selectedKeyPtt}
+                            onChange={handleLegendChange}
+                            reverse
+                        />
+                    </div>
                     <div className="flex-1 w-full flex">
                         <div className="h-full w-1/2 mr-5">
                             <AreaChart1
@@ -127,7 +140,7 @@ export function Dashboard3() {
                 </div>
             </div>
             <div className="h-full w-2/10 flex p-5">
-                <div className="h-full w-full max-w-full rounded-xl border-2 border-slate-300 shadow-xl bg-white">
+                <div className="h-full w-full max-w-full rounded-xl shadow-xl bg-white">
                     <TestFilter3
                         sheetData={sheetData}
                         value={selectedFilters}

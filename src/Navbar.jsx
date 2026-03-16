@@ -1,7 +1,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef } from "react";
 
-export function Navbar({ dark, setDark }) {
+export function Navbar(/*{ dark, setDark }*/) {
   const location = useLocation();
   const linksContainerRef = useRef(null);
   const indicatorRef = useRef(null);
@@ -40,8 +40,14 @@ export function Navbar({ dark, setDark }) {
     "px-2 py-1 font-semibold text-md dark:text-slate-200";
 
   return (
-    <div className="h-15 min-h-15 px-4 flex items-center justify-between border-b-2 border-slate-300 bg-slate-100 dark:bg-slate-950 sticky shadow-lg">
-      <div className="font-bold text-3xl pl-10">{getTitle()} 
+    <div className="px-5 h-15 min-h-15 flex items-center justify-between bg-slate-100 dark:bg-slate-950 sticky shadow-lg">
+      <div className="flex pt-5">
+        <div className="h-15 w-15 pt-1">
+          <img src="src\assets\TrueNorthLogo.svg" alt="TN Logo" />
+        </div>
+        <div className="font-bold text-3xl">
+          {getTitle()}
+        </div>
       </div>
 
       <div className="flex items-center">
@@ -95,7 +101,7 @@ export function Navbar({ dark, setDark }) {
           />
         </div>
 
-        <button
+        {/* <button
           className="ml-6 cursor-pointer"
           // onClick={() => setDark((p) => !p)}  
           onClick={() => setDark(false)}  
@@ -105,7 +111,7 @@ export function Navbar({ dark, setDark }) {
           ) : (
             <img src="src/assets/moon.svg" alt="moon logo" className="w-6 h-6" />
           )}
-        </button>
+        </button> */}
       </div>
     </div>
   );

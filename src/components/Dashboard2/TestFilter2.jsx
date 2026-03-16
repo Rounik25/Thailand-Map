@@ -1,24 +1,16 @@
-import React, { useMemo } from "react";
 import Filters from "../common/Filter";
 import { FILTERS_CONFIG_DASHBOARD2 } from "../../utils/filterConfigDashboard2";
 import { RenderCustomFilters } from "./RenderCustomFilters";
-import { RenderLegend } from "./RenderLegend";
+import { useMemo } from "react";
 
 const EMISSION_TYPE_OPTIONS = ["All", "Process", "Fuel", "Indirect_Electricity"];
 
 export function TestFilter2({ sheetData = {}, value, onChange }) {
+  const COL1_ID = "decarbLever";
+  const COL2_ID = "technology";
   const MASTER_SHEET = "D2_V1";
   const COL1_KEY = "Decarbonization Lever";
   const COL2_KEY = "Technology";
-  const COL1_ID = "decarbLever";
-  const COL2_ID = "technology";
-
-  const initialSelected = {
-    [COL1_ID]: "CCUS",
-    [COL2_ID]: "All",
-    emissionType: "All",
-    ...Object.fromEntries(FILTERS_CONFIG_DASHBOARD2.map((f) => [f.id, "All"])),
-  };
 
   const { col2ToCol1, col1ToCol2s, col1OptionsAll, col2OptionsAll } = useMemo(() => {
     const rows = Array.isArray(sheetData?.[MASTER_SHEET]) ? sheetData[MASTER_SHEET] : [];
@@ -49,8 +41,15 @@ export function TestFilter2({ sheetData = {}, value, onChange }) {
     };
   }, [sheetData]);
 
+  const initialSelected = {
+    [COL1_ID]: "CCUS",
+    [COL2_ID]: "All",
+    emissionType: "All",
+    ...Object.fromEntries(FILTERS_CONFIG_DASHBOARD2.map((f) => [f.id, "All"])),
+  };
+
   return (
-    <div className="h-full w-full max-h-full shadow-lg border-2 border-slate-300 rounded-xl">
+    <div className="h-full w-full max-h-full shadow-lg rounded-xl">
       <Filters
         sheetData={sheetData}
         value={value}
@@ -70,40 +69,40 @@ export function TestFilter2({ sheetData = {}, value, onChange }) {
               : ["All", ...Array.from(col1ToCol2s.get(col1Value) ?? []).sort()];
 
           return (
-            <RenderCustomFilters 
-              selected={selected} 
-              setSelected={setSelected}
-              col1Value={col1Value}
-              col2Value={col2Value} 
-              COL1_ID={COL1_ID}
-              COL2_ID={COL2_ID}
-              col2OptionsAll={col2OptionsAll} 
-              col1ToCol2s={col1ToCol2s}
-              col1OptionsAll={col1OptionsAll} 
-              col2Options={col2Options}
-              col2ToCol1={col2ToCol1} 
-            />
-              
-          );
-        }}
-        renderLegend={({ selected, setSelected }) => {
-          const col1Value = selected[COL1_ID] ?? "CCUS";
-          const currentTechOptions =
-            col1Value === "All"
-              ? col2OptionsAll
-              : ["All", ...Array.from(col1ToCol2s.get(col1Value) ?? []).sort()];
-
-          return (
-            <RenderLegend
+            <RenderCustomFilters
               selected={selected}
               setSelected={setSelected}
-              currentTechOptions={currentTechOptions}
+              col1Value={col1Value}
+              col2Value={col2Value}
               COL1_ID={COL1_ID}
               COL2_ID={COL2_ID}
-              col2ToCol1={col2ToCol1} 
+              col2OptionsAll={col2OptionsAll}
+              col1ToCol2s={col1ToCol2s}
+              col1OptionsAll={col1OptionsAll}
+              col2Options={col2Options}
+              col2ToCol1={col2ToCol1}
             />
+
           );
         }}
+        // renderLegend={({ selected, setSelected }) => {
+        //   const col1Value = selected[COL1_ID] ?? "CCUS";
+        //   const currentTechOptions =
+        //     col1Value === "All"
+        //       ? col2OptionsAll
+        //       : ["All", ...Array.from(col1ToCol2s.get(col1Value) ?? []).sort()];
+
+        //   return (
+        //     <RenderLegend
+        //       selected={selected}
+        //       setSelected={setSelected}
+        //       currentTechOptions={currentTechOptions}
+        //       COL1_ID={COL1_ID}
+        //       COL2_ID={COL2_ID}
+        //       col2ToCol1={col2ToCol1} 
+        //     />
+        //   );
+        // }}
         renderFooter={() => <img src="src/assets/logo.svg" alt="Bain Logo" />}
       />
     </div>

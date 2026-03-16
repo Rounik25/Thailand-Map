@@ -1,49 +1,49 @@
-import React from "react";
 import { TECHNOLOGY_COLORS } from "../../utils/Dashboard2/technologyLineColors";
 
 export function TechnologyLegend({
   technologies = [],
-  selectedTechnology = "All",
-  onSelect,
-  counts = {},
+  selectedTech,
+  setSelectedTech,
+  hoveredTech,
+  setHoveredTech,
 }) {
   return (
-    <div className="h-full min-h-0 w-full flex flex-col overflow-y-auto pr-1">
-      {technologies.map((tech) => {
-        const isActive = selectedTechnology === tech;
-        const isFiltering = selectedTechnology !== "All";
+    <div className="w-full px-5 pb-2">
+      <div className="flex justify-center flex-wrap gap-x-4 gap-y-2">
+        {technologies.map((tech) => {
+          const isSelected = selectedTech === tech;
+          const isFiltering = selectedTech != null;
+          const dim = isFiltering && !isSelected;
+          const color = TECHNOLOGY_COLORS[tech] || "#000000";
 
-        return (
-          <button
-            key={tech}
-            onClick={() => onSelect?.(tech)}
-            className={`flex items-center justify-between w-full px-2 rounded-md text-left transition-all duration-200
-                ${isFiltering
-                ? isActive
-                  ? "opacity-100 font-medium bg-slate-100"
-                  : "opacity-30 hover:opacity-60"
-                : "opacity-100 hover:bg-slate-100 dark:hover:bg-slate-800"
-              }`}
-          >
-            <div className="flex items-center gap-3 min-w-0">
+          return (
+            <button
+              key={tech}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedTech((prev) => (prev === tech ? null : tech));
+              }}
+              onMouseEnter={() => setHoveredTech?.(tech)}
+              onMouseLeave={() => setHoveredTech?.(null)}
+              className="flex items-center gap-2 text-sm transition-opacity"
+              style={{ opacity: dim ? 0.35 : 1 }}
+            >
               <span
-                className="inline-block w-4 h-4 rounded-sm border border-slate-200 shrink-0"
+                className="inline-block h-3 w-3 rounded"
                 style={{
-                  background:
-                    TECHNOLOGY_COLORS[tech] ?? "#94a3b8",
+                  backgroundColor: color,
+                  transform: hoveredTech === tech ? "scale(1.15)" : "scale(1)",
+                  transition: "transform 0.15s ease",
                 }}
               />
-              <span className="text-sm truncate">{tech}</span>
-            </div>
-
-            {counts?.[tech] != null && (
-              <div className="text-xs text-slate-500 shrink-0">
-                {counts[tech]}
-              </div>
-            )}
-          </button>
-        );
-      })}
+              <span className={isSelected ? "font-semibold" : "font-normal"}>
+                {tech}
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

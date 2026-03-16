@@ -26,7 +26,7 @@ export function Select({ label, value, onChange, options = [] }) {
         onClick={() => setOpen((prev) => !prev)}
         className="flex justify-between w-full h-8 min-w-0 border-2 border-slate-200 bg-white pl-3 text-sm text-left text-gray-600 font-medium rounded-lg dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
       >
-        <span className="block truncate w-full text-md py-1">{value || "Select option"}</span>
+        <span className="block truncate w-full text-sm py-1">{value || "Select option"}</span>
         <img src="src\assets\Select-down.svg" alt="downLogo" />
       </button>
 

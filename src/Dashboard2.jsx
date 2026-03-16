@@ -9,8 +9,8 @@ import { TestFilter2 } from "./components/Dashboard2/TestFilter2"
 export function Dashboard2({ dark }) {
     const COL1_ID = "decarbLever";
     const COL2_ID = "technology";
-
     const [sheetData, setSheetData] = useState(null);
+
     const [selectedFilters, setSelectedFilters] = useState({
         [COL1_ID]: "CCUS",
         [COL2_ID]: "All",
@@ -110,26 +110,36 @@ export function Dashboard2({ dark }) {
     return (
         <div className="h-screen pb-15 flex justify-between scrollbar-hide overflow-y-auto">
             <div className="flex h-full w-8/10 p-5 pr-0">
-                <div className="h-full w-1/3 mr-5">
-                    <div className="h-full w-full">
-                        <MapDashboard2
-                            dark={dark}
-                            rows={filteredMapRows}
-                            emissionType={selectedFilters.emissionType}
-                            decarbLever={selectedFilters.decarbLever}
+                <div className="flex h-full w-full bg-white shadow-xl rounded-xl p-2">
+                    <div className="h-full w-1/3 mr-5">
+                        <div className="h-full w-full">
+                            <MapDashboard2
+                                dark={dark}
+                                rows={filteredMapRows}
+                                emissionType={selectedFilters.emissionType}
+                                decarbLever={selectedFilters.decarbLever}
+                                selectedFilters={selectedFilters}
+                            />
+                        </div>
+                    </div>
+                    <div className="h-full w-2/3">
+                        <CardsDashboard2
+                            rowsD2V1={filteredD2V1Rows}
+                            rowsD2V3={filteredD2V3Rows}
+                            rowsD2V4_5={filtereddDV4_5Rows}
                             selectedFilters={selectedFilters}
                         />
                     </div>
                 </div>
-                <div className="h-full w-2/3">
-                    <CardsDashboard2 rowsD2V1={filteredD2V1Rows} rowsD2V3={filteredD2V3Rows} rowsD2V4_5={filtereddDV4_5Rows} selectedFilters={selectedFilters} />
-                </div>
             </div>
             <div className="flex h-full w-2/10 p-5">
                 <div className="h-full w-full min-h-0 overflow-y-auto scrollbar-hide bg-white rounded-xl shadow-xl">
-                <TestFilter2 sheetData={sheetData} value={selectedFilters} onChange={setSelectedFilters} />
+                    <TestFilter2
+                        sheetData={sheetData}
+                        value={selectedFilters}
+                        onChange={setSelectedFilters}
+                    />
                 </div>
-
             </div>
         </div>
     )

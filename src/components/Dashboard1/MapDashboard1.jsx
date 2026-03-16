@@ -159,7 +159,7 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
 
   return (
     <div className="h-full w-full">
-      <div className="sm:w-full h-full overflow-hidden rounded-xl border-slate-300 border-2">
+      <div className="sm:w-full h-full overflow-hidden rounded-xl">
         <MapContainer center={center} zoom={9} scrollWheelZoom className="w-full h-full">
           <TileLayer
             key={dark ? "dark-tiles" : "light-tiles"}   // IMPORTANT: forces redraw

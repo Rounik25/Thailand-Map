@@ -171,7 +171,7 @@ export function MapDashboard2({
 
   return (
     <div className="h-full w-full">
-      <div className="w-full h-full overflow-hidden rounded-xl border-2 border-slate-300 shadow-xl">
+      <div className="w-full h-full overflow-hidden rounded-xl">
         <MapContainer center={[13.736717, 100.523186]} zoom={6} scrollWheelZoom className="h-full w-full">
           <TileLayer
             key={dark ? "dark-tiles" : "light-tiles"}
