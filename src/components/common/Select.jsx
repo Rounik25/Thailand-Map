@@ -16,17 +16,18 @@ export function Select({ label, value, onChange, options = [] }) {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full min-w-0 flex flex-col mt-0.5">
-      <span className="text-sm font-medium text-black dark:text-slate-300">
+    <div ref={containerRef} className="relative w-full min-w-0 flex flex-col mt-1">
+      <span className="text-md font-medium text-black dark:text-slate-300">
         {label}
       </span>
 
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className="w-full h-6 min-w-0 border-2 border-slate-200 bg-white px-3 text-sm text-left text-black rounded-lg dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
+        className="flex justify-between w-full h-8 min-w-0 border-2 border-slate-200 bg-white pl-3 text-sm text-left text-gray-600 font-medium rounded-lg dark:border-slate-700 dark:bg-slate-900 dark:text-slate-50"
       >
-        <span className="block truncate w-full">{value || "Select option"}</span>
+        <span className="block truncate w-full text-md py-1">{value || "Select option"}</span>
+        <img src="src\assets\Select-down.svg" alt="downLogo" />
       </button>
 
       {open && (

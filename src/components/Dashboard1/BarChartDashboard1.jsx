@@ -20,7 +20,7 @@ export function BarChartDashboard1({ data, colorByType = {}, fallbackColor = "#6
     }
 
     const n = Math.max(data.length, 1);
-    const maxBarSize = Math.max(18, Math.min(90, Math.floor(240 / n)));
+    const maxBarSize = Math.max(18, Math.min(100, Math.floor(240 / n)));
 
     const axisColor = dark ? "#ffffff" : "#334155";   // axis + ticks
     const labelColor = dark ? "#ffffff" : "#0f172a";  // axis label

@@ -158,8 +158,7 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
     : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
 
   return (
-    <div className="h-full w-full pb-10">
-      <div className="h-10 text-xl px-5 font-semibold">Geological View</div>
+    <div className="h-full w-full">
       <div className="sm:w-full h-full overflow-hidden rounded-xl border-slate-300 border-2">
         <MapContainer center={center} zoom={9} scrollWheelZoom className="w-full h-full">
           <TileLayer

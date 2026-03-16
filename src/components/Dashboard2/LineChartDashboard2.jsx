@@ -97,12 +97,12 @@ export function LineChartDashboard2({ rows = [], decarbLever = "" }) {
 
     return { chartData, technologies };
   }, [rows]);
-  const maxValue = Math.max(...rows.map((d) => Number(d.MACC) || 0), 0);
-  const minValue = Math.min(...rows.map((d) => Number(d.MACC) || 0), 0);
-  const paddedMax = maxValue + 10;
-  const roundedMax = Math.ceil(paddedMax / 10) * 10;
-  const paddedMin = minValue > 0 ? 0 : minValue - 10;
+  const maxValue = Math.max(...rows.map((d) => Number(d.MACC) || 0));
+  const minValue = Math.min(...rows.map((d) => Number(d.MACC)));
+  const roundedMax = Math.ceil(maxValue / 10) * 10;
+  const paddedMin = minValue - 20;
   const roundedMin = Math.ceil(paddedMin / 10) * 10;
+  console.log(roundedMax)
   const maxYear = Math.max(...rows.map((d) => Number(d.Year)), 2025);
   const minYear = Math.min(...rows.map((d) => Number(d.Year)), 2025);
 

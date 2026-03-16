@@ -54,8 +54,7 @@ export function CardsDashboard1({
     const data = updateData(rows, emissionType, analysisDimension);
     const { colorByValue, fallbackColor } = buildColorMap(rows, analysisDimension, dark);
     return (
-        <div className="h-full w-full pb-10 dark:text-white">
-            <div className="h-10 text-xl px-10 font-semibold">Analytic View</div>
+        <div className="h-full w-full dark:text-white">
             <div className="h-full w-full">
                 <BarChartDashboard1
                     data={data}
