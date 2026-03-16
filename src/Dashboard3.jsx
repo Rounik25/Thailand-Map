@@ -1,14 +1,12 @@
 import { AreaChart1 } from "./components/Dashboard3/AreaChart1"
 import { AreaChart2 } from "./components/Dashboard3/AreaChart2"
-import { useState, useEffect, useMemo } from "react";
-import { parseWorkbookToSheets } from "./utils/importData";
+import { useState, useMemo } from "react";
 import { applyConfigFiltersDashboard3 } from "./utils/Dashboard3/applyFiltersDashboard3";
 import { FILTERS_CONFIG_DASHBOARD3 } from "./utils/filterConfigDashboard3";
 import { TestFilter3 } from "./components/Dashboard3/TestFilter3";
 import ChartLegendDashboard3 from "./components/Dashboard3/ChartLegend";
 
-export function Dashboard3() {
-    const [sheetData, setSheetData] = useState(null);
+export function Dashboard3({sheetData}) {
     const [analysisDimension, setAnalysisDimension] = useState("Decarbonization Lever");
 
     const [selectedKeyAll, setSelectedKeyAll] = useState(null);
@@ -42,21 +40,6 @@ export function Dashboard3() {
         return init;
     }, []);
     const [selectedFilters, setSelectedFilters] = useState(initialSelectedFilters);
-
-    useEffect(() => {
-        async function loadExcel() {
-            try {
-                const response = await fetch("/data/data.xlsx");
-                const arrayBuffer = await response.arrayBuffer();
-
-                const parsed = parseWorkbookToSheets(arrayBuffer);
-                setSheetData(parsed);
-            } catch (err) {
-                console.error("Error loading Excel:", err);
-            }
-        }
-        loadExcel();
-    }, []);
 
     const dataSheet = "D3";
 

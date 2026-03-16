@@ -1,16 +1,13 @@
 import { MapDashboard2 } from "./components/Dashboard2/MapDashboard2"
 import { CardsDashboard2 } from "./components/Dashboard2/CardsDashboard2"
-import { parseWorkbookToSheets } from "./utils/importData"
-import { useState, useEffect, useMemo } from "react"
+import { useState, useMemo } from "react"
 import { FILTERS_CONFIG_DASHBOARD2 } from "./utils/filterConfigDashboard2"
 import { applyConfigFilters } from "./utils/Dashboard2/applyFIlters"
 import { TestFilter2 } from "./components/Dashboard2/TestFilter2"
 
-export function Dashboard2({ dark }) {
+export function Dashboard2({ dark, sheetData }) {
     const COL1_ID = "decarbLever";
     const COL2_ID = "technology";
-    const [sheetData, setSheetData] = useState(null);
-
     const [selectedFilters, setSelectedFilters] = useState({
         [COL1_ID]: "CCUS",
         [COL2_ID]: "All",
@@ -23,22 +20,7 @@ export function Dashboard2({ dark }) {
         company: "All",
 
     });
-
-    useEffect(() => {
-        async function loadExcel() {
-            try {
-                const response = await fetch("/data/data.xlsx");
-                const arrayBuffer = await response.arrayBuffer();
-
-                const parsed = parseWorkbookToSheets(arrayBuffer);
-                setSheetData(parsed);
-            } catch (err) {
-                console.error("Error loading Excel:", err);
-            }
-        }
-
-        loadExcel();
-    }, []);
+    
 
     const mapSheet = "D2_V2";
 

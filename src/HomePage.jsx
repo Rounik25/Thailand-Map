@@ -1,35 +1,9 @@
-import { useEffect, useMemo } from "react";
-import * as XLSX from "xlsx"
+import { useMemo } from "react";
 import { CountUpNumber } from "./components/HomePage/CountUpNumber";
 import MapDashboard1 from "./components/Dashboard1/MapDashboard1";
 import { Link } from "react-router-dom";
 
-export function HomePage({ rows, setRows }) {
-    useEffect(() => {
-        let cancelled = false;
-        async function loadExcel() {
-            const res = await fetch("/data/data.xlsx");
-            if (!res.ok) throw new Error(`Failed to load excel: ${res.status}`);
-
-            const buf = await res.arrayBuffer();
-            const wb = XLSX.read(buf, { type: "array" });
-
-            const sheetName = "Industries and PP Factbase";
-            const ws = wb.Sheets[sheetName];
-
-            if (!ws) {
-                throw new Error(`Sheet "${sheetName}" not found in Excel file`);
-            }
-
-            const json = XLSX.utils.sheet_to_json(ws, { defval: "" });
-
-            if (!cancelled) setRows(json);
-        }
-        loadExcel().catch(console.error);
-        return () => {
-            cancelled = true;
-        };
-    }, [setRows]);
+export function HomePage({ rows }) {
     const [
         capacity,
         PttCapacity,

@@ -16,8 +16,8 @@ export function Select({ label, value, onChange, options = [] }) {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full min-w-0 flex flex-col mt-1">
-      <span className="text-md font-medium text-black dark:text-slate-300">
+    <div ref={containerRef} className="relative w-full min-w-0 flex flex-col mt-2">
+      <span className="text-sm font-medium text-black dark:text-slate-300">
         {label}
       </span>
 
