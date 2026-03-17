@@ -40,79 +40,71 @@ export function Navbar(/*{ dark, setDark }*/) {
     "px-2 py-1 font-semibold text-md dark:text-slate-200";
 
   return (
-    <div className="px-5 h-15 min-h-15 flex items-center justify-between bg-slate-100 dark:bg-slate-950 sticky shadow-lg">
-      <div className="flex pt-5">
-        <div className="h-15 w-15 pt-1">
-          <img src="src\assets\TrueNorthLogo.svg" alt="TN Logo" />
-        </div>
-        <div className="font-bold text-3xl">
-          {getTitle()}
+    <header className="sticky top-0 z-[9999] bg-slate-100 dark:bg-slate-950 shadow-lg overflow-auto scrollbar-hide">
+      <div className="max-w-full px-4 sm:px-6 lg:px-8">
+        <div className="h-full min-h-[56px] flex items-center justify-between py-3">
+          <div className="flex items-center gap-3 min-w-0">
+            {/* Prefer importing the logo:
+              import TrueNorthLogo from 'src/assets/TrueNorthLogo.svg'
+              then <img src={TrueNorthLogo} ... /> */}
+            <div className="flex-shrink-0 w-10 h-10">
+              <img src="src/assets/TrueNorthLogo.svg" alt="TN Logo" className="w-full h-full object-contain" />
+            </div>
+
+            <div className="font-bold text-xl sm:text-2xl truncate min-w-0">
+              {getTitle()}
+            </div>
+          </div>
+
+          <div className="flex items-center min-w-0">
+            <div ref={linksContainerRef} className="relative flex items-center min-w-0">
+              <nav className="flex gap-4 items-center overflow-x-auto scrollbar-hide whitespace-nowrap min-w-0 px-1">
+                <NavLink
+                  to="/"
+                  end
+                  className={({ isActive }) => `${linkBase} ${isActive ? "nav-item-active" : ""}`}
+                >
+                  Home Page
+                </NavLink>
+
+                <NavLink
+                  to="/dashboard1"
+                  className={({ isActive }) => `${linkBase} ${isActive ? "nav-item-active" : ""}`}
+                >
+                  EEC Emissions Baseline Dashboard
+                </NavLink>
+
+                <NavLink
+                  to="/dashboard2"
+                  className={({ isActive }) => `${linkBase} ${isActive ? "nav-item-active" : ""}`}
+                >
+                  Decarbonization Technology Dashboard
+                </NavLink>
+
+                <NavLink
+                  to="/dashboard3"
+                  className={({ isActive }) => `${linkBase} ${isActive ? "nav-item-active" : ""}`}
+                >
+                  Emission Abatement Pathways
+                </NavLink>
+              </nav>
+
+              {/* Sliding line indicator */}
+              <span
+                ref={indicatorRef}
+                className="pointer-events-none absolute -bottom-1 h-1 rounded-full bg-red-600 transition-all duration-300 ease-out"
+                style={{ width: 0, transform: "translateX(0px)" }}
+              />
+            </div>
+
+            {/* optional theme toggle - keep it shrink-0 */}
+            {/* <button className="ml-4 shrink-0" onClick={() => setDark(p => !p)}>
+            {dark ? <img src="src/assets/sun.svg" alt="sun" className="w-6 h-6" /> :
+                    <img src="src/assets/moon.svg" alt="moon" className="w-6 h-6" />}
+          </button> */}
+          </div>
         </div>
       </div>
-
-      <div className="flex items-center">
-        {/* Links container needs to be relative for the indicator */}
-        <div
-          ref={linksContainerRef}
-          className="relative flex items-center gap-6"
-        >
-          <NavLink
-            to="/"
-            end
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? "nav-item-active" : ""}`
-            }
-          >
-            Home Page
-          </NavLink>
-
-          <NavLink
-            to="/dashboard1"
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? "nav-item-active" : ""}`
-            }
-          >
-            EEC Emissions Baseline Dashboard
-          </NavLink>
-
-          <NavLink
-            to="/dashboard2"
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? "nav-item-active" : ""}`
-            }
-          >
-            Decarbonization Technology Dashboard
-          </NavLink>
-
-          <NavLink
-            to="/dashboard3"
-            className={({ isActive }) =>
-              `${linkBase} ${isActive ? "nav-item-active" : ""}`
-            }
-          >
-            Emission Abatement Pathways
-          </NavLink>
-
-          {/* Sliding line indicator */}
-          <span
-            ref={indicatorRef}
-            className="pointer-events-none absolute -bottom-1 h-1 rounded-full bg-red-600 transition-all duration-300 ease-out"
-            style={{ width: 0, transform: "translateX(0px)" }}
-          />
-        </div>
-
-        {/* <button
-          className="ml-6 cursor-pointer"
-          // onClick={() => setDark((p) => !p)}  
-          onClick={() => setDark(false)}  
-        >
-          {dark ? (
-            <img src="src/assets/sun.svg" alt="sun logo" className="w-6 h-6" />
-          ) : (
-            <img src="src/assets/moon.svg" alt="moon logo" className="w-6 h-6" />
-          )}
-        </button> */}
-      </div>
-    </div>
+    </header>
   );
 }
