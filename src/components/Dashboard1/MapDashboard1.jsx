@@ -158,14 +158,20 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
     : "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png";
 
   return (
-    <div className="h-full w-full">
-      <div className="sm:w-full h-full overflow-hidden rounded-xl">
-        <MapContainer center={center} zoom={9} scrollWheelZoom className="w-full h-full">
+    <div className="h-full w-full min-h-0 min-w-0 overflow-hidden">
+      <div className="h-full w-full min-h-0 min-w-0 overflow-hidden rounded-xl">
+        <MapContainer
+          center={center}
+          zoom={9}
+          scrollWheelZoom
+          className="h-full w-full"
+        >
           <TileLayer
-            key={dark ? "dark-tiles" : "light-tiles"}   // IMPORTANT: forces redraw
-            attribution='&copy; OpenStreetMap contributors &copy; CARTO'
+            key={dark ? "dark-tiles" : "light-tiles"}
+            attribution="&copy; OpenStreetMap contributors &copy; CARTO"
             url={tileUrl}
           />
+
           <ResetOnMapClick onReset={() => setActiveId(null)} />
           <FitBounds locations={thailandLocations} />
 
@@ -177,18 +183,18 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
               <Marker
                 key={loc.id}
                 position={[loc.lat, loc.lng]}
-                icon={createDivIcon(loc.value, loc.color, { dimmed: isDimmed, active: isActive }, getSize)}
+                icon={createDivIcon(
+                  loc.value,
+                  loc.color,
+                  { dimmed: isDimmed, active: isActive },
+                  getSize
+                )}
                 zIndexOffset={loc.Conglomerate === "PTT Entity" ? 1000 : 0}
-
                 eventHandlers={{
                   click: (e) => {
-                    // prevent map click reset from firing immediately
                     L.DomEvent.stopPropagation(e.originalEvent);
-
-                    // toggle active
                     setActiveId((prev) => (prev === loc.id ? null : loc.id));
 
-                    // optional: still notify parent for filter updates
                     onPointClick?.({
                       city: loc.City ?? "All",
                       company: loc.CompanyName ?? "All",
@@ -199,10 +205,9 @@ export default function MapDashboard1({ dark, rows, emissionType, onPointClick, 
                     });
                   },
                 }}
-
               >
                 <Popup>
-                  <div className="text-sm">
+                  <div className="text-sm max-w-[220px] break-words">
                     <div className="font-semibold">{loc.name}</div>
                     <div className="text-slate-600 dark:text-slate-300">
                       {analysisDimension}: {loc.groupValue || "Unknown"}

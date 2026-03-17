@@ -40,19 +40,20 @@ export function Dashboard1({ dark, rows }) {
     }, [baseRows, selectedBarType, analysisDimension]);
 
     return (
-        <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex justify-between">
-            <div className="flex flex-col w-8/10 h-full flex p-5 pr-0">
-                <div className="h-full w-full bg-white dark:bg-slate-900 rounded-xl shadow-xl flex flex-col min-h-0">
-                    <div className="h-auto w-full shrink-0 pb-5">
+        <div className="w-full h-full min-h-0 min-w-0 bg-slate-100 dark:bg-slate-800 flex overflow-hidden">
+            <div className="flex flex-col basis-4/5 min-w-0 min-h-0 p-5 pr-0">
+                <div className="w-full h-full min-h-0 min-w-0 bg-white dark:bg-slate-900 rounded-xl shadow-xl flex flex-col overflow-hidden">
+                    <div className="w-full shrink-0 pb-5 min-w-0">
                         <Legends
                             rows={baseRows}
                             analysisDimension={analysisDimension}
-                            onClickItem={() => {}}
+                            onClickItem={() => { }}
                             showCount={false}
                         />
                     </div>
-                    <div className="flex-1 flex min-h-0 w-full flex">
-                        <div className="h-full w-1/2 mr-5 ">
+
+                    <div className="flex-1 min-h-0 min-w-0 flex gap-5">
+                        <div className="basis-1/2 min-w-0 min-h-0">
                             <CardsDashboard1
                                 rows={baseRows}
                                 emissionType={selectedFilters.emissionType}
@@ -63,8 +64,8 @@ export function Dashboard1({ dark, rows }) {
                             />
                         </div>
 
-                        <div className="h-full w-1/2">
-                            <div className="h-full flex p-5 pt-0">
+                        <div className="basis-1/2 min-w-0 min-h-0">
+                            <div className="h-full min-h-0 min-w-0 p-5 pt-0">
                                 <MapDashboard1
                                     rows={mapRows}
                                     emissionType={selectedFilters.emissionType}
@@ -74,12 +75,11 @@ export function Dashboard1({ dark, rows }) {
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
 
-            <div className="h-full w-2/10 p-5">
-                <div className="h-full w-full max-h-[100%] rounded-xl shadow-xl bg-white dark:bg-slate-900">
+            <div className="basis-1/5 min-w-0 min-h-0 p-5 overflow-hidden">
+                <div className="h-full w-full min-h-0 min-w-0 rounded-xl shadow-xl bg-white dark:bg-slate-900 overflow-auto">
                     <TestFilter1
                         rows={rows}
                         value={selectedFilters}
@@ -91,5 +91,5 @@ export function Dashboard1({ dark, rows }) {
                 </div>
             </div>
         </div>
-    )
+    );
 }

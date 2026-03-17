@@ -78,17 +78,17 @@ export default function Filters({
 
   return (
     <div
-      className={`h-full w-full flex flex-col rounded-xl px-2 min-h-0 overflow-hidden ${className}`}
+      className={`h-full w-full min-h-0 min-w-0 flex flex-col rounded-xl px-2 overflow-hidden ${className}`}
     >
       <div
-        className={`flex-1 min-h-0 flex flex-col bg-white px-4 dark:border-slate-800 dark:bg-slate-900 overflow-hidden ${innerClassName}`}
+        className={`flex-1 min-h-0 min-w-0 flex flex-col bg-white px-4 dark:border-slate-800 dark:bg-slate-900 overflow-hidden ${innerClassName}`}
       >
-        <div className="flex justify-center text-center text-red-600 font-bold text-lg mt-3 shrink-0">
-          {title}
-          <img src="src\assets\funnel.svg" alt="filter logo" className="h-4 mt-1 px-2"/>
+        <div className="flex justify-center items-center text-center text-red-600 font-bold text-lg mt-3 shrink-0">
+          <span className="truncate">{title}</span>
+          <img src="src/assets/funnel.svg" alt="filter logo" className="h-4 mt-1 px-2 shrink-0" />
         </div>
 
-        <div className="flex flex-col justify-start z-10 shrink-0">
+        <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden flex flex-col justify-start z-10 pr-1">
           {renderCustomFiltersTop?.({
             selected,
             setSelected,

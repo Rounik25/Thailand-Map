@@ -61,7 +61,7 @@ export function CardsDashboard2({
                     </div>
                 </div>
             </div>
-            <div className="w-full h-2/10">
+            <div className="w-full flex-1 pt-10">
                 <KPI rowsD2V3={rowsD2V3} rowsD2V4_5={rowsD2V4_5} />
             </div>
         </div>

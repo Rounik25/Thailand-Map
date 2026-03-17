@@ -38,10 +38,8 @@ export default function Legends({
   }
 
   return (
-    <div className="flex w-full">
-      <div
-        className="grid grid-cols-3 gap-x-5 gap-y-2 w-full items-center justify-center px-10 py-5"
-      >
+    <div className="w-full min-w-0">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-5 gap-y-2 w-full min-w-0 items-center px-4 sm:px-6 lg:px-10 py-5">
         {uniques.map((val) => {
           const color = colorByValue[val] ?? fallbackColor;
           const dimText = val || "Unknown";
@@ -51,9 +49,9 @@ export default function Legends({
               key={val}
               type="button"
               onClick={() => onClickItem?.(val)}
-              className="pr-5 flex items-center justify-betweenrounded hover:bg-slate-100 dark:hover:bg-slate-800"
+              className="w-full min-w-0 pr-2 sm:pr-5 flex items-center justify-between rounded hover:bg-slate-100 dark:hover:bg-slate-800"
             >
-              <div className="flex items-center gap-2 min-w-0">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
                 <span
                   className="w-3 h-3 rounded shrink-0"
                   style={{
@@ -62,7 +60,7 @@ export default function Legends({
                   }}
                 />
                 <span
-                  className="text-xs text-slate-700 dark:text-slate-200 truncate"
+                  className="text-xs text-slate-700 dark:text-slate-200 truncate min-w-0"
                   title={dimText}
                 >
                   {dimText}
@@ -70,7 +68,7 @@ export default function Legends({
               </div>
 
               {showCount ? (
-                <div className="text-sm text-slate-500 dark:text-slate-400">
+                <div className="text-sm text-slate-500 dark:text-slate-400 shrink-0 pl-2">
                   {counts[val] ?? 0}
                 </div>
               ) : null}

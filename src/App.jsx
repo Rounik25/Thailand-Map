@@ -49,19 +49,19 @@ function App() {
 
   return (
     <div className={dark ? "dark" : ""}>
-      <div className={`h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-white flex flex-col overflow-auto scrollbar-hide`}>
-        <div className="sticky top-0 z-9999">
+      <div className="h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-white flex flex-col overflow-hidden">
+        <div className="sticky top-0 z-[9999] shrink-0">
           <Navbar dark={dark} setDark={setDark} />
         </div>
-        <div className="flex-1 dark:bg-slate-950">
+
+        <main className="flex-1 min-h-0 min-w-0 overflow-auto dark:bg-slate-950">
           <Routes>
             <Route path="/" element={<HomePage rows={rows} />} />
-            {/* <Route path="/dashboard1" element={<Tab1 />} /> */}
             <Route path="/dashboard1" element={<Dashboard1 dark={dark} rows={rows} />} />
             <Route path="/dashboard2" element={<Dashboard2 sheetData={sheetData} />} />
             <Route path="/dashboard3" element={<Dashboard3 sheetData={sheetData} />} />
           </Routes>
-        </div>
+        </main>
       </div>
     </div>
   );
