@@ -96,7 +96,6 @@ export function buildColorMap(rows, analysisDimension, dark) {
     const colorByValue = {};
     uniques.forEach((val) => {
         colorByValue[val] = fixed[val] ?? FALLBACK_COLOR;
-        console.log(colorByValue)
     });
 
     return { column, colorByValue, uniques, fallbackColor: FALLBACK_COLOR };

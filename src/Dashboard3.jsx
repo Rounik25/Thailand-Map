@@ -86,7 +86,7 @@ export function Dashboard3({sheetData}) {
         <div className="h-full flex scrollbar-hide overflow-y-auto min-h-0 min-w-0 overflow-hidden">
             <div className="h-full basis-4/5 min-h-0 min-w-0 flex p-5 pr-0 overflow-hidden">
                 <div className="flex flex-col w-full h-full min-h-0 min-w-0 bg-white rounded-xl shadow-xl">
-                    <div className="text-2xl text-center font-semibold pb-5 pt-2 flex shrink-0">
+                    <div className="sm:text-2xl text-lg text-center font-semibold pb-5 pt-2 flex shrink-0">
                         <img src="src\assets\area-chart.svg" alt="area-chart logo" className="pl-10 shrink-0"/>
                         Emissions to be Abated
                     </div>
