@@ -93,7 +93,7 @@ export function Dashboard2({ dark, sheetData }) {
         <div className="h-full min-h-0 min-w-0 flex scrollbar-hide overflow-y-auto">
             <div className="flex h-full basis-4/5 min-h-0 min-w-0 p-5 pr-0">
                 <div className="flex h-full w-full min-h-0 min-w-0 bg-white shadow-xl rounded-xl p-2">
-                    <div className="h-full minh-0 min-w-0 basis-1/3 mr-5">
+                    <div className="h-full minh-0 min-w-0 basis-1/3 mr-2">
                         <div className="h-full w-full min-h-0 min-w-0 overflow-hidden">
                             <MapDashboard2
                                 dark={dark}

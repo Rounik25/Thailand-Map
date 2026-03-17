@@ -54,12 +54,12 @@ export default function ChartLegendDashboard3({
   const anySelected = Boolean(selectedKeyAll || selectedKeyPtt);
 
   return (
-    <div className="w-fullrounded-xl bg-white flex justify-center">
+    <div className="w-full rounded-xl bg-white flex justify-center min-h-0 min-w-0 overflow-hidden">
       <div>
         {items.length === 0 ? (
           <div className="text-xs text-slate-500">No legend items</div>
         ) : (
-          <div className="grid grid-cols-5 w-full">
+          <div className="grid grid-cols-5 w-full min-h-0 min-w-0">
             {items.map((it) => {
               // considered selected if either chart selected it
               const isSelected = selectedKeyAll === it.key || selectedKeyPtt === it.key;
