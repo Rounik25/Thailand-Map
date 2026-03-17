@@ -32,14 +32,14 @@ export function CardsDashboard2({
 
 
     return (
-        <div className="w-full h-full flex flex-col justify-evenly">
-            <div className="w-full h-7/10 bg-white rounded-xl">
-                <div className="flex flex-col h-full w-full">
-                    <div className="text-xl font-semibold h-10 px-5 flex">
-                        <img src="src\assets\chart-line.svg" alt="chart-line logo" className="h-10 px-2 pb-4 pt-1" />
+        <div className="w-full h-full flex flex-col min-h-0 overlfow-hidden">
+            <div className="w-full flex-1 bg-white border-1 border-slate-300 rounded-xl min-h-0 min-w-0">
+                <div className="flex flex-col min-h-0 min-w-0 h-full w-full overflow-hidden">
+                    <div className="text-xl font-semibold h-10 px-5 flex shrink-0">
+                        <img src="src\assets\chart-line.svg" alt="chart-line logo" className="h-10 px-2 pb-4 pt-1 shrink-0" />
                         MACC Curves
                     </div>
-                    <div>
+                    <div className="min-h-0 min-w-0 overflow-hidden">
                         <TechnologyLegend
                             technologies={technologies}
                             selectedTech={selectedTech}
@@ -61,7 +61,7 @@ export function CardsDashboard2({
                     </div>
                 </div>
             </div>
-            <div className="w-full flex-1 pt-10">
+            <div className="w-full pt-10 min-h-0 min-w-0 overflow-hidden">
                 <KPI rowsD2V3={rowsD2V3} rowsD2V4_5={rowsD2V4_5} />
             </div>
         </div>

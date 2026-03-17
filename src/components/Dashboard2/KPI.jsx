@@ -25,17 +25,20 @@ export function KPI({ rowsD2V3, rowsD2V4_5 }) {
         {
             text: "Minimum volume required \n (Mn TCo2 abeted)",
             value: minVolume,
-            color: "#7D9AB3"
+            // color: "#7D9AB3"
+            color: "#B7C6D4"
         },
         {
             text: "PTT abatement volume",
             value: Ptt.toFixed(1),
-            color: "#8FA7BB"
+            // color: "#8FA7BB"
+            color: "#B7C6D4"
         },
         {
             text: "Non-PTT abatement volume",
             value: Non_ptt.toFixed(1),
-            color: "#9AAFC2"
+            // color: "#9AAFC2"
+            color: "#B7C6D4"
         },
         {
             text: "Average cost of abatedment for only PTT entities ($/ton)",
@@ -45,7 +48,8 @@ export function KPI({ rowsD2V3, rowsD2V4_5 }) {
         {
             text: "Average cost of abatedment for all entities ($/ton)",
             value: avgNon_PTT_Col,
-            color: "#CAD5DF"
+            // color: "#CAD5DF"
+            color: "#B7C6D4"
         },
     ]
 

@@ -90,11 +90,11 @@ export function Dashboard2({ dark, sheetData }) {
     }, [d2V4_5Rows, selectedFilters]);
 
     return (
-        <div className="h-screen pb-15 flex justify-between scrollbar-hide overflow-y-auto">
-            <div className="flex h-full w-8/10 p-5 pr-0">
-                <div className="flex h-full w-full bg-white shadow-xl rounded-xl p-2">
-                    <div className="h-full w-1/3 mr-5">
-                        <div className="h-full w-full">
+        <div className="h-full min-h-0 min-w-0 flex scrollbar-hide overflow-y-auto">
+            <div className="flex h-full basis-4/5 min-h-0 min-w-0 p-5 pr-0">
+                <div className="flex h-full w-full min-h-0 min-w-0 bg-white shadow-xl rounded-xl p-2">
+                    <div className="h-full minh-0 min-w-0 basis-1/3 mr-5">
+                        <div className="h-full w-full min-h-0 min-w-0 overflow-hidden">
                             <MapDashboard2
                                 dark={dark}
                                 rows={filteredMapRows}
@@ -104,7 +104,7 @@ export function Dashboard2({ dark, sheetData }) {
                             />
                         </div>
                     </div>
-                    <div className="h-full w-2/3">
+                    <div className="h-full min-h-0 min-w-0 basis-2/3 overflow-hidden">
                         <CardsDashboard2
                             rowsD2V1={filteredD2V1Rows}
                             rowsD2V3={filteredD2V3Rows}
@@ -114,7 +114,7 @@ export function Dashboard2({ dark, sheetData }) {
                     </div>
                 </div>
             </div>
-            <div className="flex h-full w-2/10 p-5">
+            <div className="flex min-h-0 min-w-0 h-full basis-1/5 p-5">
                 <div className="h-full w-full min-h-0 overflow-y-auto scrollbar-hide bg-white rounded-xl shadow-xl">
                     <TestFilter2
                         sheetData={sheetData}
